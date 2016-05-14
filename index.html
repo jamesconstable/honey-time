@@ -1,0 +1,18 @@
+<html>
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+    <title>Sajem Tan Calendar</title>
+    <link rel="stylesheet" type="text/css" href="style.css">
+    <script type="text/javascript" src="sajem-tan-time.js"></script>
+  </head>
+  <body>
+    <div class="textual-display primary">
+      <p class="time"><span id="textual-hours" class="hours decimal-unit"></span>:<span id="textual-minutes" class="minutes senary-unit"></span>:<span id="textual-seconds" class="seconds senary-unit"></span><span id="textual-subseconds" class="subseconds senary-unit"></span></p>
+      <p id="textual-date" class="date"></p>
+      <p id="textual-season" class="season"></p>
+    </div>
+    <script>
+      (function() { setup(); })();
+    </script>
+  </body>
+</html>
