@@ -2,12 +2,33 @@ module Main where
 
 import Prelude
 
-import Data.JSDate (JSDate, jsdate)
+import Data.Array (replicate)
+import Data.Int (radix, toNumber, toStringAs)
+import Data.Int53
+import Data.JSDate (getTime, JSDate, jsdate)
+import Data.Maybe (fromJust)
+import Data.String (length)
+import Data.String.CodeUnits (fromCharArray)
 import Effect (Effect)
 import Effect.Console (log)
+import Partial.Unsafe (unsafePartial)
 
 data MythName = MythName String String
 data LetterName = LetterName String String String
+
+type HoneyDate = {
+    year :: Int,
+    month :: Int,
+    dayOfYear :: Int,
+    dayOfMonth :: Int,
+    hours :: Int,
+    minutes :: Int,
+    seconds :: Int,
+    subseconds :: Int,
+    mythRole :: Int,
+    mythNumber :: Int,
+    season :: Int
+}
 
 creation :: JSDate
 creation = jsdate {
@@ -20,32 +41,32 @@ creation = jsdate {
     millisecond: 0.0
 }
 
-wingflap_millis :: Int
-wingflap_millis = 4
+wingflapMillis :: Int53
+wingflapMillis = fromInt 4
 
-subsecond_millis :: Int
-subsecond_millis = wingflap_millis * 36
+subsecondMillis :: Int53
+subsecondMillis = wingflapMillis * fromInt 36
 
-second_millis :: Int
-second_millis = subsecond_millis * 36
+secondMillis :: Int53
+secondMillis = subsecondMillis * fromInt 36
 
-minute_millis :: Int
-minute_millis = second_millis * 36
+minuteMillis :: Int53
+minuteMillis = secondMillis * fromInt 36
 
-hour_millis :: Int
-hour_millis = minute_millis * 36
+hourMillis :: Int53
+hourMillis = minuteMillis * fromInt 36
 
-day_millis :: Int
-day_millis = hour_millis * 10
+dayMillis :: Int53
+dayMillis = hourMillis * fromInt 10
 
-week_millis :: Int
-week_millis = day_millis * 6
+weekMillis :: Int53
+weekMillis = dayMillis * fromInt 6
 
-month_millis :: Int
-month_millis = day_millis * 30
+monthMillis :: Int53
+monthMillis = dayMillis * fromInt 30
 
-year_millis :: Int
-year_millis = day_millis * 360
+yearMillis :: Int53
+yearMillis = dayMillis * fromInt 360
 
 mythCycle :: Array MythName
 mythCycle = [
@@ -95,7 +116,41 @@ letterCycle = [
 ]
 
 seasons :: Array String
-season = ["Egg", "Larva", "Pupa", "Worker", "Drone", "Queen"]
+seasons = ["Egg", "Larva", "Pupa", "Worker", "Drone", "Queen"]
+
+repeat :: Int -> Char -> String
+repeat n c = fromCharArray $ replicate n c
+
+padLeft :: Int -> Char -> String -> String
+padLeft width c s
+    | length s >= width = s
+    | otherwise         = repeat (width - length s) c <> s
+
+toSenary :: Int -> Int -> String
+toSenary value width =
+  let base6 = unsafePartial $ fromJust $ radix 6
+  in padLeft width '0' (toStringAs base6 value)
+
+gregorianToHoney :: JSDate -> HoneyDate
+gregorianToHoney date =
+  let
+    millis = floor (getTime date - getTime creation)
+    subunits major minor = toInt (millis `mod` major / minor)
+    month = subunits yearMillis monthMillis
+    dayOfYear = subunits yearMillis dayMillis
+  in {
+    year:       toInt (millis / yearMillis),
+    month:      month,
+    dayOfYear:  dayOfYear,
+    dayOfMonth: subunits monthMillis dayMillis,
+    hours:      subunits dayMillis hourMillis,
+    minutes:    subunits hourMillis minuteMillis,
+    seconds:    subunits minuteMillis secondMillis,
+    subseconds: subunits secondMillis subsecondMillis,
+    mythRole:   dayOfYear `mod` 9,
+    mythNumber: dayOfYear `mod` 40,
+    season:     month / 2
+  }
 
 main :: Effect Unit
 main = do
