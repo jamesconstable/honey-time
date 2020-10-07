@@ -5,10 +5,11 @@ import Prelude
 import Data.Array (replicate)
 import Data.Int (radix, toNumber, toStringAs)
 import Data.Int53
+import Data.Foldable (fold)
 import Data.JSDate (getTime, JSDate, jsdate)
 import Data.Maybe (fromJust)
 import Data.String (length)
-import Data.String.CodeUnits (fromCharArray)
+import Data.String.CodeUnits (singleton)
 import Effect (Effect)
 import Effect.Console (log)
 import Partial.Unsafe (unsafePartial)
@@ -118,13 +119,10 @@ letterCycle = [
 seasons :: Array String
 seasons = ["Egg", "Larva", "Pupa", "Worker", "Drone", "Queen"]
 
-repeat :: Int -> Char -> String
-repeat n c = fromCharArray $ replicate n c
-
 padLeft :: Int -> Char -> String -> String
 padLeft width c s
     | length s >= width = s
-    | otherwise         = repeat (width - length s) c <> s
+    | otherwise = fold (replicate (width - length s) (singleton c)) <> s
 
 toSenary :: Int -> Int -> String
 toSenary value width =
