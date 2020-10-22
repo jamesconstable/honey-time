@@ -27,17 +27,11 @@ type MythName = {
     english :: String
 }
 
-mythName :: String -> String -> MythName
-mythName sajemTan english = { sajemTan, english }
-
 type LetterName = {
     sajemTan :: String,
     english :: String,
     orthographic :: String
 }
-
-letterName :: String -> String -> String -> LetterName
-letterName sajemTan english orthographic = { sajemTan, english, orthographic }
 
 type HoneyDate = {
     year :: Int,
@@ -109,50 +103,52 @@ yearMillis = dayMillis * fromInt 360
 
 mythCycle :: Array MythName
 mythCycle = [
-  mythName "Divolm"    "Thunder",
-  mythName "Telzlnoln" "Rain",
-  mythName "Jidolk"    "Flower",
-  mythName "Shelsheln" "River",
-  mythName "Thefam"    "Stone",
-  mythName "Zatheln"   "Spider",
-  mythName "Kizhult"   "Bee",
-  mythName "Thefnolm"  "Bear",
-  mythName "Vithit"    "Bird"
-]
+    mythName "Divolm"    "Thunder",
+    mythName "Telzlnoln" "Rain",
+    mythName "Jidolk"    "Flower",
+    mythName "Shelsheln" "River",
+    mythName "Thefam"    "Stone",
+    mythName "Zatheln"   "Spider",
+    mythName "Kizhult"   "Bee",
+    mythName "Thefnolm"  "Bear",
+    mythName "Vithit"    "Bird"
+  ]
+  where mythName s e = { sajemTan: s, english: e }
 
 letterCycle :: Array LetterName
 letterCycle = [
-  letterName "Duhdem"     "Dam"       "d",
-  letterName "Gigim"      "Flipper"   "g",
-  letterName "Xataxym"    "Pit"       "x",
-  letterName "Jegen"      "Hook"      "j",
-  letterName "Fijyc"      "Rainbow"   "f",
-  letterName "Voljam"     "Ear"       "v",
-  letterName "Thethat"    "Wind"      "th",
-  letterName "Sekelt"     "Valley"    "s",
-  letterName "Zuhzuhmelt" "Ladle"     "z",
-  letterName "Shuhzhik"   "Tear"      "sh",
-  letterName "Zhizlik"    "Fish"      "zh",
-  letterName "Slik"       "Thumbs-up" "sl",
-  letterName "Zlolfit"    "Wing"      "zl",
-  letterName "Molmelc"    "Roof"      "m",
-  letterName "Nyzlan"     "Snail"     "n",
-  letterName "Nasham"     "Wave"      "a",
-  letterName "Xelteln"    "Cliff"     "el",
-  letterName "Tezet"      "Lightning" "e",
-  letterName "Tolmolm"    "Slope"     "ol",
-  letterName "Mizizlat"   "Cart"      "i",
-  letterName "Slysyc"     "Snake"     "y",
-  letterName "Shnuhk"     "Lips"      "uh",
-  letterName "Tuln"       "Eye"       "ul",
-  letterName "Cuhc"       "Foot"      "c",
-  letterName "Tytyt"      "Clover"    "t",
-  letterName "Kyfik"      "Arm"       "k",
-  letterName "Zlnanic"    "Chameleon" "ah",
-  letterName "Thnuhduhk"  "Elephant"  "eh",
-  letterName "Snolzem"    "Knot"      "o",
-  letterName "Vmyn"       "Mouth"     "u"
-]
+    letterName "Duhdem"     "Dam"       "d",
+    letterName "Gigim"      "Flipper"   "g",
+    letterName "Xataxym"    "Pit"       "x",
+    letterName "Jegen"      "Hook"      "j",
+    letterName "Fijyc"      "Rainbow"   "f",
+    letterName "Voljam"     "Ear"       "v",
+    letterName "Thethat"    "Wind"      "th",
+    letterName "Sekelt"     "Valley"    "s",
+    letterName "Zuhzuhmelt" "Ladle"     "z",
+    letterName "Shuhzhik"   "Tear"      "sh",
+    letterName "Zhizlik"    "Fish"      "zh",
+    letterName "Slik"       "Thumbs-up" "sl",
+    letterName "Zlolfit"    "Wing"      "zl",
+    letterName "Molmelc"    "Roof"      "m",
+    letterName "Nyzlan"     "Snail"     "n",
+    letterName "Nasham"     "Wave"      "a",
+    letterName "Xelteln"    "Cliff"     "el",
+    letterName "Tezet"      "Lightning" "e",
+    letterName "Tolmolm"    "Slope"     "ol",
+    letterName "Mizizlat"   "Cart"      "i",
+    letterName "Slysyc"     "Snake"     "y",
+    letterName "Shnuhk"     "Lips"      "uh",
+    letterName "Tuln"       "Eye"       "ul",
+    letterName "Cuhc"       "Foot"      "c",
+    letterName "Tytyt"      "Clover"    "t",
+    letterName "Kyfik"      "Arm"       "k",
+    letterName "Zlnanic"    "Chameleon" "ah",
+    letterName "Thnuhduhk"  "Elephant"  "eh",
+    letterName "Snolzem"    "Knot"      "o",
+    letterName "Vmyn"       "Mouth"     "u"
+  ]
+  where letterName s e o = { sajemTan: s, english: e, orthographic: o }
 
 seasons :: Array String
 seasons = ["Egg", "Larva", "Pupa", "Worker", "Drone", "Queen"]
@@ -222,9 +218,7 @@ setTextualDisplay date display = do
   set display.season     (seasons !!! date.season <> " Season")
 
 displayDate :: JSDate -> TextualDisplay -> Effect Unit
-displayDate date textDisplay = do
-  let honeyDate = gregorianToHoney date
-  setTextualDisplay honeyDate textDisplay
+displayDate = setTextualDisplay <<< gregorianToHoney
 
 displayNow :: TextualDisplay -> Effect Unit
 displayNow display = do
