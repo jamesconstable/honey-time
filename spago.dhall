@@ -9,8 +9,11 @@ You can edit this file as you like.
   , "effect"
   , "int-53"
   , "js-date"
+  , "js-timers"
   , "lists"
   , "psci-support"
+  , "web-dom"
+  , "web-html"
   ]
 , packages = ./packages.dhall
 , sources = [ "src/**/*.purs", "test/**/*.purs" ]
