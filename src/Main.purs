@@ -6,7 +6,7 @@ import Data.Array (unsafeIndex)
 import Data.Int (floor, radix, toStringAs)
 import Data.JSDate (JSDate, getTime, jsdate, now)
 import Data.Maybe (fromJust)
-import Data.String (joinWith, length)
+import Data.String (length)
 import Data.String.CodeUnits (singleton)
 import Effect (Effect)
 import Effect.Timer (setInterval)
@@ -47,12 +47,16 @@ type HoneyDate = {
   }
 
 type TextualDisplay = {
+  year :: Element,
+  season :: Element,
+  month :: Element,
+  day :: Element,
+  mythRole :: Element,
+  mythNumber :: Element,
   hours :: Element,
   minutes :: Element,
   seconds :: Element,
-  subseconds :: Element,
-  date :: Element,
-  season :: Element
+  subseconds :: Element
   }
 
 dangerIndex :: forall a. Array a -> Int -> a
@@ -191,32 +195,33 @@ getTextualDisplay :: Effect TextualDisplay
 getTextualDisplay =
   let get n = elementById ("textual-" <> n)
   in ado
+    year       <- get "year"
+    season     <- get "season"
+    month      <- get "month"
+    day        <- get "day"
+    mythRole   <- get "myth-role"
+    mythNumber <- get "myth-number"
     hours      <- get "hours"
     minutes    <- get "minutes"
     seconds    <- get "seconds"
     subseconds <- get "subseconds"
-    date       <- get "date"
-    season     <- get "season"
-    in { hours, minutes, seconds, subseconds, date, season }
+    in { year, season, month, day, mythRole, mythNumber,
+         hours, minutes, seconds, subseconds }
 
 setTextualDisplay :: HoneyDate -> TextualDisplay -> Effect Unit
 setTextualDisplay date display =
-  let
-    set e s = setTextContent s (toNode e)
-    dateText = joinWith " " [
-      show date.year,
-      (mythCycle !!! date.mythRole).sajemTan,
-      show date.mythNumber <> ",",
-      show date.month,
-      (letterCycle !!! date.dayOfMonth).sajemTan
-      ]
+  let set e s = setTextContent s (toNode e)
   in ado
+    set display.year       (show date.year)
+    set display.season     (seasons !!! date.season <> " Season")
+    set display.month      (show date.month)
+    set display.day        (letterCycle !!! date.dayOfMonth).sajemTan
+    set display.mythRole   (mythCycle !!! date.mythRole).sajemTan
+    set display.mythNumber (show date.mythNumber)
     set display.hours      (show date.hours)
     set display.minutes    (toSenary date.minutes 2)
     set display.seconds    (toSenary date.seconds 2)
     set display.subseconds (toSenary date.subseconds 2)
-    set display.date       dateText
-    set display.season     (seasons !!! date.season <> " Season")
     in unit
 
 displayDate :: JSDate -> TextualDisplay -> Effect Unit
