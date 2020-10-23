@@ -22,38 +22,38 @@ import Web.HTML.HTMLDocument (toDocument)
 import Web.HTML.Window (document)
 
 type MythName = {
-    sajemTan :: String,
-    english :: String
-}
+  sajemTan :: String,
+  english :: String
+  }
 
 type LetterName = {
-    sajemTan :: String,
-    english :: String,
-    orthographic :: String
-}
+  sajemTan :: String,
+  english :: String,
+  orthographic :: String
+  }
 
 type HoneyDate = {
-    year :: Int,
-    month :: Int,
-    dayOfYear :: Int,
-    dayOfMonth :: Int,
-    hours :: Int,
-    minutes :: Int,
-    seconds :: Int,
-    subseconds :: Int,
-    mythRole :: Int,
-    mythNumber :: Int,
-    season :: Int
-}
+  year :: Int,
+  month :: Int,
+  dayOfYear :: Int,
+  dayOfMonth :: Int,
+  hours :: Int,
+  minutes :: Int,
+  seconds :: Int,
+  subseconds :: Int,
+  mythRole :: Int,
+  mythNumber :: Int,
+  season :: Int
+  }
 
 type TextualDisplay = {
-    hours :: Element,
-    minutes :: Element,
-    seconds :: Element,
-    subseconds :: Element,
-    date :: Element,
-    season :: Element
-}
+  hours :: Element,
+  minutes :: Element,
+  seconds :: Element,
+  subseconds :: Element,
+  date :: Element,
+  season :: Element
+  }
 
 dangerIndex :: forall a. Array a -> Int -> a
 dangerIndex = unsafePartial unsafeIndex
@@ -61,14 +61,14 @@ infixl 8 dangerIndex as !!!
 
 creation :: JSDate
 creation = jsdate {
-    year: 2015.0,
-    month: 10.0,
-    day: 29.0,
-    hour: 23.0,
-    minute: 34.0,
-    second: 14.0,
-    millisecond: 0.0
-}
+  year: 2015.0,
+  month: 10.0,
+  day: 29.0,
+  hour: 23.0,
+  minute: 34.0,
+  second: 14.0,
+  millisecond: 0.0
+  }
 
 wingflapMillis :: Number
 wingflapMillis = 4.0
@@ -102,60 +102,58 @@ yearMillis = dayMillis * 360.0
 
 mythCycle :: Array MythName
 mythCycle = [
-    mythName "Divolm"    "Thunder",
-    mythName "Telzlnoln" "Rain",
-    mythName "Jidolk"    "Flower",
-    mythName "Shelsheln" "River",
-    mythName "Thefam"    "Stone",
-    mythName "Zatheln"   "Spider",
-    mythName "Kizhult"   "Bee",
-    mythName "Thefnolm"  "Bear",
-    mythName "Vithit"    "Bird"
-  ]
-  where mythName s e = { sajemTan: s, english: e }
+  mythName "Divolm"    "Thunder",
+  mythName "Telzlnoln" "Rain",
+  mythName "Jidolk"    "Flower",
+  mythName "Shelsheln" "River",
+  mythName "Thefam"    "Stone",
+  mythName "Zatheln"   "Spider",
+  mythName "Kizhult"   "Bee",
+  mythName "Thefnolm"  "Bear",
+  mythName "Vithit"    "Bird"
+  ] where mythName s e = { sajemTan: s, english: e }
 
 letterCycle :: Array LetterName
 letterCycle = [
-    letterName "Duhdem"     "Dam"       "d",
-    letterName "Gigim"      "Flipper"   "g",
-    letterName "Xataxym"    "Pit"       "x",
-    letterName "Jegen"      "Hook"      "j",
-    letterName "Fijyc"      "Rainbow"   "f",
-    letterName "Voljam"     "Ear"       "v",
-    letterName "Thethat"    "Wind"      "th",
-    letterName "Sekelt"     "Valley"    "s",
-    letterName "Zuhzuhmelt" "Ladle"     "z",
-    letterName "Shuhzhik"   "Tear"      "sh",
-    letterName "Zhizlik"    "Fish"      "zh",
-    letterName "Slik"       "Thumbs-up" "sl",
-    letterName "Zlolfit"    "Wing"      "zl",
-    letterName "Molmelc"    "Roof"      "m",
-    letterName "Nyzlan"     "Snail"     "n",
-    letterName "Nasham"     "Wave"      "a",
-    letterName "Xelteln"    "Cliff"     "el",
-    letterName "Tezet"      "Lightning" "e",
-    letterName "Tolmolm"    "Slope"     "ol",
-    letterName "Mizizlat"   "Cart"      "i",
-    letterName "Slysyc"     "Snake"     "y",
-    letterName "Shnuhk"     "Lips"      "uh",
-    letterName "Tuln"       "Eye"       "ul",
-    letterName "Cuhc"       "Foot"      "c",
-    letterName "Tytyt"      "Clover"    "t",
-    letterName "Kyfik"      "Arm"       "k",
-    letterName "Zlnanic"    "Chameleon" "ah",
-    letterName "Thnuhduhk"  "Elephant"  "eh",
-    letterName "Snolzem"    "Knot"      "o",
-    letterName "Vmyn"       "Mouth"     "u"
-  ]
-  where letterName s e o = { sajemTan: s, english: e, orthographic: o }
+  letterName "Duhdem"     "Dam"       "d",
+  letterName "Gigim"      "Flipper"   "g",
+  letterName "Xataxym"    "Pit"       "x",
+  letterName "Jegen"      "Hook"      "j",
+  letterName "Fijyc"      "Rainbow"   "f",
+  letterName "Voljam"     "Ear"       "v",
+  letterName "Thethat"    "Wind"      "th",
+  letterName "Sekelt"     "Valley"    "s",
+  letterName "Zuhzuhmelt" "Ladle"     "z",
+  letterName "Shuhzhik"   "Tear"      "sh",
+  letterName "Zhizlik"    "Fish"      "zh",
+  letterName "Slik"       "Thumbs-up" "sl",
+  letterName "Zlolfit"    "Wing"      "zl",
+  letterName "Molmelc"    "Roof"      "m",
+  letterName "Nyzlan"     "Snail"     "n",
+  letterName "Nasham"     "Wave"      "a",
+  letterName "Xelteln"    "Cliff"     "el",
+  letterName "Tezet"      "Lightning" "e",
+  letterName "Tolmolm"    "Slope"     "ol",
+  letterName "Mizizlat"   "Cart"      "i",
+  letterName "Slysyc"     "Snake"     "y",
+  letterName "Shnuhk"     "Lips"      "uh",
+  letterName "Tuln"       "Eye"       "ul",
+  letterName "Cuhc"       "Foot"      "c",
+  letterName "Tytyt"      "Clover"    "t",
+  letterName "Kyfik"      "Arm"       "k",
+  letterName "Zlnanic"    "Chameleon" "ah",
+  letterName "Thnuhduhk"  "Elephant"  "eh",
+  letterName "Snolzem"    "Knot"      "o",
+  letterName "Vmyn"       "Mouth"     "u"
+  ] where letterName s e o = { sajemTan: s, english: e, orthographic: o }
 
 seasons :: Array String
 seasons = ["Egg", "Larva", "Pupa", "Worker", "Drone", "Queen"]
 
 padLeft :: Int -> Char -> String -> String
 padLeft width c s
-    | length s >= width = s
-    | otherwise         = padLeft width c (singleton c <> s)
+  | length s >= width = s
+  | otherwise         = padLeft width c (singleton c <> s)
 
 toSenary :: Int -> Int -> String
 toSenary value width =
@@ -180,7 +178,7 @@ gregorianToHoney date =
     dayOfYear:  dayOfYear,
     mythRole:   dayOfYear `mod` 9,
     mythNumber: dayOfYear `mod` 40
-  }
+    }
 
 elementById :: String -> Effect Element
 elementById id = do
