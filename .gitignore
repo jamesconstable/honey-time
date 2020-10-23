@@ -1,0 +1,20 @@
+# PureScript
+data
+test/spago-test
+output/
+index.js
+.stack-work/
+*.cabal
+.envrc
+.purs-repl
+.psci_modules
+.spago
+
+# Python
+.venv/
+**/__pycache__
+
+# Miscellaneous
+*~
+.DS_Store
+*.swp

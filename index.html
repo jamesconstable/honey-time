@@ -3,16 +3,22 @@
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
     <title>Sajem Tan Calendar</title>
     <link rel="stylesheet" type="text/css" href="style.css">
-    <script type="text/javascript" src="sajem-tan-time.js"></script>
+    <script type="text/javascript" src="index.js"></script>
   </head>
   <body>
     <div class="textual-display primary">
       <p class="time"><span id="textual-hours" class="hours decimal-unit"></span>:<span id="textual-minutes" class="minutes senary-unit"></span>:<span id="textual-seconds" class="seconds senary-unit"></span><span id="textual-subseconds" class="subseconds senary-unit"></span></p>
-      <p id="textual-date" class="date"></p>
+      <p class="date">
+        <span id="textual-year"></span>
+        <span id="textual-myth-role"></span>
+        <span id="textual-myth-number"></span>,
+        <span id="textual-month"></span>
+        <span id="textual-day"></span>
+      </p>
       <p id="textual-season" class="season"></p>
     </div>
     <script>
-      (function() { setup(); })();
+      (function() { PS.Main.setup(); })();
     </script>
   </body>
 </html>
