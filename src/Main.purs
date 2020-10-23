@@ -188,31 +188,36 @@ elementById id = do
   pure $ unsafePartial $ fromJust e
 
 getTextualDisplay :: Effect TextualDisplay
-getTextualDisplay = do
+getTextualDisplay =
   let get n = elementById ("textual-" <> n)
-  hours      <- get "hours"
-  minutes    <- get "minutes"
-  seconds    <- get "seconds"
-  subseconds <- get "subseconds"
-  date       <- get "date"
-  season     <- get "season"
-  pure { hours, minutes, seconds, subseconds, date, season }
+  in ado
+    hours      <- get "hours"
+    minutes    <- get "minutes"
+    seconds    <- get "seconds"
+    subseconds <- get "subseconds"
+    date       <- get "date"
+    season     <- get "season"
+    in { hours, minutes, seconds, subseconds, date, season }
 
 setTextualDisplay :: HoneyDate -> TextualDisplay -> Effect Unit
-setTextualDisplay date display = do
-  let set e s = setTextContent s (toNode e)
-  let dateText = joinWith " " [
+setTextualDisplay date display =
+  let
+    set e s = setTextContent s (toNode e)
+    dateText = joinWith " " [
       show date.year,
       (mythCycle !!! date.mythRole).sajemTan,
       show date.mythNumber <> ",",
       show date.month,
-      (letterCycle !!! date.dayOfMonth).sajemTan]
-  set display.hours      (show date.hours)
-  set display.minutes    (toSenary date.minutes 2)
-  set display.seconds    (toSenary date.seconds 2)
-  set display.subseconds (toSenary date.subseconds 2)
-  set display.date       dateText
-  set display.season     (seasons !!! date.season <> " Season")
+      (letterCycle !!! date.dayOfMonth).sajemTan
+      ]
+  in ado
+    set display.hours      (show date.hours)
+    set display.minutes    (toSenary date.minutes 2)
+    set display.seconds    (toSenary date.seconds 2)
+    set display.subseconds (toSenary date.subseconds 2)
+    set display.date       dateText
+    set display.season     (seasons !!! date.season <> " Season")
+    in unit
 
 displayDate :: JSDate -> TextualDisplay -> Effect Unit
 displayDate = setTextualDisplay <<< gregorianToHoney
