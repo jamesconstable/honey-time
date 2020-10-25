@@ -5,7 +5,7 @@ import Prelude
 import Data.Array (unsafeIndex)
 import Data.Int (floor, radix, toStringAs)
 import Data.JSDate (JSDate, getTime, jsdate, now)
-import Data.Maybe (fromJust)
+import Data.Maybe (Maybe(..), fromJust)
 import Data.String (length)
 import Data.String.CodeUnits (singleton)
 import Effect (Effect)
@@ -32,32 +32,24 @@ type LetterName = {
   orthographic :: String
   }
 
-type HoneyDate = {
-  year :: Int,
-  month :: Int,
-  dayOfYear :: Int,
-  dayOfMonth :: Int,
-  hours :: Int,
-  minutes :: Int,
-  seconds :: Int,
-  subseconds :: Int,
-  mythRole :: Int,
-  mythNumber :: Int,
-  season :: Int
+type HoneyComponents a = {
+  year :: a,
+  season :: a,
+  month :: a,
+  week :: a,
+  dayOfYear :: a,
+  dayOfMonth :: a,
+  mythRole :: a,
+  mythNumber :: a,
+  hours :: a,
+  minutes :: a,
+  seconds :: a,
+  subseconds :: a
   }
 
-type TextualDisplay = {
-  year :: Element,
-  season :: Element,
-  month :: Element,
-  day :: Element,
-  mythRole :: Element,
-  mythNumber :: Element,
-  hours :: Element,
-  minutes :: Element,
-  seconds :: Element,
-  subseconds :: Element
-  }
+type HoneyDate = HoneyComponents Int
+
+type TextualDisplay = HoneyComponents (Maybe Element)
 
 dangerIndex :: forall a. Array a -> Int -> a
 dangerIndex = unsafePartial unsafeIndex
@@ -115,7 +107,7 @@ mythCycle = [
   mythName "Kizhult"   "Bee",
   mythName "Thefnolm"  "Bear",
   mythName "Vithit"    "Bird"
-  ] where mythName s e = { sajemTan: s, english: e }
+  ] where mythName = { sajemTan: _, english: _ }
 
 letterCycle :: Array LetterName
 letterCycle = [
@@ -149,7 +141,7 @@ letterCycle = [
   letterName "Thnuhduhk"  "Elephant"  "eh",
   letterName "Snolzem"    "Knot"      "o",
   letterName "Vmyn"       "Mouth"     "u"
-  ] where letterName s e o = { sajemTan: s, english: e, orthographic: o }
+  ] where letterName = { sajemTan: _, english: _, orthographic: _ }
 
 seasons :: Array String
 seasons = ["Egg", "Larva", "Pupa", "Worker", "Drone", "Queen"]
@@ -160,7 +152,7 @@ padLeft width c s
   | otherwise         = padLeft width c (singleton c <> s)
 
 toSenary :: Int -> Int -> String
-toSenary value width =
+toSenary width value =
   let base6 = unsafePartial $ fromJust $ radix 6
   in padLeft width '0' (toStringAs base6 value)
 
@@ -174,6 +166,7 @@ gregorianToHoney date =
     year:       floor (millis / yearMillis),
     season:     seasonMillis    `asSubunitOf` yearMillis,
     month:      monthMillis     `asSubunitOf` yearMillis,
+    week:       weekMillis      `asSubunitOf` yearMillis,
     dayOfMonth: dayMillis       `asSubunitOf` monthMillis,
     hours:      hourMillis      `asSubunitOf` dayMillis,
     minutes:    minuteMillis    `asSubunitOf` hourMillis,
@@ -184,12 +177,11 @@ gregorianToHoney date =
     mythNumber: dayOfYear `mod` 40
     }
 
-elementById :: String -> Effect Element
+elementById :: String -> Effect (Maybe Element)
 elementById id = do
   w <- window
   d <- document w
-  e <- getElementById id $ toNonElementParentNode $ toDocument d
-  pure $ unsafePartial $ fromJust e
+  getElementById id $ toNonElementParentNode $ toDocument d
 
 getTextualDisplay :: Effect TextualDisplay
 getTextualDisplay =
@@ -198,30 +190,34 @@ getTextualDisplay =
     year       <- get "year"
     season     <- get "season"
     month      <- get "month"
-    day        <- get "day"
+    dayOfMonth <- get "day"
     mythRole   <- get "myth-role"
     mythNumber <- get "myth-number"
     hours      <- get "hours"
     minutes    <- get "minutes"
     seconds    <- get "seconds"
     subseconds <- get "subseconds"
-    in { year, season, month, day, mythRole, mythNumber,
-         hours, minutes, seconds, subseconds }
+    in { year, season, month, dayOfMonth, mythRole, mythNumber,
+         hours, minutes, seconds, subseconds,
+         week: Nothing, dayOfYear: Nothing }
 
 setTextualDisplay :: HoneyDate -> TextualDisplay -> Effect Unit
 setTextualDisplay date display =
-  let set e s = setTextContent s (toNode e)
+  let
+    setElementText e s = setTextContent s (toNode $ unsafePartial fromJust e)
+    with :: (forall a. HoneyComponents a -> a) -> (Int -> String) -> Effect Unit
+    with getFrom fn = setElementText (getFrom display) (fn (getFrom date))
   in ado
-    set display.year       (show date.year)
-    set display.season     (seasons !!! date.season <> " Season")
-    set display.month      (show date.month)
-    set display.day        (letterCycle !!! date.dayOfMonth).sajemTan
-    set display.mythRole   (mythCycle !!! date.mythRole).sajemTan
-    set display.mythNumber (show date.mythNumber)
-    set display.hours      (show date.hours)
-    set display.minutes    (toSenary date.minutes 2)
-    set display.seconds    (toSenary date.seconds 2)
-    set display.subseconds (toSenary date.subseconds 2)
+    _.year       `with` show
+    _.season     `with` \s -> seasons !!! s <> " Season"
+    _.month      `with` show
+    _.dayOfMonth `with` \d -> (letterCycle !!! d).sajemTan
+    _.mythRole   `with` \m -> (mythCycle !!! m).sajemTan
+    _.mythNumber `with` show
+    _.hours      `with` show
+    _.minutes    `with` toSenary 2
+    _.seconds    `with` toSenary 2
+    _.subseconds `with` toSenary 2
     in unit
 
 displayDate :: JSDate -> TextualDisplay -> Effect Unit
