@@ -21,39 +21,38 @@ import Web.HTML (window)
 import Web.HTML.HTMLDocument (toDocument)
 import Web.HTML.Window (document)
 
-type MythName = {
-  sajemTan :: String,
-  english :: String
-  }
+type TranslatedName = ( sajemTan :: String, english :: String )
 
-type LetterName = {
-  sajemTan :: String,
-  english :: String,
-  orthographic :: String
-  }
+type MythName = { | TranslatedName }
 
-type HoneyComponents a = {
+type LetterName = { orthographic :: String | TranslatedName }
+
+type HoneyBase a = (
   year :: a,
   season :: a,
   month :: a,
   week :: a,
+  hour :: a,
+  minute :: a,
+  second :: a,
+  subsecond :: a
+  )
+
+type HoneyComponents a = {
   dayOfYear :: a,
   dayOfMonth :: a,
   mythRole :: a,
-  mythNumber :: a,
-  hours :: a,
-  minutes :: a,
-  seconds :: a,
-  subseconds :: a
+  mythNumber :: a
+  | HoneyBase a
   }
 
 type HoneyDate = HoneyComponents Int
 
 type TextualDisplay = HoneyComponents (Maybe Element)
 
-dangerIndex :: forall a. Array a -> Int -> a
-dangerIndex = unsafePartial unsafeIndex
-infixl 8 dangerIndex as !!!
+partialIndex :: forall a. Array a -> Int -> a
+partialIndex = unsafePartial unsafeIndex
+infixl 8 partialIndex as !!
 
 creation :: JSDate
 creation = jsdate {
@@ -66,35 +65,20 @@ creation = jsdate {
   millisecond: 0.0
   }
 
-wingflapMillis :: Number
-wingflapMillis = 4.0
-
-subsecondMillis :: Number
-subsecondMillis = wingflapMillis * 36.0
-
-secondMillis :: Number
-secondMillis = subsecondMillis * 36.0
-
-minuteMillis :: Number
-minuteMillis = secondMillis * 36.0
-
-hourMillis :: Number
-hourMillis = minuteMillis * 36.0
-
-dayMillis :: Number
-dayMillis = hourMillis * 10.0
-
-weekMillis :: Number
-weekMillis = dayMillis * 6.0
-
-monthMillis :: Number
-monthMillis = dayMillis * 30.0
-
-seasonMillis :: Number
-seasonMillis = monthMillis * 2.0
-
-yearMillis :: Number
-yearMillis = dayMillis * 360.0
+honeyDurations :: { day :: Number | HoneyBase Number }
+honeyDurations =
+  let
+    wingflap  = 4.0
+    subsecond = wingflap * 36.0
+    second    = subsecond * 36.0
+    minute    = second * 36.0
+    hour      = minute * 36.0
+    day       = hour * 10.0
+    week      = day * 6.0
+    month     = day * 30.0
+    season    = month * 2.0
+    year      = day * 360.0
+  in { year, season, month, week, day, hour, minute, second, subsecond }
 
 mythCycle :: Array MythName
 mythCycle = [
@@ -160,22 +144,22 @@ gregorianToHoney :: JSDate -> HoneyDate
 gregorianToHoney date =
   let
     millis = getTime date - getTime creation
-    asSubunitOf minor major = floor (millis % major / minor)
-    dayOfYear = dayMillis `asSubunitOf` yearMillis
-  in {
-    year:       floor (millis / yearMillis),
-    season:     seasonMillis    `asSubunitOf` yearMillis,
-    month:      monthMillis     `asSubunitOf` yearMillis,
-    week:       weekMillis      `asSubunitOf` yearMillis,
-    dayOfMonth: dayMillis       `asSubunitOf` monthMillis,
-    hours:      hourMillis      `asSubunitOf` dayMillis,
-    minutes:    minuteMillis    `asSubunitOf` hourMillis,
-    seconds:    secondMillis    `asSubunitOf` minuteMillis,
-    subseconds: subsecondMillis `asSubunitOf` secondMillis,
-    dayOfYear:  dayOfYear,
-    mythRole:   dayOfYear `mod` 9,
-    mythNumber: dayOfYear `mod` 40
-    }
+    _of minor major =
+      floor (millis % (major honeyDurations) / (minor honeyDurations))
+    year       = floor (millis / honeyDurations.year)
+    season     = _.season    `_of` _.year
+    month      = _.month     `_of` _.year
+    week       = _.week      `_of` _.year
+    dayOfYear  = _.day       `_of` _.year
+    dayOfMonth = _.day       `_of` _.month
+    hour       = _.hour      `_of` _.day
+    minute     = _.minute    `_of` _.hour
+    second     = _.second    `_of` _.minute
+    subsecond  = _.subsecond `_of` _.second
+    mythRole   = dayOfYear   `mod` 9
+    mythNumber = dayOfYear   `mod` 40
+  in { year, season, month, dayOfYear, dayOfMonth, week, mythRole, mythNumber,
+       hour, minute, second, subsecond }
 
 elementById :: String -> Effect (Maybe Element)
 elementById id = do
@@ -193,12 +177,12 @@ getTextualDisplay =
     dayOfMonth <- get "day"
     mythRole   <- get "myth-role"
     mythNumber <- get "myth-number"
-    hours      <- get "hours"
-    minutes    <- get "minutes"
-    seconds    <- get "seconds"
-    subseconds <- get "subseconds"
+    hour       <- get "hours"
+    minute     <- get "minutes"
+    second     <- get "seconds"
+    subsecond  <- get "subseconds"
     in { year, season, month, dayOfMonth, mythRole, mythNumber,
-         hours, minutes, seconds, subseconds,
+         hour, minute, second, subsecond,
          week: Nothing, dayOfYear: Nothing }
 
 setTextualDisplay :: HoneyDate -> TextualDisplay -> Effect Unit
@@ -209,15 +193,15 @@ setTextualDisplay date display =
     with getFrom fn = setElementText (getFrom display) (fn (getFrom date))
   in ado
     _.year       `with` show
-    _.season     `with` \s -> seasons !!! s <> " Season"
+    _.season     `with` \s -> seasons !! s <> " Season"
     _.month      `with` show
-    _.dayOfMonth `with` \d -> (letterCycle !!! d).sajemTan
-    _.mythRole   `with` \m -> (mythCycle !!! m).sajemTan
+    _.dayOfMonth `with` \d -> (letterCycle !! d).sajemTan
+    _.mythRole   `with` \m -> (mythCycle !! m).sajemTan
     _.mythNumber `with` show
-    _.hours      `with` show
-    _.minutes    `with` toSenary 2
-    _.seconds    `with` toSenary 2
-    _.subseconds `with` toSenary 2
+    _.hour       `with` show
+    _.minute     `with` toSenary 2
+    _.second     `with` toSenary 2
+    _.subsecond  `with` toSenary 2
     in unit
 
 displayDate :: JSDate -> TextualDisplay -> Effect Unit
@@ -231,7 +215,7 @@ displayNow display = do
 setup :: Effect Unit
 setup = void do
   t <- getTextualDisplay
-  setInterval (floor subsecondMillis) (displayNow t)
+  setInterval (floor honeyDurations.subsecond) (displayNow t)
 
 main :: Effect Unit
 main = mempty
