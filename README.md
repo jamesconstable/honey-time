@@ -13,7 +13,8 @@ To compile and bundle the PureScript, use:
 spago bundle-app
 ```
 
-You can then run the project locally using simplehttpserver:
+You can then run the project locally using simplehttpserver (direct your
+browser to `http://localhost:8000` to view):
 ```
 npm install -g simplehttpserver
 simplehttpserver
