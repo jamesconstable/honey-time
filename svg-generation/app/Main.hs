@@ -1,6 +1,6 @@
 module Main where
 
-import Lib
+import HoneyTime (clockDial, svg)
 
 main :: IO ()
-main = someFunc
+main = print $ svg clockDial
