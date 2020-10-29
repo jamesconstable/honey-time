@@ -10,6 +10,9 @@ index.js
 .psci_modules
 .spago
 
+# Haskell
+stack.yaml.lock
+
 # Python
 .venv/
 **/__pycache__
