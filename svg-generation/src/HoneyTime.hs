@@ -3,12 +3,33 @@
 module HoneyTime (clockDial, svg) where
 
 import Graphics.Svg
+import qualified Data.Text as T
+
+p :: RealFloat a => a -> a -> T.Text
+p x y = T.concat [toText x, ",", toText y, " "]
 
 svg :: Element -> Element
 svg content =
   doctype
-  <> with (svg11_ content)
-    [Version_ <<- "1.1", Width_ <<- "100", Height_ <<- "100"]
+  <> with (svg11_ content) [
+    Version_ <<- "1.1", Width_ <<- "100", Height_ <<- "100"]
+
+range :: (Integral a, Num b) => a -> [b]
+range n = map fromIntegral [0..(n-1)]
+
+polygon :: (Integral a, RealFloat b) => a -> b -> b -> b -> b -> Element
+polygon n x y radius rotation =
+  let
+    theta = pi / 2 - rotation
+    polyAngle = 2 * pi / fromIntegral n
+    calcPoint i = p
+      (x + radius * cos (theta - i*polyAngle))
+      (y - radius * sin (theta - i*polyAngle))
+    points = map calcPoint (range n)
+  in polygon_ [Points_ <<- T.concat points]
+
+hexagon :: RealFloat a => a -> a -> a -> a -> Element
+hexagon = polygon 6
 
 clockDial :: Element
 clockDial =
@@ -29,3 +50,4 @@ clockDial =
     Fill_ <<- "#7C3679",
     D_ <<- ( mA 331 156 <> lA 293 99 <> lA 482 99 <> lA 482 156 <> lA 331 156
       <> z <> mA 331 156)]
+  <> polygon 9 50 50 25 0
