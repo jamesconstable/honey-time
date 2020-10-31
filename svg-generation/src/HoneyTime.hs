@@ -26,31 +26,53 @@ polygon n x y radius rotation =
 hexagon :: RealFloat a => a -> a -> a -> a -> Element
 hexagon = polygon 6
 
+polarTranslate :: RealFloat a => a -> a -> T.Text
+polarTranslate r theta = translate (r * cos theta) (r * sin theta)
+
+polygonAngle :: (Integral a, RealFloat b) => a -> a -> b
+polygonAngle n i = (fromIntegral i - 1) * 2 * pi / (fromIntegral n)
+
+hexagonAngle :: (Integral a, RealFloat b) => a -> b
+hexagonAngle = polygonAngle 6
+
 hexagonFloret :: RealFloat a => T.Text -> a -> T.Text -> Element
 hexagonFloret name radius useId =
   let
-    shortRadius = sqrt(3/4 * radius * radius)
-    calcTranslate i =
-      let theta = (fromIntegral i - 1) * pi / 3
-      in translate (2 * shortRadius * cos theta) (2 * shortRadius * sin theta)
+    group = g_ [Class_ <<- name]
+    shortRadius = sqrt (3/4 * radius * radius)
+    calcTranslate i = polarTranslate (2 * shortRadius) (hexagonAngle i)
     usage i = use_ [
       XlinkHref_ <<- useId,
       Class_     <<- "cell" <> tshow i,
       Transform_ <<- calcTranslate i]
-  in g_ [Id_ <<- name] (mconcat $ map usage [0..5])
+  in group $ mconcat $ map usage [0..5]
+
+innerClockDial :: RealFloat a => a -> T.Text -> Element
+innerClockDial radius useId =
+  let
+    group = g_ [Class_ <<- "inner-clock-dial"]
+    florets = do
+      unit  <- ["subsecond", "second", "minute"]
+      place <- ["units", "sixes"]
+      return $ T.concat [unit, "-", place]
+    shortRadius = sqrt (3/4 * radius * radius)
+    calcTranslate i = polarTranslate (8 * shortRadius) (hexagonAngle i)
+    createFloret (i, name) =
+      with (hexagonFloret name radius useId) [Transform_ <<- calcTranslate i]
+  in group $ mconcat $ map createFloret (zip [0..] florets)
 
 svg :: Element -> Element
 svg content =
   doctype
   <> with (svg11_ content) [
-    Version_ <<- "1.1", Width_ <<- "100", Height_ <<- "100"]
+    Version_ <<- "1.1", Width_ <<- "500", Height_ <<- "500"]
 
 clockDial :: Element
 clockDial =
   let
     tileId = "#hex_tile"
     tileRadius = 15
+    centreTranslate = translate (12 * tileRadius) (12 * tileRadius)
   in
     defs_ [] (with (hexagon 0 0 15 0) [Id_ <<- T.tail tileId])
-    <> with (hexagonFloret "test-ring" tileRadius tileId) [
-      Transform_ <<- translate 50 50]
+    <> with (innerClockDial tileRadius tileId) [Transform_ <<- centreTranslate]
