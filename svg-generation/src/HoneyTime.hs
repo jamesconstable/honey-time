@@ -31,7 +31,7 @@ hexagonFloret name radius useId =
   let
     shortRadius = sqrt(3/4 * radius * radius)
     calcTranslate i =
-      let theta = -pi/2 + (fromIntegral i)*pi/3
+      let theta = (fromIntegral i - 1) * pi / 3
       in translate (2 * shortRadius * cos theta) (2 * shortRadius * sin theta)
     usage i = use_ [
       XlinkHref_ <<- useId,
@@ -51,6 +51,6 @@ clockDial =
     tileId = "#hex_tile"
     tileRadius = 15
   in
-    defs_ [] (with (hexagon 0 0 15 (pi/6)) [Id_ <<- T.tail tileId])
+    defs_ [] (with (hexagon 0 0 15 0) [Id_ <<- T.tail tileId])
     <> with (hexagonFloret "test-ring" tileRadius tileId) [
       Transform_ <<- translate 50 50]
