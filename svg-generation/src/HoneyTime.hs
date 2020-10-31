@@ -8,11 +8,23 @@ import qualified Data.Text as T
 tshow :: Show a => a -> T.Text
 tshow = T.pack . show
 
+range :: (Integral a, Num b) => a -> [b]
+range n = map fromIntegral [0..(n-1)]
+
 point :: RealFloat a => a -> a -> T.Text
 point x y = T.concat [toText x, ",", toText y, " "]
 
-range :: (Integral a, Num b) => a -> [b]
-range n = map fromIntegral [0..(n-1)]
+polarTranslate :: RealFloat a => a -> a -> T.Text
+polarTranslate r theta = translate (r * cos theta) (r * sin theta)
+
+polygonAngle :: (Integral a, RealFloat b) => a -> a -> b
+polygonAngle n i = (fromIntegral i - 1) * 2 * pi / (fromIntegral n)
+
+hexagonAngle :: (Integral a, RealFloat b) => a -> b
+hexagonAngle = polygonAngle 6
+
+apothem :: (Integral a, RealFloat b) => a -> b -> b
+apothem n radius = radius * cos (pi / fromIntegral n)
 
 polygon :: (Integral a, RealFloat b) => a -> b -> b -> b -> b -> Element
 polygon n x y radius rotation =
@@ -26,21 +38,11 @@ polygon n x y radius rotation =
 hexagon :: RealFloat a => a -> a -> a -> a -> Element
 hexagon = polygon 6
 
-polarTranslate :: RealFloat a => a -> a -> T.Text
-polarTranslate r theta = translate (r * cos theta) (r * sin theta)
-
-polygonAngle :: (Integral a, RealFloat b) => a -> a -> b
-polygonAngle n i = (fromIntegral i - 1) * 2 * pi / (fromIntegral n)
-
-hexagonAngle :: (Integral a, RealFloat b) => a -> b
-hexagonAngle = polygonAngle 6
-
 hexagonFloret :: RealFloat a => T.Text -> a -> T.Text -> Element
 hexagonFloret name radius useId =
   let
     group = g_ [Class_ <<- name]
-    shortRadius = sqrt (3/4 * radius * radius)
-    calcTranslate i = polarTranslate (2 * shortRadius) (hexagonAngle i)
+    calcTranslate i = polarTranslate (2 * apothem 6 radius) (hexagonAngle i)
     usage i = use_ [
       XlinkHref_ <<- useId,
       Class_     <<- "cell" <> tshow i,
@@ -55,8 +57,7 @@ innerClockDial radius useId =
       unit  <- ["subsecond", "second", "minute"]
       place <- ["units", "sixes"]
       return $ T.concat [unit, "-", place]
-    shortRadius = sqrt (3/4 * radius * radius)
-    calcTranslate i = polarTranslate (8 * shortRadius) (hexagonAngle i)
+    calcTranslate i = polarTranslate (8 * apothem 6 radius) (hexagonAngle i)
     createFloret (i, name) =
       with (hexagonFloret name radius useId) [Transform_ <<- calcTranslate i]
   in group $ mconcat $ map createFloret (zip [0..] florets)
