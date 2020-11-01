@@ -8,6 +8,9 @@ import qualified Data.Text as T
 tshow :: Show a => a -> T.Text
 tshow = T.pack . show
 
+polar :: (RealFloat a) => (a -> a -> b) -> a -> a -> b
+polar fn r theta = fn (r * cos theta) (r * sin theta)
+
 apothem :: (Integral a, RealFloat b) => a -> b -> b
 apothem n radius = radius * cos (pi / fromIntegral n)
 
@@ -36,24 +39,19 @@ arc targetAngle radius rotation = T.intercalate " " [
   toText (radius * sin targetAngle),  -- target y-coordinate
   ""]
 
-polarTranslate :: RealFloat a => a -> a -> T.Text
-polarTranslate r theta = translate (r * cos theta) (r * sin theta)
-
-polygon :: (Integral a, RealFloat b) => a -> b -> b -> b -> Bool -> Element
-polygon n centreX centreY radius vertexAtTop =
+polygon :: (Integral a, RealFloat b) => a -> b -> Bool -> Element
+polygon n r vertexAtTop =
   let
-    element p = polygon_ [Points_ <<- p]
-    calcVertex i =
-      let theta = polygonAngle n vertexAtTop i
-      in point (centreX + radius * cos theta) (centreY + radius * sin theta)
+    element p    = polygon_ [Points_ <<- p]
+    calcVertex i = polar point r (polygonAngle n vertexAtTop i)
   in element $ mconcat $ map calcVertex [0..(n-1)]
 
-hexagon :: RealFloat a => a -> a -> a -> Bool -> Element
+hexagon :: RealFloat a => a -> Bool -> Element
 hexagon = polygon 6
 
 annulusSector :: (Integral a, Show a, RealFloat b)
               => a -> b -> b -> a -> Element
-annulusSector n outerRadius innerRadius i =
+annulusSector n r width i =
   let
     theta = 2 * pi / fromIntegral n
     start = polygonAngle n True i
@@ -61,17 +59,17 @@ annulusSector n outerRadius innerRadius i =
   in path_ [
     Class_ <<- ("sector" <> tshow i),
     D_ <<- (
-      mA (outerRadius * cos start) (outerRadius * sin start)
-      <> arc end outerRadius theta
-      <> lA (innerRadius * cos end) (innerRadius * sin end)
-      <> arc start innerRadius (-theta)
+      polar mA r start
+      <> arc end r theta
+      <> polar lA (r-width) end
+      <> arc start (r-width) (-theta)
       <> z)]
 
 hexagonFloret :: RealFloat a => T.Text -> a -> T.Text -> Element
 hexagonFloret name radius useId =
   let
     group = g_ [Class_ <<- name]
-    calcTranslate i = polarTranslate (2 * apothem 6 radius) (hexagonAngle i)
+    calcTranslate i = polar translate (2 * apothem 6 radius) (hexagonAngle i)
     usage i = use_ [
       XlinkHref_ <<- useId,
       Class_     <<- "cell" <> tshow i,
@@ -86,7 +84,7 @@ innerClockDial radius useId =
       unit  <- ["subsecond", "second", "minute"]
       place <- ["units", "sixes"]
       return $ T.concat [unit, "-", place]
-    calcTranslate i = polarTranslate (8 * apothem 6 radius) (hexagonAngle i)
+    calcTranslate i = polar translate (8 * apothem 6 radius) (hexagonAngle i)
     createFloret (i, name) =
       with (hexagonFloret name radius useId) [Transform_ <<- calcTranslate i]
   in group $ mconcat $ map createFloret (zip [0..] florets)
@@ -95,7 +93,7 @@ outerClockDial :: RealFloat a => a -> Element
 outerClockDial hexRadius =
   let
     group = g_ [Class_ <<- "hours-ring"]
-    createSector = annulusSector 10 (hexRadius * 11) (hexRadius * 10)
+    createSector = annulusSector 10 (hexRadius * 11) hexRadius
   in group $ mconcat $ map createSector [0..9]
 
 clockDial :: Element
@@ -109,7 +107,7 @@ clockDial =
     Class_     <<- "clock-dial",
     Transform_ <<- translate (imageWidth / 2) (imageHeight / 2)]
     (
-    defs_ [] (with (hexagon 0 0 tileRadius True) [Id_ <<- T.tail tileId])
+    defs_ [] (with (hexagon tileRadius True) [Id_ <<- T.tail tileId])
     <> innerClockDial tileRadius tileId
     <> outerClockDial tileRadius)
 
