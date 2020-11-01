@@ -90,18 +90,12 @@ innerClockDial radius useId =
       with (hexagonFloret name radius useId) [Transform_ <<- calcTranslate i]
   in group $ mconcat $ map createFloret (zip [0..] florets)
 
-hoursRing :: RealFloat a => a -> Element
-hoursRing hexRadius =
+outerClockDial :: RealFloat a => a -> Element
+outerClockDial hexRadius =
   let
     group = g_ [Class_ <<- "hours-ring"]
     createSector = annulusSector 10 (hexRadius * 11) (hexRadius * 10)
   in group $ mconcat $ map createSector [0..9]
-
-svg :: Element -> Element
-svg content =
-  doctype
-  <> with (svg11_ content) [
-    Version_ <<- "1.1", Width_ <<- "500", Height_ <<- "500"]
 
 clockDial :: Element
 clockDial =
@@ -112,4 +106,10 @@ clockDial =
   in
     defs_ [] (with (hexagon 0 0 15 0) [Id_ <<- T.tail tileId])
     <> with (innerClockDial tileRadius tileId) [Transform_ <<- centreTranslate]
-    <> with (hoursRing tileRadius) [Transform_ <<- centreTranslate]
+    <> with (outerClockDial tileRadius) [Transform_ <<- centreTranslate]
+
+svg :: Element -> Element
+svg content =
+  doctype
+  <> with (svg11_ content) [
+    Version_ <<- "1.1", Width_ <<- "500", Height_ <<- "500"]
