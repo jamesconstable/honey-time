@@ -62,6 +62,40 @@ innerClockDial radius useId =
       with (hexagonFloret name radius useId) [Transform_ <<- calcTranslate i]
   in group $ mconcat $ map createFloret (zip [0..] florets)
 
+arc :: RealFloat a => a -> a -> a -> T.Text
+arc targetAngle radius rotation = T.intercalate " " [
+  "A",                                -- absolute-valued arc command
+  toText radius,                      -- x-radius
+  toText radius,                      -- y-radius
+  toText (abs rotation),              -- x-axis rotation
+  "0",                                -- large arc flag
+  if rotation > 0 then "1" else "0",  -- sweep direction flag
+  toText (radius * cos targetAngle),  -- target x-coordinate
+  toText (radius * sin targetAngle),  -- target y-coordinate
+  ""]
+
+hoursRing :: RealFloat a => a -> Element
+hoursRing hexRadius =
+  let
+    group = g_ [Class_ <<- "hours-ring"]
+    innerRadius = hexRadius * 10
+    outerRadius = hexRadius * 11
+    theta = -pi/2
+    phi = pi/5
+    createSegment i =
+      let
+        start = theta + phi * (fromIntegral i)
+        end   = theta + phi * (fromIntegral i + 1)
+      in path_ [
+        Class_ <<- ("cell" <> tshow i),
+        D_ <<- (
+          mA (outerRadius * cos start) (outerRadius * sin start)
+          <> arc end outerRadius phi
+          <> lA (innerRadius * cos end) (innerRadius * sin end)
+          <> arc start innerRadius (-phi)
+          <> z)]
+  in group $ mconcat $ map createSegment [0..9]
+
 svg :: Element -> Element
 svg content =
   doctype
@@ -77,3 +111,4 @@ clockDial =
   in
     defs_ [] (with (hexagon 0 0 15 0) [Id_ <<- T.tail tileId])
     <> with (innerClockDial tileRadius tileId) [Transform_ <<- centreTranslate]
+    <> with (hoursRing tileRadius) [Transform_ <<- centreTranslate]
