@@ -14,6 +14,18 @@ range n = map fromIntegral [0..(n-1)]
 point :: RealFloat a => a -> a -> T.Text
 point x y = T.concat [toText x, ",", toText y, " "]
 
+arc :: RealFloat a => a -> a -> a -> T.Text
+arc targetAngle radius rotation = T.intercalate " " [
+  "A",                                -- absolute-valued arc command
+  toText radius,                      -- x-radius
+  toText radius,                      -- y-radius
+  toText (abs rotation),              -- x-axis rotation
+  "0",                                -- large arc flag
+  if rotation > 0 then "1" else "0",  -- sweep direction flag
+  toText (radius * cos targetAngle),  -- target x-coordinate
+  toText (radius * sin targetAngle),  -- target y-coordinate
+  ""]
+
 polarTranslate :: RealFloat a => a -> a -> T.Text
 polarTranslate r theta = translate (r * cos theta) (r * sin theta)
 
@@ -37,6 +49,22 @@ polygon n x y radius rotation =
 
 hexagon :: RealFloat a => a -> a -> a -> a -> Element
 hexagon = polygon 6
+
+annulusSector :: (Integral a, RealFloat b, Integral c, Show c)
+              => a -> b -> b -> c -> Element
+annulusSector n outerRadius innerRadius i =
+  let
+    theta = 2 * pi / (fromIntegral n)
+    start = -pi/2 + theta * (fromIntegral i)
+    end   = -pi/2 + theta * (fromIntegral i + 1)
+  in path_ [
+    Class_ <<- ("sector" <> tshow i),
+    D_ <<- (
+      mA (outerRadius * cos start) (outerRadius * sin start)
+      <> arc end outerRadius theta
+      <> lA (innerRadius * cos end) (innerRadius * sin end)
+      <> arc start innerRadius (-theta)
+      <> z)]
 
 hexagonFloret :: RealFloat a => T.Text -> a -> T.Text -> Element
 hexagonFloret name radius useId =
@@ -62,39 +90,12 @@ innerClockDial radius useId =
       with (hexagonFloret name radius useId) [Transform_ <<- calcTranslate i]
   in group $ mconcat $ map createFloret (zip [0..] florets)
 
-arc :: RealFloat a => a -> a -> a -> T.Text
-arc targetAngle radius rotation = T.intercalate " " [
-  "A",                                -- absolute-valued arc command
-  toText radius,                      -- x-radius
-  toText radius,                      -- y-radius
-  toText (abs rotation),              -- x-axis rotation
-  "0",                                -- large arc flag
-  if rotation > 0 then "1" else "0",  -- sweep direction flag
-  toText (radius * cos targetAngle),  -- target x-coordinate
-  toText (radius * sin targetAngle),  -- target y-coordinate
-  ""]
-
 hoursRing :: RealFloat a => a -> Element
 hoursRing hexRadius =
   let
     group = g_ [Class_ <<- "hours-ring"]
-    innerRadius = hexRadius * 10
-    outerRadius = hexRadius * 11
-    theta = -pi/2
-    phi = pi/5
-    createSegment i =
-      let
-        start = theta + phi * (fromIntegral i)
-        end   = theta + phi * (fromIntegral i + 1)
-      in path_ [
-        Class_ <<- ("cell" <> tshow i),
-        D_ <<- (
-          mA (outerRadius * cos start) (outerRadius * sin start)
-          <> arc end outerRadius phi
-          <> lA (innerRadius * cos end) (innerRadius * sin end)
-          <> arc start innerRadius (-phi)
-          <> z)]
-  in group $ mconcat $ map createSegment [0..9]
+    createSector = annulusSector 10 (hexRadius * 11) (hexRadius * 10)
+  in group $ mconcat $ map createSector [0..9]
 
 svg :: Element -> Element
 svg content =
