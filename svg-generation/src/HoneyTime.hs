@@ -2,6 +2,7 @@
 
 module HoneyTime (clockDial, svg) where
 
+import Data.Foldable (foldMap)
 import Graphics.Svg
 import qualified Data.Text as T
 
@@ -44,7 +45,7 @@ polygon n r vertexAtTop =
   let
     element p    = polygon_ [Points_ <<- p]
     calcVertex i = polar point r (polygonAngle n vertexAtTop i)
-  in element $ mconcat $ map calcVertex [0..(n-1)]
+  in element $ foldMap calcVertex [0..(n-1)]
 
 hexagon :: RealFloat a => a -> Bool -> Element
 hexagon = polygon 6
@@ -74,7 +75,7 @@ hexagonFloret name radius useId =
       XlinkHref_ <<- useId,
       Class_     <<- "cell" <> tshow i,
       Transform_ <<- calcTranslate i]
-  in group $ mconcat $ map usage [0..5]
+  in group $ foldMap usage [0..5]
 
 innerClockDial :: RealFloat a => a -> T.Text -> Element
 innerClockDial radius useId =
@@ -87,14 +88,14 @@ innerClockDial radius useId =
     calcTranslate i = polar translate (8 * apothem 6 radius) (hexagonAngle i)
     createFloret (i, name) =
       with (hexagonFloret name radius useId) [Transform_ <<- calcTranslate i]
-  in group $ mconcat $ map createFloret (zip [0..] florets)
+  in group $ foldMap createFloret (zip [0..] florets)
 
 outerClockDial :: RealFloat a => a -> Element
 outerClockDial hexRadius =
   let
     group = g_ [Class_ <<- "hours-ring"]
     createSector = annulusSector 10 (hexRadius * 11) hexRadius
-  in group $ mconcat $ map createSector [0..9]
+  in group $ foldMap createSector [0..9]
 
 clockDial :: Element
 clockDial =
