@@ -1,0 +1,36 @@
+name:                svg-generation
+version:             0.1.0.0
+github:              "jamesconstable/honey-time/svg-generation"
+license:             MIT
+author:              "James Constable"
+maintainer:          "jwdconstable@gmail.com"
+copyright:           "2020 James Constable"
+
+extra-source-files:
+- README.md
+
+# Metadata used when publishing your package
+synopsis:            SVG generator for the Sajem Tan clock/calendar UI
+category:            Web
+description:         Please see the README on GitHub at <https://github.com/jamesconstable/honey-time/svg-generation#readme>
+homepage:            https://github.com/jamesconstable/honey-time/svg-generation#readme
+bug-reports:         https://github.com/jamesconstable/honey-time/issues
+
+dependencies:
+- base >= 4.7 && < 5
+- svg-builder
+- text
+
+library:
+  source-dirs: src
+
+executables:
+  svg-generation-exe:
+    main:                Main.hs
+    source-dirs:         app
+    ghc-options:
+    - -threaded
+    - -rtsopts
+    - -with-rtsopts=-N
+    dependencies:
+    - svg-generation
