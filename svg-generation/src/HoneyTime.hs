@@ -2,7 +2,7 @@
 
 module HoneyTime (clockDial, svg) where
 
-import Data.Foldable (foldMap)
+import Data.Foldable (fold, foldMap)
 import Graphics.Svg
 import qualified Data.Text as T
 
@@ -22,8 +22,8 @@ polygonAngle n vertexAtTop i =
     offset = if vertexAtTop then 0 else pi/sides
   in (fromIntegral i) * 2*pi/sides - pi/2 + offset
 
-hexagonAngle :: (Integral a, RealFloat b) => a -> b
-hexagonAngle = polygonAngle 6 False
+hexagonAngle :: (Integral a, RealFloat b) => Bool -> a -> b
+hexagonAngle = polygonAngle 6
 
 point :: RealFloat a => a -> a -> T.Text
 point x y = T.concat [toText x, " ", toText y, " "]
@@ -36,9 +36,7 @@ arc targetAngle radius rotation = T.intercalate " " [
   toText (abs rotation),              -- x-axis rotation
   "0",                                -- large arc flag
   if rotation > 0 then "1" else "0",  -- sweep direction flag
-  toText (radius * cos targetAngle),  -- target x-coordinate
-  toText (radius * sin targetAngle),  -- target y-coordinate
-  ""]
+  polar point radius targetAngle]     -- target coordinate
 
 polygon :: (Integral a, RealFloat b) => a -> b -> Bool -> Element
 polygon n r vertexAtTop =
@@ -59,43 +57,74 @@ annulusSector n r width i =
     end   = polygonAngle n True (i+1)
   in path_ [
     Class_ <<- ("sector" <> tshow i),
-    D_ <<- (
-      polar mA r start
-      <> arc end r theta
-      <> polar lA (r-width) end
-      <> arc start (r-width) (-theta)
-      <> z)]
+    D_ <<- fold [
+      polar mA r start,               -- move to start position
+      arc end r theta,                -- draw outer arc
+      polar lA (r-width) end,         -- draw straight line to inner arc
+      arc start (r-width) (-theta),   -- draw inner arc
+      z]]                             -- draw straight line back to start
+
+hexTranslateHelper :: (RealFloat a, Integral b) => a -> a -> Bool -> b -> T.Text
+hexTranslateHelper r m vertexAtTop i =
+  let multiplier = if vertexAtTop then r else apothem 6 r
+  in polar translate (m * multiplier) (hexagonAngle vertexAtTop i)
 
 hexagonFloret :: RealFloat a => T.Text -> a -> T.Text -> Element
-hexagonFloret name radius useId =
+hexagonFloret name tileRadius useId =
   let
     group = g_ [Class_ <<- name]
-    calcTranslate i = polar translate (2 * apothem 6 radius) (hexagonAngle i)
     usage i = use_ [
       XlinkHref_ <<- useId,
       Class_     <<- "cell" <> tshow i,
-      Transform_ <<- calcTranslate i]
+      Transform_ <<- hexTranslateHelper tileRadius 2 False i]
   in group $ foldMap usage [0..5]
 
 innerClockDial :: RealFloat a => a -> T.Text -> Element
-innerClockDial radius useId =
+innerClockDial tileRadius useId =
   let
     group = g_ [Class_ <<- "inner-clock-dial"]
     florets = do
       unit  <- ["subsecond", "second", "minute"]
       place <- ["units", "sixes"]
       return $ T.concat [unit, "-", place]
-    calcTranslate i = polar translate (8 * apothem 6 radius) (hexagonAngle i)
-    createFloret (i, name) =
-      with (hexagonFloret name radius useId) [Transform_ <<- calcTranslate i]
+    createFloret (i, name) = with (hexagonFloret name tileRadius useId) [
+      Transform_ <<- hexTranslateHelper tileRadius 8 False i]
   in group $ foldMap createFloret (zip [0..] florets)
 
 outerClockDial :: RealFloat a => a -> Element
-outerClockDial hexRadius =
+outerClockDial tileRadius =
   let
     group = g_ [Class_ <<- "hours-ring"]
-    createSector = annulusSector 10 (hexRadius * 11) hexRadius
+    createSector = annulusSector 10 (tileRadius * 11) tileRadius
   in group $ foldMap createSector [0..9]
+
+clockDialDecoration :: RealFloat a => a -> T.Text -> Element
+clockDialDecoration tileRadius useId =
+  let
+    group    = g_ [Class_ <<- "clock-decoration"]
+    isEven n = n `mod` 2 == 0
+    angleAt  = hexagonAngle True
+    withThickStroke = flip with [
+      Stroke_       <<- "black",
+      Stroke_width_ <<- tshow 6]
+    centreShape = foldMap withThickStroke [
+      hexagon (tileRadius * 4) True,
+      circle_ [
+        R_    <<- toText (4 * apothem 6 tileRadius),
+        Fill_ <<- "white"]]
+    createSpoke i = fold [
+      use_ [
+        XlinkHref_ <<- useId,
+        Transform_ <<- hexTranslateHelper tileRadius 8 True i],
+      withThickStroke $ use_ [
+        XlinkHref_ <<- useId,
+        Transform_ <<- hexTranslateHelper tileRadius 4 True i],
+      withThickStroke $ path_ [
+        D_ <<- fold [
+          polar mA (tileRadius * 4) (angleAt i),
+          polar lA (tileRadius * (if isEven i then 10 else 8)) (angleAt i),
+          z]]]
+  in group (foldMap createSpoke [0..5] <> centreShape)
 
 clockDial :: Element
 clockDial =
@@ -104,13 +133,14 @@ clockDial =
     tileRadius  = 10
     imageWidth  = 250
     imageHeight = 250
-  in g_ [
-    Class_     <<- "clock-dial",
-    Transform_ <<- translate (imageWidth / 2) (imageHeight / 2)]
-    (
-    defs_ [] (with (hexagon tileRadius True) [Id_ <<- T.tail tileId])
-    <> innerClockDial tileRadius tileId
-    <> outerClockDial tileRadius)
+  in g_
+    [ Class_     <<- "clock-dial",
+      Transform_ <<- translate (imageWidth / 2) (imageHeight / 2)]
+    (fold [
+      defs_ [] (with (hexagon tileRadius True) [Id_ <<- T.tail tileId]),
+      clockDialDecoration tileRadius tileId,
+      innerClockDial tileRadius tileId,
+      outerClockDial tileRadius])
 
 svg :: Element -> Element
 svg content =
