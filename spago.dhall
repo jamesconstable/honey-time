@@ -1,14 +1,8 @@
-{-
-Welcome to a Spago project!
-You can edit this file as you like.
--}
-{ name = "my-project"
+{ name = "honey-time"
 , dependencies =
   [ "console"
   , "datetime"
   , "effect"
-  , "int-53"
-  , "js-date"
   , "js-timers"
   , "lists"
   , "psci-support"
@@ -16,5 +10,5 @@ You can edit this file as you like.
   , "web-html"
   ]
 , packages = ./packages.dhall
-, sources = [ "src/**/*.purs", "test/**/*.purs" ]
+, sources = [ "src/**/*.purs" ]
 }
