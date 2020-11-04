@@ -17,6 +17,9 @@ stack.yaml.lock
 .venv/
 **/__pycache__
 
+# Compiled project files
+site/
+
 # Miscellaneous
 *~
 .DS_Store
