@@ -1,36 +1,40 @@
+.graphical-display {
+  text-align: center;
+}
+
 .textual-display {
   font-family: "Helvetica Neue", sans-serif;
   text-align: center;
 }
 
-.textual-display.primary p {
+.textual-display p {
   line-height: 1.5em;
   margin-bottom: 0px;
   margin-top: 0px;
 }
 
-.textual-display.primary .time {
+.textual-display .time {
   font-size: 80px;
 }
 
-.textual-display.primary .date {
+.textual-display .date {
   font-size: 40px;
 }
 
-.textual-display.primary .decimal-unit {
+.textual-display .decimal-unit {
   display: inline-block;
   width: 1.5ex;
 }
 
-.textual-display.primary .senary-unit {
+.textual-display .senary-unit {
   display: inline-block;
   width: 2.5ex;
 }
 
-.textual-display.primary .season {
+.textual-display .season {
   font-size: 40px;
 }
 
-.textual-display.primary .subseconds {
+.textual-display .subseconds {
   font-size: 0.5em;
 }
