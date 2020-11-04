@@ -30,11 +30,9 @@ To generate the site, run
 ./build.sh
 ```
 in this directory; it will produce a new subdirectory called `site` containing
-the results. You can deploy this directory directly as a static site, or run it
-locally using simplehttpserver (direct your browser to `http://localhost:8000`
-to view):
+the results. You can deploy this directory directly as a static site, or view
+it locally using Python's `SimpleHTTPServer`:
 ```
-npm install -g simplehttpserver
-cd site
-simplehttpserver
+python3 -m http.server -d site
 ```
+(Direct your browser to `http://localhost:8000` to view.)
