@@ -2,13 +2,15 @@ module Main where
 
 import Prelude
 
-import Data.Array (index, unsafeIndex)
+import Data.Array ((..), index, unsafeIndex)
 import Data.Filterable (filterMap)
+import Data.Foldable (fold)
 import Data.Int (floor, radix, toStringAs)
 import Data.JSDate (JSDate, getTime, jsdate, now)
 import Data.Maybe (Maybe(..), fromJust)
 import Data.String (length)
 import Data.String.CodeUnits (singleton)
+import Data.Traversable (traverse)
 import Effect (Effect)
 import Effect.Timer (setInterval)
 import Math ((%))
@@ -52,7 +54,12 @@ type HoneyDate = HoneyComponents Int
 
 type TextualDisplay = HoneyComponents (Maybe Element)
 
-type GraphicalDisplay = HoneyComponents (Array Element)
+data DisplayComponent =
+  None
+  | SimpleComponent (Array Element)
+  | ComplexComponent (Array (Array Element))
+
+type GraphicalDisplay = HoneyComponents DisplayComponent
 
 partialIndex :: forall a. Array a -> Int -> a
 partialIndex = unsafePartial unsafeIndex
@@ -213,30 +220,32 @@ setTextualDisplay date display =
     _.subsecond  `with` toSenary 2
     in unit
 
-{-
 getGraphicalDisplay :: Effect GraphicalDisplay
 getGraphicalDisplay =
   let
-    getSenaryUnitDisplay name =
-      let
-        unitsFloret = elementById (name <> "-units")
-      in
+    getSenaryDisplay unit =
+      ComplexComponent <$> traverse elementsBySelector do
+        place <- ["units", "sixes"]
+        digit <- map show (0..5)
+        pure $ fold [".", unit, "-", place, " .cell", digit]
+    getHoursDisplay =
+      let getSector i = elementsBySelector (".hours-ring .sector" <> show i)
+      in ComplexComponent <$> traverse getSector (0..9)
   in ado
-    year       <- pure []
-    season     <- pure []
-    month      <- pure []
-    week       <- pure []
-    dayOfYear  <- pure []
-    dayOfMonth <- pure []
-    mythRole   <- pure []
-    mythNumber <- pure []
-    hour       <- pure []
-    minute     <- pure []
-    second     <- pure []
-    subsecond  <- get "subsecond"
+    year       <- pure None
+    season     <- pure None
+    month      <- pure None
+    week       <- pure None
+    dayOfYear  <- pure None
+    dayOfMonth <- pure None
+    mythRole   <- pure None
+    mythNumber <- pure None
+    hour       <- getHoursDisplay
+    minute     <- getSenaryDisplay "minute"
+    second     <- getSenaryDisplay "second"
+    subsecond  <- getSenaryDisplay "subsecond"
     in { year, season, month, week, dayOfYear, dayOfMonth, mythRole, mythNumber,
          hour, minute, second, subsecond }
-         -}
 
 displayDate :: JSDate -> TextualDisplay -> Effect Unit
 displayDate = setTextualDisplay <<< gregorianToHoney
