@@ -18,9 +18,9 @@ installed before continuing; if you use Homebrew on Mac, you can do this with:
 brew install haskell-stack
 ```
 
-You will also need Python 3, which can also be installed with Homebrew:
+You will also need Python 3 and Sass, which can both be installed with Homebrew:
 ```
-brew install python3
+brew install python3 sass/sass/sass
 ```
 
 ### Building the site

@@ -56,7 +56,7 @@ annulusSector n r width i =
     start = polygonAngle n True i
     end   = polygonAngle n True (i+1)
   in path_ [
-    Class_ <<- ("sector" <> tshow i),
+    Class_ <<- ("sector sector" <> tshow i),
     D_ <<- fold [
       polar mA r start,               -- move to start position
       arc end r theta,                -- draw outer arc
@@ -75,7 +75,7 @@ hexagonFloret name tileRadius useId =
     group = g_ [Class_ <<- name]
     usage i = use_ [
       XlinkHref_ <<- useId,
-      Class_     <<- "cell" <> tshow i,
+      Class_     <<- "cell cell" <> tshow i,
       Transform_ <<- hexTranslateHelper tileRadius 2 False i]
   in group $ foldMap usage [0..5]
 

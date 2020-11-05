@@ -50,6 +50,8 @@ type HoneyDate = HoneyComponents Int
 
 type TextualDisplay = HoneyComponents (Maybe Element)
 
+type GraphicalDisplay = HoneyComponents (Array Element)
+
 partialIndex :: forall a. Array a -> Int -> a
 partialIndex = unsafePartial unsafeIndex
 infixl 8 partialIndex as !!
@@ -203,6 +205,9 @@ setTextualDisplay date display =
     _.second     `with` toSenary 2
     _.subsecond  `with` toSenary 2
     in unit
+
+getGraphicalDisplay :: Effect GraphicalDisplay
+getGraphicalDisplay = pure 
 
 displayDate :: JSDate -> TextualDisplay -> Effect Unit
 displayDate = setTextualDisplay <<< gregorianToHoney

@@ -5,9 +5,9 @@ if [ -d site ]; then
   rm -rf site
 fi
 
-# Copy static files into site
+# Compile SCSS into site directory
 mkdir site
-cp static/* site/
+sass style.scss site/style.css
 
 # Compile PureScript
 spago bundle --main Main --to site/index.js

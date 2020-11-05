@@ -1,0 +1,42 @@
+.graphical-display {
+  text-align: center;
+}
+
+.textual-display {
+  font-family: "Helvetica Neue", sans-serif;
+  text-align: center;
+
+  p {
+    line-height: 1.5em;
+    margin-bottom: 0px;
+    margin-top: 0px;
+  }
+
+  .time {
+    font-size: 80px;
+  }
+
+  .date, .season {
+    font-size: 40px;
+  }
+
+  .decimal-unit {
+    display: inline-block;
+    width: 1.5ex;
+  }
+
+  .senary-unit {
+    display: inline-block;
+    width: 2.5ex;
+  }
+
+  .subseconds {
+    font-size: 0.5em;
+  }
+}
+
+.inner-clock-dial .cell, .hours-ring .sector {
+  fill: white;
+  stroke: black;
+  stroke-width: 3;
+}
