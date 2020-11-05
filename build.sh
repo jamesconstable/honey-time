@@ -10,7 +10,9 @@ mkdir site
 sass style.scss site/style.css
 
 # Compile PureScript
-spago bundle --main Main --to site/index.js
+pushd purescript
+spago bundle --main Main --to ../site/index.js
+popd
 
 # Compile and run the SVG generator
 pushd svg-generation
