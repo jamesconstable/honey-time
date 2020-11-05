@@ -3,6 +3,7 @@
   [ "console"
   , "datetime"
   , "effect"
+  , "filterable"
   , "js-timers"
   , "lists"
   , "psci-support"

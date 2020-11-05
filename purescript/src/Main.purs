@@ -2,7 +2,8 @@ module Main where
 
 import Prelude
 
-import Data.Array (unsafeIndex)
+import Data.Array (index, unsafeIndex)
+import Data.Filterable (filterMap)
 import Data.Int (floor, radix, toStringAs)
 import Data.JSDate (JSDate, getTime, jsdate, now)
 import Data.Maybe (Maybe(..), fromJust)
@@ -12,11 +13,12 @@ import Effect (Effect)
 import Effect.Timer (setInterval)
 import Math ((%))
 import Partial.Unsafe (unsafePartial)
-import Web.DOM.Document (toNonElementParentNode)
-import Web.DOM.Element (toNode)
+import Web.DOM.Document (toParentNode)
+import Web.DOM.Element (fromNode, toNode)
+import Web.DOM.NodeList (toArray)
 import Web.DOM.Internal.Types (Element)
 import Web.DOM.Node (setTextContent)
-import Web.DOM.NonElementParentNode (getElementById)
+import Web.DOM.ParentNode (QuerySelector(..), querySelectorAll)
 import Web.HTML (window)
 import Web.HTML.HTMLDocument (toDocument)
 import Web.HTML.Window (document)
@@ -163,15 +165,20 @@ gregorianToHoney date =
   in { year, season, month, dayOfYear, dayOfMonth, week, mythRole, mythNumber,
        hour, minute, second, subsecond }
 
-elementById :: String -> Effect (Maybe Element)
-elementById id = do
+elementsBySelector :: String -> Effect (Array Element)
+elementsBySelector selector = do
   w <- window
   d <- document w
-  getElementById id $ toNonElementParentNode $ toDocument d
+  r <- querySelectorAll (QuerySelector selector) (toParentNode $ toDocument d)
+  filterMap fromNode <$> toArray r
+
+elementById :: String -> Effect (Maybe Element)
+elementById = map (flip index 0) <<< elementsBySelector <<< ("#" <> _)
 
 getTextualDisplay :: Effect TextualDisplay
 getTextualDisplay =
-  let get n = elementById ("textual-" <> n)
+  let
+    get n = elementById ("textual-" <> n)
   in ado
     year       <- get "year"
     season     <- get "season"
@@ -206,8 +213,30 @@ setTextualDisplay date display =
     _.subsecond  `with` toSenary 2
     in unit
 
+{-
 getGraphicalDisplay :: Effect GraphicalDisplay
-getGraphicalDisplay = pure 
+getGraphicalDisplay =
+  let
+    getSenaryUnitDisplay name =
+      let
+        unitsFloret = elementById (name <> "-units")
+      in
+  in ado
+    year       <- pure []
+    season     <- pure []
+    month      <- pure []
+    week       <- pure []
+    dayOfYear  <- pure []
+    dayOfMonth <- pure []
+    mythRole   <- pure []
+    mythNumber <- pure []
+    hour       <- pure []
+    minute     <- pure []
+    second     <- pure []
+    subsecond  <- get "subsecond"
+    in { year, season, month, week, dayOfYear, dayOfMonth, mythRole, mythNumber,
+         hour, minute, second, subsecond }
+         -}
 
 displayDate :: JSDate -> TextualDisplay -> Effect Unit
 displayDate = setTextualDisplay <<< gregorianToHoney
