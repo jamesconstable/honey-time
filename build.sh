@@ -1,5 +1,7 @@
 #! /usr/bin/env bash
 
+set -e
+
 # Delete site directory if already in existence
 if [ -d site ]; then
   rm -rf site
@@ -11,7 +13,8 @@ sass style.scss site/style.css
 
 # Compile PureScript
 pushd purescript
-spago bundle --main Main --to ../site/index.js
+spago build
+spago bundle-app --main Main --to ../site/index.js
 popd
 
 # Compile and run the SVG generator
