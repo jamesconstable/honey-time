@@ -2,7 +2,8 @@ module Main where
 
 import Prelude
 
-import Data.Array ((..), (!!), drop, take)
+import Data.Array ((..))
+import Data.ArrayView (ArrayView, drop, fromArray, take)
 import Data.Char (toCharCode)
 import Data.Enum (fromEnum)
 import Data.Filterable (filterMap)
@@ -27,6 +28,8 @@ import Web.DOM.ParentNode (QuerySelector(..), querySelectorAll)
 import Web.HTML (window)
 import Web.HTML.HTMLDocument (toDocument)
 import Web.HTML.Window (document)
+
+import Indexable ((!!))
 
 type TranslatedName = ( sajemTan :: String, english :: String )
 
@@ -255,32 +258,30 @@ removeClass c e = classList e >>= flip TL.remove c
 setGraphicalDisplay :: HoneyDate -> GraphicalDisplay -> Effect Unit
 setGraphicalDisplay date display =
   let
-    removeClasses cs = for_ cs <<< flip removeClass
+    clear = for_ ["filled", "active"] <<< flip removeClass
     codePointToInt c = fromEnum c - toCharCode '0'
     getDigit i s = fromMaybe 0 (map codePointToInt $ codePointAt i s)
+    fromComplexComponent = unsafePartial (\(ComplexComponent c) -> c)
+
+    setElements :: ArrayView (Array Element) -> Int -> Effect Unit
+    setElements elements digit = do
+      traverse_ (traverse_ clear) elements
+      traverse_ (addClass "active") (fromMaybe [] (elements !! digit))
+      traverse_ (traverse_ $ addClass "filled") (take digit elements)
+
     setSenaryComponent :: (forall a. HoneyComponents a -> a) -> Effect Unit
     setSenaryComponent getFrom =
       let
         senaryString = toSenary 2 (getFrom date)
-        units = getDigit 1 senaryString
-        sixes = getDigit 0 senaryString
-        elements = unsafePartial (\(ComplexComponent x) -> x) $ getFrom display
-        elementsForDigit i = fromMaybe [] (elements !! i)
+        elements = fromArray $ fromComplexComponent $ getFrom display
       in do
-        traverse_ (traverse_ $ removeClasses ["filled", "active"]) elements
-        traverse_ (addClass "active") (elementsForDigit units)
-        traverse_ (addClass "active") (elementsForDigit (6+sixes))
-        traverse_ (traverse_ $ addClass "filled") (take units elements)
-        traverse_ (traverse_ $ addClass "filled") (take sixes (drop 6 elements))
+        setElements (take 6 elements) (getDigit 1 senaryString)
+        setElements (drop 6 elements) (getDigit 0 senaryString)
+
     setDecimalComponent :: (forall a. HoneyComponents a -> a) -> Effect Unit
-    setDecimalComponent getFrom =
-      let
-        digit = getDigit 0 (show (getFrom date))
-        elements = unsafePartial (\(ComplexComponent x) -> x) $ getFrom display
-      in do
-        traverse_ (traverse_ $ removeClasses ["filled", "active"]) elements
-        traverse_ (addClass "active") (fromMaybe [] (elements !! digit))
-        traverse_ (traverse_ $ addClass "filled") (take digit elements)
+    setDecimalComponent getFrom = setElements
+      (fromArray $ fromComplexComponent $ getFrom display)
+      (getDigit 0 $ show $ getFrom date)
   in ado
     setDecimalComponent _.hour
     setSenaryComponent _.minute
