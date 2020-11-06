@@ -3,17 +3,17 @@ module Main where
 import Prelude
 
 import Data.Array ((..))
-import Data.ArrayView (ArrayView, drop, fromArray, take)
+import Data.ArrayView (drop, fromArray, take)
 import Data.Char (toCharCode)
 import Data.Enum (fromEnum)
 import Data.Filterable (filterMap)
-import Data.Foldable (fold)
+import Data.Foldable (fold, foldMap)
 import Data.Int (floor, radix, toStringAs)
 import Data.JSDate (JSDate, getTime, jsdate, now)
 import Data.Maybe (Maybe(..), fromJust, fromMaybe, maybe)
 import Data.String (codePointAt, length)
 import Data.String.CodeUnits (singleton)
-import Data.Traversable (for_, traverse, traverse_)
+import Data.Traversable (traverse)
 import Effect (Effect)
 import Effect.Timer (setInterval)
 import Math ((%))
@@ -258,16 +258,14 @@ removeClass c e = classList e >>= flip TL.remove c
 setGraphicalDisplay :: HoneyDate -> GraphicalDisplay -> Effect Unit
 setGraphicalDisplay date display =
   let
-    clear = for_ ["filled", "active"] <<< flip removeClass
+    clear e = foldMap (flip removeClass e) ["filled", "active"]
     codePointToInt c = fromEnum c - toCharCode '0'
     getDigit i s = fromMaybe 0 (map codePointToInt $ codePointAt i s)
     fromComplexComponent = unsafePartial (\(ComplexComponent c) -> c)
-
-    setElements :: ArrayView (Array Element) -> Int -> Effect Unit
     setElements elements digit = do
-      traverse_ (traverse_ clear) elements
-      traverse_ (addClass "active") (fromMaybe [] (elements !! digit))
-      traverse_ (traverse_ $ addClass "filled") (take digit elements)
+      foldMap (foldMap clear) elements
+      foldMap (addClass "active") $ fromMaybe [] (elements !! digit)
+      foldMap (foldMap $ addClass "filled") $ take digit elements
 
     setSenaryComponent :: (forall a. HoneyComponents a -> a) -> Effect Unit
     setSenaryComponent getFrom =
