@@ -56,7 +56,7 @@ annulusSector n r width i =
     start = polygonAngle n True i
     end   = polygonAngle n True (i+1)
   in path_ [
-    Class_ <<- ("sector" <> tshow i),
+    Class_ <<- ("sector sector" <> tshow i),
     D_ <<- fold [
       polar mA r start,               -- move to start position
       arc end r theta,                -- draw outer arc
@@ -75,7 +75,7 @@ hexagonFloret name tileRadius useId =
     group = g_ [Class_ <<- name]
     usage i = use_ [
       XlinkHref_ <<- useId,
-      Class_     <<- "cell" <> tshow i,
+      Class_     <<- "cell cell" <> tshow i,
       Transform_ <<- hexTranslateHelper tileRadius 2 False i]
   in group $ foldMap usage [0..5]
 
@@ -107,35 +107,29 @@ clockDialDecoration tileRadius useId =
     withThickStroke = flip with [
       Stroke_       <<- "black",
       Stroke_width_ <<- tshow 6]
-    centreShape = foldMap withThickStroke [
-      hexagon (tileRadius * 4) True,
-      circle_ [
+    centreCircle = withThickStroke $ circle_ [
         R_    <<- toText (4 * apothem 6 tileRadius),
-        Fill_ <<- "white"]]
+        Fill_ <<- "white"]
+    centreHexagon = withThickStroke $ hexagon (tileRadius * 4) True
     createSpoke i = fold [
+      withThickStroke $ path_ [
+        D_ <<- fold [
+          polar mA (tileRadius * 4) (angleAt i),
+          polar lA (tileRadius * (if isEven i then 10 else 8)) (angleAt i),
+          z]],
       use_ [
         XlinkHref_ <<- useId,
         Transform_ <<- hexTranslateHelper tileRadius 8 True i],
       withThickStroke $ use_ [
         XlinkHref_ <<- useId,
-        Transform_ <<- hexTranslateHelper tileRadius 4 True i],
-      withThickStroke $ path_ [
-        D_ <<- fold [
-          polar mA (tileRadius * 4) (angleAt i),
-          polar lA (tileRadius * (if isEven i then 10 else 8)) (angleAt i),
-          z]]]
-  in group (foldMap createSpoke [0..5] <> centreShape)
+        Transform_ <<- hexTranslateHelper tileRadius 4 True i]]
+  in group (centreHexagon <> foldMap createSpoke [0..5] <> centreCircle)
 
-clockDial :: Element
-clockDial =
-  let
-    tileId      = "#hex-tile"
-    tileRadius  = 10
-    imageWidth  = 250
-    imageHeight = 250
+clockDial :: (RealFloat a) => a -> Element
+clockDial tileRadius =
+  let tileId = "#hex-tile"
   in g_
-    [ Class_     <<- "clock-dial",
-      Transform_ <<- translate (imageWidth / 2) (imageHeight / 2)]
+    [Class_ <<- "clock-dial"]
     (fold [
       defs_ [] (with (hexagon tileRadius True) [Id_ <<- T.tail tileId]),
       clockDialDecoration tileRadius tileId,
@@ -144,6 +138,14 @@ clockDial =
 
 svg :: Element -> Element
 svg content =
-  doctype
-  <> with (svg11_ content) [
-    Version_ <<- "1.1", Width_ <<- "250", Height_ <<- "250"]
+  let
+    tileRadius  = 10
+    widthHeight = tileRadius * 17 * 2
+    topLeft     = widthHeight / (-2)
+  in
+    doctype
+    <> with (svg11_ content) [
+      Version_ <<- "1.1",
+      Width_   <<- "250",
+      Height_  <<- "250",
+      ViewBox_ <<- point topLeft topLeft <> point widthHeight widthHeight]
