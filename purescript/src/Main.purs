@@ -2,21 +2,24 @@ module Main where
 
 import Prelude
 
-import Data.Array ((..), index, unsafeIndex)
+import Data.Array ((..), (!!), drop, take)
+import Data.Char (toCharCode)
+import Data.Enum (fromEnum)
 import Data.Filterable (filterMap)
 import Data.Foldable (fold)
 import Data.Int (floor, radix, toStringAs)
 import Data.JSDate (JSDate, getTime, jsdate, now)
-import Data.Maybe (Maybe(..), fromJust)
-import Data.String (length)
+import Data.Maybe (Maybe(..), fromJust, fromMaybe, maybe)
+import Data.String (codePointAt, length)
 import Data.String.CodeUnits (singleton)
-import Data.Traversable (traverse)
+import Data.Traversable (for_, traverse, traverse_)
 import Effect (Effect)
 import Effect.Timer (setInterval)
 import Math ((%))
 import Partial.Unsafe (unsafePartial)
 import Web.DOM.Document (toParentNode)
-import Web.DOM.Element (fromNode, toNode)
+import Web.DOM.DOMTokenList as TL
+import Web.DOM.Element (classList, fromNode, toNode)
 import Web.DOM.NodeList (toArray)
 import Web.DOM.Internal.Types (Element)
 import Web.DOM.Node (setTextContent)
@@ -60,10 +63,6 @@ data DisplayComponent =
   | ComplexComponent (Array (Array Element))
 
 type GraphicalDisplay = HoneyComponents DisplayComponent
-
-partialIndex :: forall a. Array a -> Int -> a
-partialIndex = unsafePartial unsafeIndex
-infixl 8 partialIndex as !!
 
 creation :: JSDate
 creation = jsdate {
@@ -180,7 +179,7 @@ elementsBySelector selector = do
   filterMap fromNode <$> toArray r
 
 elementById :: String -> Effect (Maybe Element)
-elementById = map (flip index 0) <<< elementsBySelector <<< ("#" <> _)
+elementById = map (_ !! 0) <<< elementsBySelector <<< ("#" <> _)
 
 getTextualDisplay :: Effect TextualDisplay
 getTextualDisplay =
@@ -209,10 +208,10 @@ setTextualDisplay date display =
     with getFrom fn = setElementText (getFrom display) (fn (getFrom date))
   in ado
     _.year       `with` show
-    _.season     `with` \s -> seasons !! s <> " Season"
+    _.season     `with` \s -> maybe "" (_ <> " Season") (seasons !! s)
     _.month      `with` show
-    _.dayOfMonth `with` \d -> (letterCycle !! d).sajemTan
-    _.mythRole   `with` \m -> (mythCycle !! m).sajemTan
+    _.dayOfMonth `with` \d -> maybe "" (_.sajemTan) (letterCycle !! d)
+    _.mythRole   `with` \m -> maybe "" (_.sajemTan) (mythCycle !! m)
     _.mythNumber `with` show
     _.hour       `with` show
     _.minute     `with` toSenary 2
@@ -247,18 +246,64 @@ getGraphicalDisplay =
     in { year, season, month, week, dayOfYear, dayOfMonth, mythRole, mythNumber,
          hour, minute, second, subsecond }
 
-displayDate :: JSDate -> TextualDisplay -> Effect Unit
-displayDate = setTextualDisplay <<< gregorianToHoney
+addClass :: String -> Element -> Effect Unit
+addClass c e = classList e >>= flip TL.add c
 
-displayNow :: TextualDisplay -> Effect Unit
-displayNow display = do
+removeClass :: String -> Element -> Effect Unit
+removeClass c e = classList e >>= flip TL.remove c
+
+setGraphicalDisplay :: HoneyDate -> GraphicalDisplay -> Effect Unit
+setGraphicalDisplay date display =
+  let
+    removeClasses cs = for_ cs <<< flip removeClass
+    codePointToInt c = fromEnum c - toCharCode '0'
+    getDigit i s = fromMaybe 0 (map codePointToInt $ codePointAt i s)
+    setSenaryComponent :: (forall a. HoneyComponents a -> a) -> Effect Unit
+    setSenaryComponent getFrom =
+      let
+        senaryString = toSenary 2 (getFrom date)
+        units = getDigit 1 senaryString
+        sixes = getDigit 0 senaryString
+        elements = unsafePartial (\(ComplexComponent x) -> x) $ getFrom display
+        elementsForDigit i = fromMaybe [] (elements !! i)
+      in do
+        traverse_ (traverse_ $ removeClasses ["filled", "active"]) elements
+        traverse_ (addClass "active") (elementsForDigit units)
+        traverse_ (addClass "active") (elementsForDigit (6+sixes))
+        traverse_ (traverse_ $ addClass "filled") (take units elements)
+        traverse_ (traverse_ $ addClass "filled") (take sixes (drop 6 elements))
+    setDecimalComponent :: (forall a. HoneyComponents a -> a) -> Effect Unit
+    setDecimalComponent getFrom =
+      let
+        digit = getDigit 0 (show (getFrom date))
+        elements = unsafePartial (\(ComplexComponent x) -> x) $ getFrom display
+      in do
+        traverse_ (traverse_ $ removeClasses ["filled", "active"]) elements
+        traverse_ (addClass "active") (fromMaybe [] (elements !! digit))
+        traverse_ (traverse_ $ addClass "filled") (take digit elements)
+  in ado
+    setDecimalComponent _.hour
+    setSenaryComponent _.minute
+    setSenaryComponent _.second
+    setSenaryComponent _.subsecond
+    in unit
+
+displayDate :: JSDate -> TextualDisplay -> GraphicalDisplay -> Effect Unit
+displayDate date td gd = do
+  let honeyDate = gregorianToHoney date
+  setTextualDisplay honeyDate td
+  setGraphicalDisplay honeyDate gd
+
+displayNow :: TextualDisplay -> GraphicalDisplay -> Effect Unit
+displayNow td gd = do
   n <- now
-  displayDate n display
+  displayDate n td gd
 
 setup :: Effect Unit
 setup = void do
   t <- getTextualDisplay
-  setInterval (floor honeyDurations.subsecond) (displayNow t)
+  g <- getGraphicalDisplay
+  setInterval (floor honeyDurations.subsecond) (displayNow t g)
 
 main :: Effect Unit
 main = mempty

@@ -1,6 +1,7 @@
 { name = "honey-time"
 , dependencies =
-  [ "console"
+  [ "array-views"
+  , "console"
   , "datetime"
   , "effect"
   , "filterable"
