@@ -3,7 +3,7 @@ module Main where
 import Prelude
 
 import Data.Array ((..))
-import Data.ArrayView (drop, fromArray, take)
+import Data.ArrayView (ArrayView, drop, fromArray, take)
 import Data.Char (toCharCode)
 import Data.Enum (fromEnum)
 import Data.Filterable (filterMap)
@@ -262,6 +262,8 @@ setGraphicalDisplay date display =
     codePointToInt c = fromEnum c - toCharCode '0'
     getDigit i s = fromMaybe 0 (map codePointToInt $ codePointAt i s)
     fromComplexComponent = unsafePartial (\(ComplexComponent c) -> c)
+
+    setElements :: ArrayView (Array Element) -> Int -> Effect Unit
     setElements elements digit = do
       foldMap (foldMap clear) elements
       foldMap (addClass "active") $ fromMaybe [] (elements !! digit)
@@ -280,6 +282,7 @@ setGraphicalDisplay date display =
     setDecimalComponent getFrom = setElements
       (fromArray $ fromComplexComponent $ getFrom display)
       (getDigit 0 $ show $ getFrom date)
+
   in ado
     setDecimalComponent _.hour
     setSenaryComponent _.minute
@@ -288,15 +291,14 @@ setGraphicalDisplay date display =
     in unit
 
 displayDate :: JSDate -> TextualDisplay -> GraphicalDisplay -> Effect Unit
-displayDate date td gd = do
+displayDate date t g =
   let honeyDate = gregorianToHoney date
-  setTextualDisplay honeyDate td
-  setGraphicalDisplay honeyDate gd
+  in setTextualDisplay honeyDate t *> setGraphicalDisplay honeyDate g
 
 displayNow :: TextualDisplay -> GraphicalDisplay -> Effect Unit
-displayNow td gd = do
+displayNow t g = do
   n <- now
-  displayDate n td gd
+  displayDate n t g
 
 setup :: Effect Unit
 setup = void do
