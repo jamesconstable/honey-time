@@ -13,7 +13,7 @@ sass style.scss site/style.css
 
 # Compile PureScript
 pushd purescript
-spago build
+spago build --purs-args '--censor-lib'
 spago bundle-app --main Main --to ../site/index.js
 popd
 

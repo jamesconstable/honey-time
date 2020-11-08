@@ -8,7 +8,7 @@ Graphical clock-calendar for the Sajem Tan project.
 The dynamic elements of the page are implemented in PureScript using the Spago
 package manager / built tool. You can install these with npm like so:
 ```
-npm install -g purescript spago
+npm install -g purescript spago purescript-psa
 ```
 
 The SVG images are generated from the Haskell code in the `svg-generation`
