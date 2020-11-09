@@ -3,15 +3,13 @@ module Main where
 import Prelude
 
 import Data.Array ((..))
-import Data.ArrayView (ArrayView, drop, fromArray, take)
-import Data.Char (toCharCode)
-import Data.Enum (fromEnum)
+import Data.ArrayView (ArrayView, fromArray, take)
 import Data.Filterable (filterMap)
 import Data.Foldable (fold, foldMap)
 import Data.Int (floor, radix, toStringAs)
 import Data.JSDate (JSDate, getTime, jsdate, now)
-import Data.Maybe (Maybe(..), fromJust, fromMaybe, maybe)
-import Data.String (codePointAt, length)
+import Data.Maybe (Maybe(..), fromJust)
+import Data.String (length)
 import Data.String.CodeUnits (singleton)
 import Data.Traversable (traverse)
 import Effect (Effect)
@@ -62,8 +60,8 @@ type TextualDisplay = HoneyComponents (Maybe Element)
 
 data DisplayComponent =
   None
-  | SimpleComponent (Array Element)
-  | ComplexComponent (Array (Array Element))
+  | LinearComponent (Array (Array Element))
+  | SenaryComponent (Array (Array Element)) (Array (Array Element))
 
 type GraphicalDisplay = HoneyComponents DisplayComponent
 
@@ -153,6 +151,22 @@ toSenary width value =
   let base6 = unsafePartial $ fromJust $ radix 6
   in padLeft width '0' (toStringAs base6 value)
 
+elementsBySelector :: String -> Effect (Array Element)
+elementsBySelector selector = do
+  w <- window
+  d <- document w
+  r <- querySelectorAll (QuerySelector selector) (toParentNode $ toDocument d)
+  filterMap fromNode <$> toArray r
+
+elementById :: String -> Effect (Maybe Element)
+elementById = map (_ !! 0) <<< elementsBySelector <<< ("#" <> _)
+
+addClass :: String -> Element -> Effect Unit
+addClass c e = classList e >>= flip TL.add c
+
+removeClass :: String -> Element -> Effect Unit
+removeClass c e = classList e >>= flip TL.remove c
+
 gregorianToHoney :: JSDate -> HoneyDate
 gregorianToHoney date =
   let
@@ -173,16 +187,6 @@ gregorianToHoney date =
     mythNumber = dayOfYear   `mod` 40
   in { year, season, month, dayOfYear, dayOfMonth, week, mythRole, mythNumber,
        hour, minute, second, subsecond }
-
-elementsBySelector :: String -> Effect (Array Element)
-elementsBySelector selector = do
-  w <- window
-  d <- document w
-  r <- querySelectorAll (QuerySelector selector) (toParentNode $ toDocument d)
-  filterMap fromNode <$> toArray r
-
-elementById :: String -> Effect (Maybe Element)
-elementById = map (_ !! 0) <<< elementsBySelector <<< ("#" <> _)
 
 getTextualDisplay :: Effect TextualDisplay
 getTextualDisplay =
@@ -211,10 +215,10 @@ setTextualDisplay date display =
     with getFrom fn = setElementText (getFrom display) (fn (getFrom date))
   in ado
     _.year       `with` show
-    _.season     `with` \s -> maybe "" (_ <> " Season") (seasons !! s)
+    _.season     `with` \s -> (fold (seasons !! s)) <> " Season"
     _.month      `with` show
-    _.dayOfMonth `with` \d -> maybe "" (_.sajemTan) (letterCycle !! d)
-    _.mythRole   `with` \m -> maybe "" (_.sajemTan) (mythCycle !! m)
+    _.dayOfMonth `with` \d -> (fold (letterCycle !! d)).sajemTan
+    _.mythRole   `with` \m -> (fold (mythCycle !! m)).sajemTan
     _.mythNumber `with` show
     _.hour       `with` show
     _.minute     `with` toSenary 2
@@ -225,14 +229,14 @@ setTextualDisplay date display =
 getGraphicalDisplay :: Effect GraphicalDisplay
 getGraphicalDisplay =
   let
-    getSenaryDisplay unit =
-      ComplexComponent <$> traverse elementsBySelector do
-        place <- ["units", "sixes"]
-        digit <- map show (0..5)
-        pure $ fold [".", unit, "-", place, " .cell", digit]
-    getHoursDisplay =
-      let getSector i = elementsBySelector (".hours-ring .sector" <> show i)
-      in ComplexComponent <$> traverse getSector (0..9)
+    getSenaryDisplay name =
+      let selectorFor p i = fold [".", name, "-", p, " .cell", show i]
+      in SenaryComponent
+        <$> traverse elementsBySelector (selectorFor "units" <$> 0..5)
+        <*> traverse elementsBySelector (selectorFor "sixes" <$> 0..5)
+    getLinearDisplay name =
+      let selectorFor i = fold [".", name, " .sector", show i]
+      in LinearComponent <$> traverse elementsBySelector (selectorFor <$> 0..9)
   in ado
     year       <- pure None
     season     <- pure None
@@ -242,53 +246,33 @@ getGraphicalDisplay =
     dayOfMonth <- pure None
     mythRole   <- pure None
     mythNumber <- pure None
-    hour       <- getHoursDisplay
+    hour       <- getLinearDisplay "hours-ring"
     minute     <- getSenaryDisplay "minute"
     second     <- getSenaryDisplay "second"
     subsecond  <- getSenaryDisplay "subsecond"
     in { year, season, month, week, dayOfYear, dayOfMonth, mythRole, mythNumber,
          hour, minute, second, subsecond }
 
-addClass :: String -> Element -> Effect Unit
-addClass c e = classList e >>= flip TL.add c
-
-removeClass :: String -> Element -> Effect Unit
-removeClass c e = classList e >>= flip TL.remove c
-
 setGraphicalDisplay :: HoneyDate -> GraphicalDisplay -> Effect Unit
 setGraphicalDisplay date display =
-  let
-    clear e = foldMap (flip removeClass e) ["filled", "active"]
-    codePointToInt c = fromEnum c - toCharCode '0'
-    getDigit i s = fromMaybe 0 (map codePointToInt $ codePointAt i s)
-    fromComplexComponent = unsafePartial (\(ComplexComponent c) -> c)
+  set _.hour *> set _.minute *> set _.second *> set _.subsecond
+  where
+    set :: (forall a. HoneyComponents a -> a) -> Effect Unit
+    set getFrom = setComponent (getFrom display) (getFrom date)
+
+    setComponent :: DisplayComponent -> Int -> Effect Unit
+    setComponent None _ = mempty
+    setComponent (LinearComponent c) v = setElements (fromArray c) v
+    setComponent (SenaryComponent units sixes) v = do
+      setElements (fromArray units) (v `mod` 6)
+      setElements (fromArray sixes) (v / 6)
 
     setElements :: ArrayView (Array Element) -> Int -> Effect Unit
     setElements elements digit = do
-      foldMap (foldMap clear) elements
-      foldMap (addClass "active") $ fromMaybe [] (elements !! digit)
-      foldMap (foldMap $ addClass "filled") $ take digit elements
-
-    setSenaryComponent :: (forall a. HoneyComponents a -> a) -> Effect Unit
-    setSenaryComponent getFrom =
-      let
-        senaryString = toSenary 2 (getFrom date)
-        elements = fromArray $ fromComplexComponent $ getFrom display
-      in do
-        setElements (take 6 elements) (getDigit 1 senaryString)
-        setElements (drop 6 elements) (getDigit 0 senaryString)
-
-    setDecimalComponent :: (forall a. HoneyComponents a -> a) -> Effect Unit
-    setDecimalComponent getFrom = setElements
-      (fromArray $ fromComplexComponent $ getFrom display)
-      (getDigit 0 $ show $ getFrom date)
-
-  in ado
-    setDecimalComponent _.hour
-    setSenaryComponent _.minute
-    setSenaryComponent _.second
-    setSenaryComponent _.subsecond
-    in unit
+      foldMap (foldMap (removeClass "active")) elements
+      foldMap (foldMap (removeClass "filled")) elements
+      foldMap (addClass "active") (fold (elements !! digit))
+      foldMap (foldMap (addClass "filled")) (take digit elements)
 
 displayDate :: JSDate -> TextualDisplay -> GraphicalDisplay -> Effect Unit
 displayDate date t g =
