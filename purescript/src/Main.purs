@@ -2,8 +2,8 @@ module Main where
 
 import Prelude
 
-import Data.Array ((..))
-import Data.ArrayView (ArrayView, fromArray, take)
+import Data.Array ((..), (!!))
+import Data.ArrayView (fromArray, take)
 import Data.Filterable (filterMap)
 import Data.Foldable (fold, foldMap)
 import Data.Int (floor, radix, toStringAs)
@@ -26,8 +26,6 @@ import Web.DOM.ParentNode (QuerySelector(..), querySelectorAll)
 import Web.HTML (window)
 import Web.HTML.HTMLDocument (toDocument)
 import Web.HTML.Window (document)
-
-import Indexable ((!!))
 
 type TranslatedName = ( sajemTan :: String, english :: String )
 
@@ -262,17 +260,16 @@ setGraphicalDisplay date display =
 
     setComponent :: DisplayComponent -> Int -> Effect Unit
     setComponent None _ = mempty
-    setComponent (LinearComponent c) v = setElements (fromArray c) v
-    setComponent (SenaryComponent units sixes) v = do
-      setElements (fromArray units) (v `mod` 6)
-      setElements (fromArray sixes) (v / 6)
+    setComponent (LinearComponent c) n = setElements c n
+    setComponent (SenaryComponent units sixes) n =
+      setElements units (mod n 6) *> setElements sixes (n/6)
 
-    setElements :: ArrayView (Array Element) -> Int -> Effect Unit
+    setElements :: Array (Array Element) -> Int -> Effect Unit
     setElements elements digit = do
-      foldMap (foldMap (removeClass "active")) elements
-      foldMap (foldMap (removeClass "filled")) elements
-      foldMap (addClass "active") (fold (elements !! digit))
-      foldMap (foldMap (addClass "filled")) (take digit elements)
+      foldMap (foldMap $ removeClass "active") elements
+      foldMap (foldMap $ removeClass "filled") elements
+      foldMap (addClass "active") (fold $ elements !! digit)
+      foldMap (foldMap $ addClass "filled") (take digit $ fromArray elements)
 
 displayDate :: JSDate -> TextualDisplay -> GraphicalDisplay -> Effect Unit
 displayDate date t g =
