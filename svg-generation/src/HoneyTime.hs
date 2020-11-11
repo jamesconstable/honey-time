@@ -3,6 +3,7 @@
 module HoneyTime (clockDial, dateDial, mythDial, svg) where
 
 import Data.Foldable (fold, foldMap)
+import Data.Maybe (fromMaybe)
 import Graphics.Svg
 import qualified Data.Text as T
 
@@ -71,7 +72,7 @@ createRing n outerRadius innerRadius className =
       with (annulusSector n outerRadius innerRadius) [Id_ <<- useId]
     createUsage i = use_ [
       XlinkHref_ <<- "#" <> useId,
-      Class_     <<- "sector sector" <> tshow i,
+      Class_     <<- "cell cell" <> tshow i,
       Transform_ <<- rotate (fromIntegral i * 360 / fromIntegral n)]
   in g_ [Class_ <<- className] $ (template <> foldMap createUsage [0..(n-1)])
 
@@ -97,7 +98,7 @@ createHexagonRing apo innerRadius className =
     template = defs_ [] $ with (hexagonSector apo innerRadius) [Id_ <<- useId]
     createUsage i = use_ [
       XlinkHref_ <<- "#" <> useId,
-      Class_     <<- "sector sector" <> tshow i,
+      Class_     <<- "cell cell" <> tshow i,
       Transform_ <<- rotate (fromIntegral i * 360 / 6)]
   in g_ [Class_ <<- className] $ (template <> foldMap createUsage [0..5])
 
@@ -182,6 +183,22 @@ mythDial tileRadius =
     with (polygon 9 (innerDivide + tileRadius/2) True)
       [Fill_ <<- "white", Stroke_ <<- "black", Stroke_width_ <<- "2"]]
 
+createDotMarkers :: (Integral a, RealFloat b)
+                 => a -> (a -> Bool) -> b -> b -> T.Text -> Element
+createDotMarkers n skip radius dotRadius className =
+  let
+    useId = className <> "-template"
+    circle = polar (\x y -> circle_ [Cx_ <<- toText x, Cy_ <<- toText y])
+    template = defs_ [] $ with (circle radius (-pi/2)) [
+      Id_ <<- useId,
+      R_ <<- toText dotRadius]
+    createUsage (i, x) = use_ [
+      XlinkHref_ <<- "#" <> useId,
+      Class_     <<- "cell cell" <> tshow i,
+      Transform_ <<- rotate (fromIntegral x * 360 / fromIntegral n)]
+  in g_ [Class_ <<- className] $
+    template <> foldMap createUsage (zip [0..] $ filter skip [0..(n-1)])
+
 dateDial :: (RealFloat a) => a -> Element
 dateDial tileRadius =
   let
@@ -189,13 +206,11 @@ dateDial tileRadius =
     divide1  = tileRadius * 4.75
     divide2  = tileRadius * 8.5
     divide3  = tileRadius * 9
-    divide4  = tileRadius * 10.5
     dialSize = tileRadius * 11
   in g_ [Class_ <<- "date-dial"] $ fold [
-    createRing 360 dialSize divide4 "day-of-year",
-    createRing 30 divide4 divide3 "day-of-month",
-    createRing 60 divide3 divide2 "week",
-    createRing 12 divide2 divide1 "month",
+    createRing 30 dialSize divide3 "day-of-month",
+    createRing 12 divide3 divide1 "month",
+    createDotMarkers 72 (\x -> x `mod` 6 /= 0) divide2 2 "week",
     createHexagonRing divide1 divide0 "season"]
 
 svg :: Element -> Element

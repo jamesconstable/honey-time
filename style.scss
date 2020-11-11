@@ -35,7 +35,7 @@
   }
 }
 
-.graphical-display .cell, .graphical-display .sector {
+.graphical-display .cell {
   fill: white;
   stroke: black;
   stroke-width: 2;
@@ -49,6 +49,16 @@
   }
 }
 
-.day-of-year .sector {
-  stroke-width: 1;
+.graphical-display .week .cell {
+  fill: black;
+  stroke: none;
+  opacity: 50%;
+
+  &.active, &.filled {
+    opacity: 100%;
+  }
+
+  &.active {
+    fill: white;
+  }
 }
