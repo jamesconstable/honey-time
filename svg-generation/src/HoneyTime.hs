@@ -1,6 +1,6 @@
 {-# LANGUAGE OverloadedStrings #-}
 
-module HoneyTime (clockDial, svg) where
+module HoneyTime (clockDial, mythDial, svg) where
 
 import Data.Foldable (fold, foldMap)
 import Graphics.Svg
@@ -136,16 +136,29 @@ clockDial tileRadius =
       innerClockDial tileRadius tileId,
       outerClockDial tileRadius])
 
+mythDial :: (RealFloat a) => a -> Element
+mythDial tileRadius =
+  let
+    dialSize = 11 * tileRadius
+    outerRadius = 8.5 * tileRadius
+    innerWidth = 5 * tileRadius
+    outerWidth = 2.5 * tileRadius
+    createRoleRing = g_ [Class_ <<- "myth-role"] $ foldMap
+      (annulusSector 9 outerRadius innerWidth) [0..8]
+    createNumberRing = g_ [Class_ <<- "myth-number"] $ foldMap
+      (annulusSector 40 dialSize outerWidth) [0..39]
+  in g_ [Class_ <<- "myth-dial"] (createRoleRing <> createNumberRing)
+
 svg :: Element -> Element
 svg content =
   let
-    tileRadius  = 10
-    widthHeight = tileRadius * 17 * 2
+    tileRadius  = 12
+    widthHeight = tileRadius * 12 * 2
     topLeft     = widthHeight / (-2)
   in
     doctype
     <> with (svg11_ content) [
       Version_ <<- "1.1",
-      Width_   <<- "250",
-      Height_  <<- "250",
+      Width_   <<- tshow widthHeight,
+      Height_  <<- tshow widthHeight,
       ViewBox_ <<- point topLeft topLeft <> point widthHeight widthHeight]
