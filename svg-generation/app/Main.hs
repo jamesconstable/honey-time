@@ -3,4 +3,6 @@ module Main where
 import HoneyTime (clockDial, mythDial, svg)
 
 main :: IO ()
-main = print $ svg $ mythDial 12
+main = do
+  print $ svg $ clockDial 12
+  print $ svg $ mythDial 12

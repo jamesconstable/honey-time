@@ -242,8 +242,8 @@ getGraphicalDisplay =
     week       <- pure None
     dayOfYear  <- pure None
     dayOfMonth <- pure None
-    mythRole   <- pure None
-    mythNumber <- pure None
+    mythRole   <- getLinearDisplay "myth-role"
+    mythNumber <- getLinearDisplay "myth-number"
     hour       <- getLinearDisplay "hours-ring"
     minute     <- getSenaryDisplay "minute"
     second     <- getSenaryDisplay "second"
@@ -253,6 +253,7 @@ getGraphicalDisplay =
 
 setGraphicalDisplay :: HoneyDate -> GraphicalDisplay -> Effect Unit
 setGraphicalDisplay date display =
+  set _.mythRole *> set _.mythNumber *>
   set _.hour *> set _.minute *> set _.second *> set _.subsecond
   where
     set :: (forall a. HoneyComponents a -> a) -> Effect Unit
