@@ -1,6 +1,6 @@
 {-# LANGUAGE OverloadedStrings #-}
 
-module HoneyTime (clockDial, mythDial, svg) where
+module HoneyTime (clockDial, dateDial, mythDial, svg) where
 
 import Data.Foldable (fold, foldMap)
 import Graphics.Svg
@@ -49,25 +49,26 @@ hexagon :: RealFloat a => a -> Bool -> Element
 hexagon = polygon 6
 
 annulusSector :: (Integral a, RealFloat b) => a -> b -> b -> Element
-annulusSector n r width =
+annulusSector n outerRadius innerRadius =
   let
     theta = 2 * pi / fromIntegral n
     start = polygonAngle n True 0
     end   = polygonAngle n True 1
   in path_ [
     D_ <<- fold [
-      polar mA r start,               -- move to start position
-      arc end r theta,                -- draw outer arc
-      polar lA (r-width) end,         -- draw straight line to inner arc
-      arc start (r-width) (-theta),   -- draw inner arc
+      polar mA outerRadius start,     -- move to start position
+      arc end outerRadius theta,      -- draw outer arc
+      polar lA innerRadius end,       -- draw straight line to inner arc
+      arc start innerRadius (-theta), -- draw inner arc
       z]]                             -- draw straight line back to start
 
 createRing :: (Integral a, Show a, RealFloat b)
            => a -> b -> b -> T.Text -> Element
-createRing n r width className =
+createRing n outerRadius innerRadius className =
   let
     useId = className <> "-template"
-    template = defs_ [] (with (annulusSector n r width) [Id_ <<- useId])
+    template = defs_ [] $
+      with (annulusSector n outerRadius innerRadius) [Id_ <<- useId]
     createUsage i = use_ [
       XlinkHref_ <<- "#" <> useId,
       Class_     <<- "sector sector" <> tshow i,
@@ -103,7 +104,7 @@ innerClockDial tileRadius useId =
 
 outerClockDial :: RealFloat a => a -> Element
 outerClockDial tileRadius =
-  createRing 10 (tileRadius * 11) tileRadius "hours-ring"
+  createRing 10 (tileRadius * 11) (tileRadius * 10) "hours-ring"
 
 clockDialDecoration :: RealFloat a => a -> T.Text -> Element
 clockDialDecoration tileRadius useId =
@@ -147,12 +148,27 @@ mythDial :: (RealFloat a) => a -> Element
 mythDial tileRadius =
   let
     dialSize = 11 * tileRadius
-    outerRadius = 8.5 * tileRadius
-    innerWidth = 5 * tileRadius
-    outerWidth = 2.5 * tileRadius
+    middleDivide = 8.5 * tileRadius
+    innerDivide = 2.5 * tileRadius
   in g_ [Class_ <<- "myth-dial"] $ fold [
-    createRing 9 outerRadius innerWidth "myth-role",
-    createRing 40 dialSize outerWidth "myth-number"]
+    createRing 9 middleDivide innerDivide "myth-role",
+    createRing 40 dialSize middleDivide "myth-number"]
+
+dateDial :: (RealFloat a) => a -> Element
+dateDial tileRadius =
+  let
+    dialSize = 11 * tileRadius
+    divide0 = tileRadius
+    divide1 = tileRadius * 5
+    divide2 = tileRadius * 8
+    divide3 = tileRadius * 9
+    divide4 = tileRadius * 10.5
+  in g_ [Class_ <<- "date-dial"] $ fold [
+    createRing 6 divide1 divide0 "season",
+    createRing 12 divide2 divide1 "month",
+    createRing 60 divide3 divide2 "week",
+    createRing 30 divide4 divide3 "day-of-month",
+    createRing 360 dialSize divide4 "day-of-year"]
 
 svg :: Element -> Element
 svg content =
