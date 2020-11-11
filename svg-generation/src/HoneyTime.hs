@@ -75,6 +75,32 @@ createRing n outerRadius innerRadius className =
       Transform_ <<- rotate (fromIntegral i * 360 / fromIntegral n)]
   in g_ [Class_ <<- className] $ (template <> foldMap createUsage [0..(n-1)])
 
+hexagonSector :: RealFloat b => b -> b -> Element
+hexagonSector apo innerRadius =
+  let
+    start = hexagonAngle True 0
+    end = hexagonAngle True 1
+    circumradius = apo / cos (pi/6)
+  in path_ [
+    D_ <<- fold [
+      polar mA apo start,                    -- move to start position
+      polar lA circumradius ((start+end)/2), -- draw line to outermost point
+      polar lA apo end,                      -- draw line to far edge
+      polar lA innerRadius end,              -- draw line to inner edge
+      polar lA innerRadius start,            -- draw inside line
+      z]]                                    -- draw line back to start
+
+createHexagonRing :: RealFloat b => b -> b -> T.Text -> Element
+createHexagonRing apo innerRadius className =
+  let
+    useId = className <> "-template"
+    template = defs_ [] $ with (hexagonSector apo innerRadius) [Id_ <<- useId]
+    createUsage i = use_ [
+      XlinkHref_ <<- "#" <> useId,
+      Class_     <<- "sector sector" <> tshow i,
+      Transform_ <<- rotate (fromIntegral i * 360 / 6)]
+  in g_ [Class_ <<- className] $ (template <> foldMap createUsage [0..5])
+
 hexTranslateHelper :: (RealFloat a, Integral b) => a -> a -> Bool -> b -> T.Text
 hexTranslateHelper r m vertexAtTop i =
   let multiplier = if vertexAtTop then r else apothem 6 r
@@ -147,28 +173,30 @@ clockDial tileRadius =
 mythDial :: (RealFloat a) => a -> Element
 mythDial tileRadius =
   let
-    dialSize = 11 * tileRadius
-    middleDivide = 8.5 * tileRadius
-    innerDivide = 2.5 * tileRadius
+    innerDivide  = tileRadius * 2.5
+    middleDivide = tileRadius * 8.5
+    dialSize     = tileRadius * 11
   in g_ [Class_ <<- "myth-dial"] $ fold [
     createRing 9 middleDivide innerDivide "myth-role",
-    createRing 40 dialSize middleDivide "myth-number"]
+    createRing 40 dialSize middleDivide "myth-number",
+    with (polygon 9 (innerDivide + tileRadius/2) True)
+      [Fill_ <<- "white", Stroke_ <<- "black", Stroke_width_ <<- "2"]]
 
 dateDial :: (RealFloat a) => a -> Element
 dateDial tileRadius =
   let
-    dialSize = 11 * tileRadius
-    divide0 = tileRadius
-    divide1 = tileRadius * 5
-    divide2 = tileRadius * 8
-    divide3 = tileRadius * 9
-    divide4 = tileRadius * 10.5
+    divide0  = tileRadius * 1.5
+    divide1  = tileRadius * 4.75
+    divide2  = tileRadius * 8.5
+    divide3  = tileRadius * 9
+    divide4  = tileRadius * 10.5
+    dialSize = tileRadius * 11
   in g_ [Class_ <<- "date-dial"] $ fold [
-    createRing 6 divide1 divide0 "season",
-    createRing 12 divide2 divide1 "month",
-    createRing 60 divide3 divide2 "week",
+    createRing 360 dialSize divide4 "day-of-year",
     createRing 30 divide4 divide3 "day-of-month",
-    createRing 360 dialSize divide4 "day-of-year"]
+    createRing 60 divide3 divide2 "week",
+    createRing 12 divide2 divide1 "month",
+    createHexagonRing divide1 divide0 "season"]
 
 svg :: Element -> Element
 svg content =
