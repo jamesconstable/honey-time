@@ -48,21 +48,31 @@ polygon n r vertexAtTop =
 hexagon :: RealFloat a => a -> Bool -> Element
 hexagon = polygon 6
 
-annulusSector :: (Integral a, Show a, RealFloat b)
-              => a -> b -> b -> a -> Element
-annulusSector n r width i =
+annulusSector :: (Integral a, RealFloat b) => a -> b -> b -> Element
+annulusSector n r width =
   let
     theta = 2 * pi / fromIntegral n
-    start = polygonAngle n True i
-    end   = polygonAngle n True (i+1)
+    start = polygonAngle n True 0
+    end   = polygonAngle n True 1
   in path_ [
-    Class_ <<- ("sector sector" <> tshow i),
     D_ <<- fold [
       polar mA r start,               -- move to start position
       arc end r theta,                -- draw outer arc
       polar lA (r-width) end,         -- draw straight line to inner arc
       arc start (r-width) (-theta),   -- draw inner arc
       z]]                             -- draw straight line back to start
+
+createRing :: (Integral a, Show a, RealFloat b)
+           => a -> b -> b -> T.Text -> Element
+createRing n r width className =
+  let
+    useId = className <> "-template"
+    template = defs_ [] (with (annulusSector n r width) [Id_ <<- useId])
+    createUsage i = use_ [
+      XlinkHref_ <<- "#" <> useId,
+      Class_     <<- "sector sector" <> tshow i,
+      Transform_ <<- rotate (fromIntegral i * 360 / fromIntegral n)]
+  in g_ [Class_ <<- className] $ (template <> foldMap createUsage [0..(n-1)])
 
 hexTranslateHelper :: (RealFloat a, Integral b) => a -> a -> Bool -> b -> T.Text
 hexTranslateHelper r m vertexAtTop i =
@@ -93,10 +103,7 @@ innerClockDial tileRadius useId =
 
 outerClockDial :: RealFloat a => a -> Element
 outerClockDial tileRadius =
-  let
-    group = g_ [Class_ <<- "hours-ring"]
-    createSector = annulusSector 10 (tileRadius * 11) tileRadius
-  in group $ foldMap createSector [0..9]
+  createRing 10 (tileRadius * 11) tileRadius "hours-ring"
 
 clockDialDecoration :: RealFloat a => a -> T.Text -> Element
 clockDialDecoration tileRadius useId =
@@ -143,11 +150,9 @@ mythDial tileRadius =
     outerRadius = 8.5 * tileRadius
     innerWidth = 5 * tileRadius
     outerWidth = 2.5 * tileRadius
-    createRoleRing = g_ [Class_ <<- "myth-role"] $ foldMap
-      (annulusSector 9 outerRadius innerWidth) [0..8]
-    createNumberRing = g_ [Class_ <<- "myth-number"] $ foldMap
-      (annulusSector 40 dialSize outerWidth) [0..39]
-  in g_ [Class_ <<- "myth-dial"] (createRoleRing <> createNumberRing)
+  in g_ [Class_ <<- "myth-dial"] $ fold [
+    createRing 9 outerRadius innerWidth "myth-role",
+    createRing 40 dialSize outerWidth "myth-number"]
 
 svg :: Element -> Element
 svg content =
