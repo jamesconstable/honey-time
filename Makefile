@@ -1,34 +1,43 @@
-purs = purescript/src/Main.purs
-scss = style.scss
-hs   = svg-generation/app/Main.hs svg-generation/src/HoneyTime.hs
+MKDIR   := @mkdir -p
+PYTHON  := python3
+SASS    := sass
+SPAGO   := spago -q
+PSFLAGS := --purs-args '--censor-lib'
+STACK   := stack
 
-site : site/style.css site/index.js site/index.html
+purs_deps  = $(shell find purescript -not -path '*/output/*' -not -path '*/.spago/*' -name '*.purs' -o -name '*.dhall')
+hs_deps    = $(shell find svg-generation -not -path '*/.stack-work/*' -name '*.hs' -o -name '*.yaml' -o -name '*.cabal')
+svgs       = svg-generation/output/clock.svg
+
+site : site/index.js site/index.html site/style.css
 
 run : site
-	python3 -m http.server -d site
+	$(PYTHON) -m http.server -d site
 
-site/style.css : $(scss)
-	mkdir -p site
-	sass style.scss site/style.css
+site/index.js : $(purs_deps)
+	$(MKDIR) site
+	cd purescript && \
+	$(SPAGO) build $(PSFLAGS) && \
+	$(SPAGO) bundle-app --main Main --to ../$@
 
-site/index.js : $(purs)
-	mkdir -p site
-	pushd purescript && \
-	spago build --purs-args '--censor-lib' && \
-	spago bundle-app --main Main --to ../site/index.js && \
-	popd
+site/index.html : assemble_page.py template.html $(svgs)
+	$(MKDIR) site
+	$(PYTHON) $< template.html > $@
 
-svg-generation/output/clock.svg : $(hs)
-	pushd svg-generation && \
-	mkdir -p output && \
-	stack run > output/clock.svg && \
-	popd
+$(svgs) : $(hs_deps)
+	$(MKDIR) svg-generation/output
+	cd svg-generation && $(STACK) run > output/clock.svg
 
-site/index.html : svg-generation/output/clock.svg template.html
-	mkdir -p site
-	python3 assemble_page.py template.html > site/index.html
+site/style.css : style.scss
+	$(MKDIR) site
+	$(SASS) $< $@
 
 clean :
-	rm -rf site
+	rm -rf site purescript/output svg-generation/output
+	cd svg-generation && $(STACK) clean
 
-.PHONY : clean
+purge: clean
+	rm -rf purescript/.spago
+	cd svg-generation && $(STACK) purge
+
+.PHONY : clean purge
