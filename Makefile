@@ -7,7 +7,8 @@ STACK   := stack
 
 purs_deps  = $(shell find purescript -not -path '*/output/*' -not -path '*/.spago/*' -name '*.purs' -o -name '*.dhall')
 hs_deps    = $(shell find svg-generation -not -path '*/.stack-work/*' -name '*.hs' -o -name '*.yaml' -o -name '*.cabal')
-svgs       = svg-generation/output/clock.svg
+svg_dir    = svg-generation/output
+svgs       = $(svg_dir)/clock-dial.svg $(svg_dir)/date-dial.svg $(svg_dir)/myth-dial.svg
 
 site : site/index.js site/index.html site/style.css
 
@@ -20,13 +21,13 @@ site/index.js : $(purs_deps)
 	$(SPAGO) build $(PSFLAGS) && \
 	$(SPAGO) bundle-app --main Main --to ../$@
 
-site/index.html : assemble_page.py template.html $(svgs)
+site/index.html : template.html assemble_page.py $(svgs)
 	$(MKDIR) site
-	$(PYTHON) $< template.html > $@
+	$(PYTHON) assemble_page.py $< > $@
 
 $(svgs) : $(hs_deps)
 	$(MKDIR) svg-generation/output
-	cd svg-generation && $(STACK) run > output/clock.svg
+	cd svg-generation && $(STACK) run
 
 site/style.css : style.scss
 	$(MKDIR) site
