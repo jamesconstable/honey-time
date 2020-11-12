@@ -27,12 +27,12 @@ brew install python3 sass/sass/sass
 
 To generate the site, run
 ```
-./build.sh
+make
 ```
 in this directory; it will produce a new subdirectory called `site` containing
 the results. You can deploy this directory directly as a static site, or view
-it locally using Python's `SimpleHTTPServer`:
+it locally with Python's `SimpleHTTPServer` using:
 ```
-python3 -m http.server -d site
+make run
 ```
 (Direct your browser to `http://localhost:8000` to view.)
