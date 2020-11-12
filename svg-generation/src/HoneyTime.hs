@@ -1,8 +1,9 @@
 {-# LANGUAGE OverloadedStrings #-}
 
-module HoneyTime (clockDial, svg) where
+module HoneyTime (clockDial, dateDial, mythDial, svg) where
 
 import Data.Foldable (fold, foldMap)
+import Data.Maybe (fromMaybe)
 import Graphics.Svg
 import qualified Data.Text as T
 
@@ -48,21 +49,58 @@ polygon n r vertexAtTop =
 hexagon :: RealFloat a => a -> Bool -> Element
 hexagon = polygon 6
 
-annulusSector :: (Integral a, Show a, RealFloat b)
-              => a -> b -> b -> a -> Element
-annulusSector n r width i =
+annulusSector :: (Integral a, RealFloat b) => a -> b -> b -> Element
+annulusSector n outerRadius innerRadius =
   let
     theta = 2 * pi / fromIntegral n
-    start = polygonAngle n True i
-    end   = polygonAngle n True (i+1)
+    start = polygonAngle n True 0
+    end   = polygonAngle n True 1
   in path_ [
-    Class_ <<- ("sector sector" <> tshow i),
     D_ <<- fold [
-      polar mA r start,               -- move to start position
-      arc end r theta,                -- draw outer arc
-      polar lA (r-width) end,         -- draw straight line to inner arc
-      arc start (r-width) (-theta),   -- draw inner arc
+      polar mA outerRadius start,     -- move to start position
+      arc end outerRadius theta,      -- draw outer arc
+      polar lA innerRadius end,       -- draw straight line to inner arc
+      arc start innerRadius (-theta), -- draw inner arc
       z]]                             -- draw straight line back to start
+
+createRing :: (Integral a, Show a, RealFloat b)
+           => a -> b -> b -> T.Text -> Element
+createRing n outerRadius innerRadius className =
+  let
+    useId = className <> "-template"
+    template = defs_ [] $
+      with (annulusSector n outerRadius innerRadius) [Id_ <<- useId]
+    createUsage i = use_ [
+      XlinkHref_ <<- "#" <> useId,
+      Class_     <<- "cell cell" <> tshow i,
+      Transform_ <<- rotate (fromIntegral i * 360 / fromIntegral n)]
+  in g_ [Class_ <<- className] $ (template <> foldMap createUsage [0..(n-1)])
+
+hexagonSector :: RealFloat b => b -> b -> Element
+hexagonSector apo innerRadius =
+  let
+    start = hexagonAngle True 0
+    end = hexagonAngle True 1
+    circumradius = apo / cos (pi/6)
+  in path_ [
+    D_ <<- fold [
+      polar mA apo start,                    -- move to start position
+      polar lA circumradius ((start+end)/2), -- draw line to outermost point
+      polar lA apo end,                      -- draw line to far edge
+      polar lA innerRadius end,              -- draw line to inner edge
+      polar lA innerRadius start,            -- draw inside line
+      z]]                                    -- draw line back to start
+
+createHexagonRing :: RealFloat b => b -> b -> T.Text -> Element
+createHexagonRing apo innerRadius className =
+  let
+    useId = className <> "-template"
+    template = defs_ [] $ with (hexagonSector apo innerRadius) [Id_ <<- useId]
+    createUsage i = use_ [
+      XlinkHref_ <<- "#" <> useId,
+      Class_     <<- "cell cell" <> tshow i,
+      Transform_ <<- rotate (fromIntegral i * 360 / 6)]
+  in g_ [Class_ <<- className] $ (template <> foldMap createUsage [0..5])
 
 hexTranslateHelper :: (RealFloat a, Integral b) => a -> a -> Bool -> b -> T.Text
 hexTranslateHelper r m vertexAtTop i =
@@ -93,10 +131,7 @@ innerClockDial tileRadius useId =
 
 outerClockDial :: RealFloat a => a -> Element
 outerClockDial tileRadius =
-  let
-    group = g_ [Class_ <<- "hours-ring"]
-    createSector = annulusSector 10 (tileRadius * 11) tileRadius
-  in group $ foldMap createSector [0..9]
+  createRing 10 (tileRadius * 11) (tileRadius * 10) "hours-ring"
 
 clockDialDecoration :: RealFloat a => a -> T.Text -> Element
 clockDialDecoration tileRadius useId =
@@ -136,16 +171,58 @@ clockDial tileRadius =
       innerClockDial tileRadius tileId,
       outerClockDial tileRadius])
 
+mythDial :: (RealFloat a) => a -> Element
+mythDial tileRadius =
+  let
+    innerDivide  = tileRadius * 2.5
+    middleDivide = tileRadius * 8.5
+    dialSize     = tileRadius * 11
+  in g_ [Class_ <<- "myth-dial"] $ fold [
+    createRing 9 middleDivide innerDivide "myth-role",
+    createRing 40 dialSize middleDivide "myth-number",
+    with (polygon 9 (innerDivide + tileRadius/2) True)
+      [Fill_ <<- "white", Stroke_ <<- "black", Stroke_width_ <<- "2"]]
+
+createDotMarkers :: (Integral a, RealFloat b)
+                 => a -> (a -> Bool) -> b -> b -> T.Text -> Element
+createDotMarkers n skip radius dotRadius className =
+  let
+    useId = className <> "-template"
+    circle = polar (\x y -> circle_ [Cx_ <<- toText x, Cy_ <<- toText y])
+    template = defs_ [] $ with (circle radius (-pi/2)) [
+      Id_ <<- useId,
+      R_ <<- toText dotRadius]
+    createUsage (i, x) = use_ [
+      XlinkHref_ <<- "#" <> useId,
+      Class_     <<- "cell cell" <> tshow i,
+      Transform_ <<- rotate (fromIntegral x * 360 / fromIntegral n)]
+  in g_ [Class_ <<- className] $
+    template <> foldMap createUsage (zip [0..] $ filter skip [0..(n-1)])
+
+dateDial :: (RealFloat a) => a -> Element
+dateDial tileRadius =
+  let
+    divide0  = tileRadius * 1.5
+    divide1  = tileRadius * 4.75
+    divide2  = tileRadius * 8.5
+    divide3  = tileRadius * 9
+    dialSize = tileRadius * 11
+  in g_ [Class_ <<- "date-dial"] $ fold [
+    createRing 30 dialSize divide3 "day-of-month",
+    createRing 12 divide3 divide1 "month",
+    createDotMarkers 72 (\x -> x `mod` 6 /= 0) divide2 2 "week",
+    createHexagonRing divide1 divide0 "season"]
+
 svg :: Element -> Element
 svg content =
   let
-    tileRadius  = 10
-    widthHeight = tileRadius * 17 * 2
+    tileRadius  = 12
+    widthHeight = tileRadius * 12 * 2
     topLeft     = widthHeight / (-2)
   in
     doctype
     <> with (svg11_ content) [
       Version_ <<- "1.1",
-      Width_   <<- "250",
-      Height_  <<- "250",
+      Width_   <<- tshow widthHeight,
+      Height_  <<- tshow widthHeight,
       ViewBox_ <<- point topLeft topLeft <> point widthHeight widthHeight]

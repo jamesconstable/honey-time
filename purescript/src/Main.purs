@@ -227,32 +227,32 @@ setTextualDisplay date display =
 getGraphicalDisplay :: Effect GraphicalDisplay
 getGraphicalDisplay =
   let
+    getLinearDisplay name n =
+      let selectorFor i = fold [".", name, " .cell", show i]
+      in LinearComponent <$> traverse elementsBySelector (selectorFor <$> 0..n)
     getSenaryDisplay name =
       let selectorFor p i = fold [".", name, "-", p, " .cell", show i]
       in SenaryComponent
         <$> traverse elementsBySelector (selectorFor "units" <$> 0..5)
         <*> traverse elementsBySelector (selectorFor "sixes" <$> 0..5)
-    getLinearDisplay name =
-      let selectorFor i = fold [".", name, " .sector", show i]
-      in LinearComponent <$> traverse elementsBySelector (selectorFor <$> 0..9)
   in ado
-    year       <- pure None
-    season     <- pure None
-    month      <- pure None
-    week       <- pure None
-    dayOfYear  <- pure None
-    dayOfMonth <- pure None
-    mythRole   <- pure None
-    mythNumber <- pure None
-    hour       <- getLinearDisplay "hours-ring"
+    season     <- getLinearDisplay "season"       6
+    month      <- getLinearDisplay "month"        12
+    week       <- getLinearDisplay "week"         60
+    dayOfMonth <- getLinearDisplay "day-of-month" 30
+    mythRole   <- getLinearDisplay "myth-role"    9
+    mythNumber <- getLinearDisplay "myth-number"  40
+    hour       <- getLinearDisplay "hours-ring"   10
     minute     <- getSenaryDisplay "minute"
     second     <- getSenaryDisplay "second"
     subsecond  <- getSenaryDisplay "subsecond"
-    in { year, season, month, week, dayOfYear, dayOfMonth, mythRole, mythNumber,
-         hour, minute, second, subsecond }
+    in { season, month, week, dayOfMonth, mythRole, mythNumber,
+         hour, minute, second, subsecond, year: None, dayOfYear: None }
 
 setGraphicalDisplay :: HoneyDate -> GraphicalDisplay -> Effect Unit
 setGraphicalDisplay date display =
+  set _.year *> set _.season *> set _.month *> set _.week *> set _.dayOfYear *>
+  set _.dayOfMonth *> set _.mythRole *> set _.mythNumber *>
   set _.hour *> set _.minute *> set _.second *> set _.subsecond
   where
     set :: (forall a. HoneyComponents a -> a) -> Effect Unit

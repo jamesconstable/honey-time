@@ -35,10 +35,10 @@
   }
 }
 
-.inner-clock-dial .cell, .hours-ring .sector {
+.graphical-display .cell {
   fill: white;
   stroke: black;
-  stroke-width: 3;
+  stroke-width: 2;
 
   &.active {
     fill: orange;
@@ -46,5 +46,19 @@
 
   &.filled {
     fill: gold;
+  }
+}
+
+.graphical-display .week .cell {
+  fill: black;
+  stroke: none;
+  opacity: 50%;
+
+  &.active, &.filled {
+    opacity: 100%;
+  }
+
+  &.active {
+    fill: white;
   }
 }

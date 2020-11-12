@@ -1,6 +1,9 @@
 module Main where
 
-import HoneyTime (clockDial, svg)
+import HoneyTime (clockDial, dateDial, mythDial, svg)
 
 main :: IO ()
-main = print $ svg $ clockDial 15
+main = do
+  print $ svg $ dateDial 12
+  print $ svg $ clockDial 12
+  print $ svg $ mythDial 12
