@@ -8,7 +8,7 @@ import Data.Filterable (filterMap)
 import Data.Foldable (fold, foldMap)
 import Data.Int (floor, radix, toStringAs)
 import Data.JSDate (JSDate, getTime, jsdate, now)
-import Data.Maybe (Maybe(..), fromJust)
+import Data.Maybe (fromJust)
 import Data.String (length)
 import Data.String.CodeUnits (singleton)
 import Data.Traversable (traverse)
@@ -54,7 +54,7 @@ type HoneyComponents a = {
 
 type HoneyDate = HoneyComponents Int
 
-type TextualDisplay = HoneyComponents (Maybe Element)
+type TextualDisplay = HoneyComponents (Array Element)
 
 data DisplayComponent =
   None
@@ -156,9 +156,6 @@ elementsBySelector selector = do
   r <- querySelectorAll (QuerySelector selector) (toParentNode $ toDocument d)
   filterMap fromNode <$> toArray r
 
-elementById :: String -> Effect (Maybe Element)
-elementById = map (_ !! 0) <<< elementsBySelector <<< ("#" <> _)
-
 addClass :: String -> Element -> Effect Unit
 addClass c e = classList e >>= flip TL.add c
 
@@ -189,7 +186,7 @@ gregorianToHoney date =
 getTextualDisplay :: Effect TextualDisplay
 getTextualDisplay =
   let
-    get n = elementById ("textual-" <> n)
+    get n = elementsBySelector (".textual-display ." <> n)
   in ado
     year       <- get "year"
     season     <- get "season"
@@ -202,16 +199,15 @@ getTextualDisplay =
     second     <- get "seconds"
     subsecond  <- get "subseconds"
     in { year, season, month, dayOfMonth, mythRole, mythNumber,
-         hour, minute, second, subsecond,
-         week: Nothing, dayOfYear: Nothing }
+         hour, minute, second, subsecond, week: mempty, dayOfYear: mempty }
 
 setTextualDisplay :: HoneyDate -> TextualDisplay -> Effect Unit
 setTextualDisplay date display =
   let
-    setElementText e s = setTextContent s (toNode $ unsafePartial fromJust e)
+    setElementText es t = foldMap (setTextContent t <<< toNode) es
     with :: (forall a. HoneyComponents a -> a) -> (Int -> String) -> Effect Unit
     with getFrom fn = setElementText (getFrom display) (fn (getFrom date))
-  in ado
+  in do
     _.year       `with` show
     _.season     `with` \s -> (fold (seasons !! s)) <> " Season"
     _.month      `with` show
@@ -222,7 +218,6 @@ setTextualDisplay date display =
     _.minute     `with` toSenary 2
     _.second     `with` toSenary 2
     _.subsecond  `with` toSenary 2
-    in unit
 
 getGraphicalDisplay :: Effect GraphicalDisplay
 getGraphicalDisplay =

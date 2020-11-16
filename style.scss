@@ -1,9 +1,56 @@
+body {
+  background: gold;
+}
+
+#sajem-tan-clock {
+  background: darkorange;
+  box-shadow: 0px 1px 3px rgba(0, 0, 0, 0.8);
+  left: 50%;
+  padding: 2.2vw 1vw 3vw 1vw;
+  position: absolute;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  width: 85%;
+
+  &::before {
+    background: white;
+    box-shadow: 0px 1px 3px rgba(0, 0, 0, 0.8);
+    box-sizing: border-box;
+    content: "";
+    display: block;
+    height: calc(100% - 20px);
+    left: 10px;
+    position: absolute;
+    top: 10px;
+    width: calc(100% - 20px);
+  }
+}
+
 .graphical-display {
+  position: relative;
   text-align: center;
+
+  svg {
+    height: 28vw;
+    position: relative;
+    width: calc(33% - 2vw / 3);
+
+    &.date-dial {
+      left: 1vw;
+      top: 6vw;
+    }
+
+    &.myth-dial {
+      left: -1vw;
+      top: 6vw;
+    }
+  }
 }
 
 .textual-display {
+  position: relative;
   font-family: "Helvetica Neue", sans-serif;
+  font-size: 1vw;
   text-align: center;
 
   p {
@@ -13,11 +60,12 @@
   }
 
   .time {
-    font-size: 80px;
+    font-size: 800%;
+    margin-bottom: -1vw;
   }
 
   .date, .season {
-    font-size: 40px;
+    font-size: 400%;
   }
 
   .decimal-unit {

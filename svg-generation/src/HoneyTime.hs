@@ -213,8 +213,8 @@ dateDial tileRadius =
     createDotMarkers 72 (\x -> x `mod` 6 /= 0) divide2 2 "week",
     createHexagonRing divide1 divide0 "season"]
 
-svg :: Element -> Element
-svg content =
+svg :: T.Text -> Element -> Element
+svg className content =
   let
     tileRadius  = 12
     widthHeight = tileRadius * 12 * 2
@@ -223,6 +223,7 @@ svg content =
     doctype
     <> with (svg11_ content) [
       Version_ <<- "1.1",
+      Class_   <<- className,
       Width_   <<- tshow widthHeight,
       Height_  <<- tshow widthHeight,
       ViewBox_ <<- point topLeft topLeft <> point widthHeight widthHeight]
