@@ -6,11 +6,11 @@ body {
   background: darkorange;
   box-shadow: 0px 1px 3px rgba(0, 0, 0, 0.8);
   left: 50%;
-  padding: 2.2vw 1vw 3vw 1vw;
+  padding: 2.2vmin 1vmin 3vmin 1vmin;
   position: absolute;
   top: 50%;
   transform: translate(-50%, -50%);
-  width: 85%;
+  width: 85vmin;
 
   &::before {
     background: white;
@@ -31,18 +31,18 @@ body {
   text-align: center;
 
   svg {
-    height: 28vw;
+    height: 28vmin;
     position: relative;
-    width: calc(33% - 2vw / 3);
+    width: calc(33% - 2vmin / 3);
 
     &.date-dial {
-      left: 1vw;
-      top: 6vw;
+      left: 1vmin;
+      top: 6vmin;
     }
 
     &.myth-dial {
-      left: -1vw;
-      top: 6vw;
+      left: -1vmin;
+      top: 6vmin;
     }
   }
 }
@@ -50,7 +50,6 @@ body {
 .textual-display {
   position: relative;
   font-family: "Helvetica Neue", sans-serif;
-  font-size: 1vw;
   text-align: center;
 
   p {
@@ -60,12 +59,12 @@ body {
   }
 
   .time {
-    font-size: 800%;
-    margin-bottom: -1vw;
+    font-size: 8vmin;
+    margin-bottom: -1vmin;
   }
 
   .date, .season {
-    font-size: 400%;
+    font-size: 4vmin;
   }
 
   .decimal-unit {
