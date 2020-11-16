@@ -189,7 +189,7 @@ getTextualDisplay =
       TextComponent <$> elementsBySelector (getClass n) <@> formatFn
     formatSeason i = fold (seasons !! i) <> " Season"
     formatDay i = (fold (letterCycle !! i)).sajemTan
-    formatMythRole i = (fold (letterCycle !! i)).sajemTan
+    formatMythRole i = (fold (mythCycle !! i)).sajemTan
   in ado
     year       <- textComponent "year"        show
     season     <- textComponent "season"      formatSeason
