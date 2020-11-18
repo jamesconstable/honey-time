@@ -239,21 +239,22 @@ setDisplay date display =
     set getFrom = setComponent (getFrom display) (getFrom date)
 
     setComponent :: DisplayComponent -> Int -> Effect Unit
-    setComponent None _ = mempty
-    setComponent (TextComponent es formatFn) n = setText es (formatFn n)
-    setComponent (LinearComponent c) n = setElements c n
-    setComponent (SenaryComponent units sixes) n =
-      setElements units (mod n 6) *> setElements sixes (n/6)
+    setComponent c n = case c of
+      None                        -> mempty
+      TextComponent es formatFn   -> setText es (formatFn n)
+      LinearComponent es          -> setElements es n
+      SenaryComponent units sixes -> setElements units (mod n 6) *>
+                                     setElements sixes (n/6)
 
     setText :: Array Element -> String -> Effect Unit
     setText es t = foldMap (setTextContent t <<< toNode) es
 
     setElements :: Array (Array Element) -> Int -> Effect Unit
-    setElements elements digit = do
-      foldMap (foldMap $ removeClass "active") elements
-      foldMap (foldMap $ removeClass "filled") elements
-      foldMap (addClass "active") (fold $ elements !! digit)
-      foldMap (foldMap $ addClass "filled") (take digit $ fromArray elements)
+    setElements es digit = do
+      foldMap (foldMap $ removeClass "active") es
+      foldMap (foldMap $ removeClass "filled") es
+      foldMap (addClass "active") (fold $ es !! digit)
+      foldMap (foldMap $ addClass "filled") (take digit $ fromArray es)
 
 displayDate :: JSDate -> Display -> Effect Unit
 displayDate = setDisplay <<< gregorianToHoney
