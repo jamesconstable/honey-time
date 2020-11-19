@@ -1,10 +1,19 @@
 body {
-  background: gold;
+  margin: 0;
+
+  &::before {
+    background: gold;
+    content: "";
+    display: block;
+    filter: url("#rough-paper-filter");
+    height: 100%;
+    width: 100%;
+  }
 }
 
 #sajem-tan-clock {
   background: darkorange;
-  box-shadow: 0px 1px 3px rgba(0, 0, 0, 0.8);
+  filter: url('#shadow-filter');
   left: 50%;
   padding: 2.2vmin 1vmin 3vmin 1vmin;
   position: absolute;
@@ -14,10 +23,10 @@ body {
 
   &::before {
     background: white;
-    box-shadow: 0px 1px 3px rgba(0, 0, 0, 0.8);
     box-sizing: border-box;
     content: "";
     display: block;
+    filter: url('#paper-filter') url('#shadow-filter');
     height: calc(100% - 20px);
     left: 10px;
     position: absolute;
@@ -31,6 +40,7 @@ body {
   text-align: center;
 
   svg {
+    filter: url("#paper-filter");
     height: 28vmin;
     position: relative;
     width: calc(33% - 2vmin / 3);

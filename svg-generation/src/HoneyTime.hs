@@ -162,14 +162,17 @@ clockDialDecoration tileRadius useId =
 
 clockDial :: (RealFloat a) => a -> Element
 clockDial tileRadius =
-  let tileId = "#hex-tile"
-  in g_
-    [Class_ <<- "clock-dial"]
-    (fold [
-      defs_ [] (with (hexagon tileRadius True) [Id_ <<- T.tail tileId]),
-      clockDialDecoration tileRadius tileId,
-      innerClockDial tileRadius tileId,
-      outerClockDial tileRadius])
+  let
+    tileId = "#hex-tile"
+    useId = "#clock-dial"
+    mainGroup = g_
+      [Id_ <<- T.tail useId, Class_ <<- "clock-dial"]
+      (fold [
+        defs_ [] (with (hexagon tileRadius True) [Id_ <<- T.tail tileId]),
+        clockDialDecoration tileRadius tileId,
+        innerClockDial tileRadius tileId,
+        outerClockDial tileRadius])
+  in mainGroup <> use_ [XlinkHref_ <<- useId, Class_ <<- "solid-color-layer"]
 
 mythDial :: (RealFloat a) => a -> Element
 mythDial tileRadius =

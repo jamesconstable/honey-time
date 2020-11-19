@@ -6,6 +6,30 @@
     <script type="text/javascript" src="index.js"></script>
   </head>
   <body>
+    <svg xmlns="http://www.w3.org/2000/svg" version="1.11.1"
+        xmlns:xlink="http://www.w3.org/1999/xlink" height="0" width="0">
+      <filter id="paper-filter" color-interpolation-filters="linearRGB">
+        <feTurbulence type="fractalNoise" baseFrequency="0.1" numOctaves="5"
+            stitchTiles="stitch" />
+        <feDiffuseLighting surfaceScale="0.25">
+          <feDistantLight azimuth="-90" elevation="70" />
+        </feDiffuseLighting>
+        <feComposite in2="SourceAlpha" operator="in" />
+        <feBlend mode="multiply" in2="SourceGraphic"/>
+      </filter>
+      <filter id="rough-paper-filter" color-interpolation-filters="linearRGB">
+        <feTurbulence baseFrequency="0.02" numOctaves="5"
+            stitchTiles="stitch" />
+        <feDiffuseLighting surfaceScale="3.5">
+          <feDistantLight azimuth="-90" elevation="70" />
+        </feDiffuseLighting>
+        <feComposite in2="SourceAlpha" operator="in" />
+        <feBlend mode="multiply" in2="SourceGraphic"/>
+      </filter>
+      <filter id="shadow-filter" color-interpolation-filters="linearRGB">
+        <feDropShadow stdDeviation="2" dx="0" dy="1" flood-opacity="0.8" />
+      </filter>
+    </svg>
     <div id="sajem-tan-clock">
       <div class="graphical-display">
         <!-- INCLUDE "svg-generation/output/date-dial.svg" -->
