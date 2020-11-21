@@ -3,36 +3,37 @@ module Main where
 import Prelude
 
 import Data.Array ((..), (!!))
-import Data.Array as A
 import Data.ArrayView (fromArray, take)
 import Data.Filterable (filterMap)
 import Data.Foldable (fold, foldMap)
 import Data.Int (floor, radix, toNumber, toStringAs)
 import Data.JSDate (JSDate, getTime, jsdate, now)
-import Data.Maybe (Maybe(..), fromJust)
+import Data.Maybe (fromJust)
 import Data.Monoid (power)
+import Data.Newtype (wrap)
 import Data.String (length)
 import Data.String.CodeUnits (singleton)
 import Data.Traversable (traverse)
+import Control.Monad.Maybe.Trans (lift, runMaybeT)
 import Effect (Effect)
-import Effect.Console (log)
+--import Effect.Console (log)
 import Effect.Timer (setInterval)
 import Math ((%))
 import Partial.Unsafe (unsafePartial)
-import Web.DOM.Document (toEventTarget, toParentNode)
+import Web.DOM.Document (toParentNode)
 import Web.DOM.DOMTokenList as TL
-import Web.DOM.Element (classList, fromNode, setAttribute, toNode)
+import Web.DOM.Element (classList, fromNode, setAttribute, toEventTarget, toNode)
 import Web.DOM.NodeList (toArray)
 import Web.DOM.Internal.Types (Element)
 import Web.DOM.Node (setTextContent)
 import Web.DOM.ParentNode (QuerySelector(..), querySelectorAll)
-import Web.Event.Event (Event, EventType(..), target)
+import Web.Event.Event (Event, EventType(..), currentTarget)
 import Web.Event.EventTarget (addEventListener, eventListener)
 import Web.HTML (window)
 import Web.HTML.HTMLDocument (toDocument)
 import Web.HTML.HTMLElement (fromEventTarget, getBoundingClientRect)
 import Web.HTML.Window (document)
-import Web.UIEvent.MouseEvent (clientX, clientY, fromEvent, relatedTarget)
+import Web.UIEvent.MouseEvent (clientX, clientY, fromEvent)
 
 type TranslatedName = ( sajemTan :: String, english :: String )
 
@@ -271,26 +272,21 @@ displayNow ds = do
   foldMap (displayDate n) ds
 
 handleMouseMove :: Event -> Effect Unit
-handleMouseMove e = case fromEvent e of
-  Nothing -> mempty
-  Just mevent -> do
-    pointLights <- elementsBySelector "fePointLight"
-    case target e >>= fromEventTarget of
-      Nothing -> mempty
-      Just t -> do
-        { left, right, top, bottom } <- getBoundingClientRect t
-        let percentX = (toNumber (clientX mevent) - left) / (right - left)
-        let percentY = (toNumber (clientY mevent) - top) / (bottom - top)
-        foldMap (setAttribute "x" (show percentX)) pointLights
-        foldMap (setAttribute "y" (show percentY)) pointLights
+handleMouseMove e = void $ runMaybeT do
+  mevent <- wrap $ pure $ fromEvent e
+  pointLights <- lift $ elementsBySelector "fePointLight"
+  t <- wrap $ pure $ currentTarget e >>= fromEventTarget
+  { left, right, top, bottom } <- lift $ getBoundingClientRect t
+  let percentX = (toNumber (clientX mevent) - left) / (right - left)
+  let percentY = (toNumber (clientY mevent) - top) / (bottom - top)
+  lift $ foldMap (setAttribute "x" (show percentX)) pointLights
+  lift $ foldMap (setAttribute "y" (show percentY)) pointLights
 
 setup :: Effect Unit
 setup = void do
   listener <- eventListener handleMouseMove
-  w <- window
-  d <- document w
-  let eventTarget = toEventTarget $ toDocument d
-  addEventListener (EventType "mousemove") listener false eventTarget
+  body <- map toEventTarget <$> elementsBySelector "body"
+  foldMap (addEventListener (EventType "mousemove") listener false) body
 
   -- Start a timer to update the display
   t <- getTextualDisplay
