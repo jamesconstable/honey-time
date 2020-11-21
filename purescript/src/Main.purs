@@ -282,13 +282,14 @@ handleMouseMove e = void $ runMaybeT do
   lift $ foldMap (setAttribute "x" (show percentX)) pointLights
   lift $ foldMap (setAttribute "y" (show percentY)) pointLights
 
-setup :: Effect Unit
-setup = void do
+attachPointLightHandler :: Effect Unit
+attachPointLightHandler = do
   listener <- eventListener handleMouseMove
   body <- map toEventTarget <$> elementsBySelector "body"
   foldMap (addEventListener (EventType "mousemove") listener false) body
 
-  -- Start a timer to update the display
+setup :: Effect Unit
+setup = void do
   t <- getTextualDisplay
   g <- getGraphicalDisplay
   setInterval (floor honeyDurations.subsecond) (displayNow [t, g])
