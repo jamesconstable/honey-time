@@ -17,6 +17,7 @@
         <feComposite in2="SourceAlpha" operator="in" />
         <feBlend mode="multiply" in2="SourceGraphic"/>
       </filter>
+
       <filter id="rough-paper-filter" color-interpolation-filters="linearRGB"
           filterUnits="objectBoundingBox" primitiveUnits="objectBoundingBox">
         <feTurbulence baseFrequency="0.02" numOctaves="5"
@@ -28,7 +29,7 @@
         <feComposite operator="arithmetic" in2="SourceGraphic"
             k1="1" k2="0" k3="0" k4="0" result="light1" />
         <feDiffuseLighting surfaceScale="3.5">
-          <fePointLight x="0.5" y="0.4" z="0.2" />
+          <fePointLight x="0.5" y="0.6" z="0.2" />
         </feDiffuseLighting>
         <feComposite in2="SourceAlpha" operator="in" />
         <feComposite operator="arithmetic" in2="SourceGraphic"
@@ -36,6 +37,26 @@
         <feComposite operator="arithmetic" in="light1" in2="light2"
             k1="0" k2="1" k3="1" k4="0" result="light2" />
       </filter>
+
+      <filter id="deboss-filter" color-interpolation-filters="linearRGB"
+          filterUnits="objectBoundingBox" primitiveUnits="objectBoundingBox">
+        <feColorMatrix type="matrix" result="depthMap"
+            values="0 0 0 0 0  0 0 0 0 0  0 0 0 0 0  -10 -10 -10 1 0" />
+        <feDiffuseLighting surfaceScale="-0.5" diffuseConstant="05"
+            lighting-color="saddlebrown" in="depthMap" result="diffuse">
+          <feDistantLight azimuth="-90" elevation="20"/>
+        </feDiffuseLighting>
+        <feSpecularLighting surfaceScale="-0.5" specularConstant="0.5"
+            specularExponent="10" lighting-color="gold" in="depthMap"
+            result="specular">
+          <feDistantLight azimuth="-90" elevation="20"/>
+        </feSpecularLighting>
+        <feComposite in="diffuse" in2="specular" operator="arithmetic"
+            k1="0" k2="1" k3="1" k4="0" />
+        <feComposite in2="depthMap" operator="in" />
+        <feComposite in2="SourceGraphic" operator="over" />
+      </filter>
+
       <filter id="shadow-filter" color-interpolation-filters="linearRGB">
         <feDropShadow stdDeviation="2" dx="0" dy="1" flood-opacity="0.8" />
       </filter>
