@@ -10,7 +10,13 @@ import qualified Data.Text as T
 tshow :: Show a => a -> T.Text
 tshow = T.pack . show
 
-polar :: (RealFloat a) => (a -> a -> b) -> a -> a -> b
+degrees :: RealFloat a => a -> a
+degrees x = x * 180 / pi
+
+radians :: RealFloat a => a -> a
+radians x = x * pi / 180
+
+polar :: RealFloat a => (a -> a -> b) -> a -> a -> b
 polar fn r theta = fn (r * cos theta) (r * sin theta)
 
 apothem :: (Integral a, RealFloat b) => a -> b -> b
@@ -102,10 +108,14 @@ createHexagonRing apo innerRadius className =
       Transform_ <<- rotate (fromIntegral i * 360 / 6)]
   in g_ [Class_ <<- className] $ (template <> foldMap createUsage [0..5])
 
+translateHelper :: (Integral a, RealFloat b)
+                   => a -> b -> b -> Bool -> a -> T.Text
+translateHelper n r m vertexAtTop i =
+  let multiplier = if vertexAtTop then r else apothem n r
+  in polar translate (m * multiplier) (polygonAngle n vertexAtTop i)
+
 hexTranslateHelper :: (RealFloat a, Integral b) => a -> a -> Bool -> b -> T.Text
-hexTranslateHelper r m vertexAtTop i =
-  let multiplier = if vertexAtTop then r else apothem 6 r
-  in polar translate (m * multiplier) (hexagonAngle vertexAtTop i)
+hexTranslateHelper = translateHelper 6
 
 hexagonFloret :: RealFloat a => T.Text -> a -> T.Text -> Element
 hexagonFloret name tileRadius useId =
@@ -160,7 +170,7 @@ clockDialDecoration tileRadius useId =
         Transform_ <<- hexTranslateHelper tileRadius 4 True i]]
   in group (centreHexagon <> foldMap createSpoke [0..5] <> centreCircle)
 
-clockDial :: (RealFloat a) => a -> Element
+clockDial :: RealFloat a => a -> Element
 clockDial tileRadius =
   let
     tileId = "#hex-tile"
@@ -174,7 +184,7 @@ clockDial tileRadius =
         outerClockDial tileRadius])
   in mainGroup <> use_ [XlinkHref_ <<- useId, Class_ <<- "solid-color-layer"]
 
-mythDial :: (RealFloat a) => a -> Element
+mythDial :: RealFloat a => a -> Element
 mythDial tileRadius =
   let
     innerDivide  = tileRadius * 2.5
@@ -202,19 +212,36 @@ createDotMarkers n skip radius dotRadius className =
   in g_ [Class_ <<- className] $
     template <> foldMap createUsage (zip [0..] $ filter skip [0..(n-1)])
 
-dateDial :: (RealFloat a) => a -> Element
+glyphBaseTransform :: RealFloat a => a -> a -> T.Text
+glyphBaseTransform nativeSize displaySize =
+  let
+    dup f x = f x x
+    scaleFactor = displaySize / nativeSize
+    translateFactor = -nativeSize / 2
+  in rotate 90 <> dup scale scaleFactor <> dup translate translateFactor
+
+dateDial :: RealFloat a => a -> Element
 dateDial tileRadius =
   let
-    divide0  = tileRadius * 1.5
-    divide1  = tileRadius * 4.75
-    divide2  = tileRadius * 8.5
-    divide3  = tileRadius * 9
-    dialSize = tileRadius * 11
+    divide0     = tileRadius * 1.5
+    divide1     = tileRadius * 4.75
+    divide2     = tileRadius * 8.5
+    divide3     = tileRadius * 9
+    dialSize    = tileRadius * 11
+    monthGlyphs = foldMap
+      (\i -> use_ [
+        XlinkHref_ <<- "#honey" <> tshow i,
+        Transform_ <<-
+          translateHelper 12 tileRadius 6.9 False i
+          <> rotate (degrees $ polygonAngle 12 False i)
+          <> glyphBaseTransform 100 (tileRadius * 1.8)])
+      [0..11]
   in g_ [Class_ <<- "date-dial"] $ fold [
     createRing 30 dialSize divide3 "day-of-month",
     createRing 12 divide3 divide1 "month",
     createDotMarkers 72 (\x -> x `mod` 6 /= 0) divide2 2 "week",
-    createHexagonRing divide1 divide0 "season"]
+    createHexagonRing divide1 divide0 "season",
+    monthGlyphs]
 
 svg :: T.Text -> Element -> Element
 svg className content =
