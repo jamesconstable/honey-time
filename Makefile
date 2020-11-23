@@ -7,8 +7,9 @@ STACK   := stack
 
 purs_deps  = $(shell find purescript -not -path '*/output/*' -not -path '*/.spago/*' -name '*.purs' -o -name '*.dhall')
 hs_deps    = $(shell find svg-generation -not -path '*/.stack-work/*' -name '*.hs' -o -name '*.yaml' -o -name '*.cabal')
+svg_assets = $(shell find svg-generation/assets -name '*.svg')
 svg_dir    = svg-generation/output
-svgs       = $(svg_dir)/clock-dial.svg $(svg_dir)/date-dial.svg $(svg_dir)/myth-dial.svg
+svgs       = $(svg_dir)/clock-dial.svg $(svg_dir)/date-dial.svg $(svg_dir)/myth-dial.svg $(svg_assets)
 
 site : site/index.js site/index.html site/style.css
 
