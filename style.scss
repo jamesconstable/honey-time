@@ -47,12 +47,12 @@ body {
     width: calc(33% - 2vmin / 3);
 
     &.date-dial {
-      left: 1vmin;
+      left: -1vmin;
       top: 6vmin;
     }
 
     &.myth-dial {
-      left: -1vmin;
+      left: 1vmin;
       top: 6vmin;
     }
   }
