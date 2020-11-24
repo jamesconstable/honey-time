@@ -232,9 +232,9 @@ dateDial tileRadius =
       (\i -> use_ [
         XlinkHref_ <<- "#honey" <> tshow i,
         Transform_ <<-
-          translateHelper 12 tileRadius 6.9 False i
+          translateHelper 12 tileRadius 6.85 False i
           <> rotate (degrees $ polygonAngle 12 False i)
-          <> glyphBaseTransform 100 (tileRadius * 1.8)])
+          <> glyphBaseTransform 100 (tileRadius * 1.9)])
       [0..11]
   in g_ [Class_ <<- "date-dial"] $ fold [
     createRing 30 dialSize divide3 "day-of-month",

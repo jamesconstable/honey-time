@@ -43,7 +43,7 @@
         <filter id="deboss-filter" color-interpolation-filters="linearRGB"
             filterUnits="objectBoundingBox" primitiveUnits="objectBoundingBox">
           <feColorMatrix type="matrix" result="depthMap"
-              values="0 0 0 0 0  0 0 0 0 0  0 0 0 0 0  -10 -10 -10 1 0" />
+              values="0 0 0 0 0  0 0 0 0 0  0 0 0 0 0  -1 -1 -1 1 0" />
           <feDiffuseLighting surfaceScale="-0.5" diffuseConstant="05"
               lighting-color="saddlebrown" in="depthMap" result="diffuse">
             <feDistantLight azimuth="-90" elevation="20"/>
