@@ -7,6 +7,9 @@ import Data.Maybe (fromMaybe)
 import Graphics.Svg
 import qualified Data.Text as T
 
+dup :: (a -> a -> b) -> a -> b
+dup f x = f x x
+
 tshow :: Show a => a -> T.Text
 tshow = T.pack . show
 
@@ -184,17 +187,36 @@ clockDial tileRadius =
         outerClockDial tileRadius])
   in mainGroup <> use_ [XlinkHref_ <<- useId, Class_ <<- "solid-color-layer"]
 
+glyphBaseTransform :: RealFloat a => a -> a -> T.Text
+glyphBaseTransform nativeSize displaySize =
+  let
+    scaleFactor = displaySize / nativeSize
+    translateFactor = -nativeSize / 2
+  in rotate 90 <> dup scale scaleFactor <> dup translate translateFactor
+
 mythDial :: RealFloat a => a -> Element
 mythDial tileRadius =
   let
     innerDivide  = tileRadius * 2.5
     middleDivide = tileRadius * 8.5
     dialSize     = tileRadius * 11
+    numberGlyphs = foldMap
+      (\i -> use_ [
+        XlinkHref_ <<- "#honey" <> tshow i,
+        Class_     <<- "cell cell" <> tshow i,
+        Transform_ <<-
+          translateHelper 40 tileRadius 9.96 False i
+          <> rotate (degrees $ polygonAngle 40 False i)
+          <> glyphBaseTransform 100 (tileRadius * 2.1)])
+      [0..39]
   in g_ [Class_ <<- "myth-dial"] $ fold [
+    circle_ [Cx_ <<- "0", Cy_ <<- "0", R_ <<- toText dialSize,
+      Fill_ <<- "none", Stroke_width_ <<- "2", Stroke_ <<- "black"],
     createRing 9 middleDivide innerDivide "myth-role",
-    createRing 40 dialSize middleDivide "myth-number",
+    -- createRing 40 dialSize middleDivide "myth-number",
     with (polygon 9 (innerDivide + tileRadius/2) True)
-      [Fill_ <<- "white", Stroke_ <<- "black", Stroke_width_ <<- "2"]]
+      [Fill_ <<- "white", Stroke_ <<- "black", Stroke_width_ <<- "2"],
+    g_ [Class_ <<- "myth-number"] numberGlyphs]
 
 createDotMarkers :: (Integral a, RealFloat b)
                  => a -> (a -> Bool) -> b -> b -> T.Text -> Element
@@ -212,14 +234,6 @@ createDotMarkers n skip radius dotRadius className =
   in g_ [Class_ <<- className] $
     template <> foldMap createUsage (zip [0..] $ filter skip [0..(n-1)])
 
-glyphBaseTransform :: RealFloat a => a -> a -> T.Text
-glyphBaseTransform nativeSize displaySize =
-  let
-    dup f x = f x x
-    scaleFactor = displaySize / nativeSize
-    translateFactor = -nativeSize / 2
-  in rotate 90 <> dup scale scaleFactor <> dup translate translateFactor
-
 dateDial :: RealFloat a => a -> Element
 dateDial tileRadius =
   let
@@ -231,6 +245,7 @@ dateDial tileRadius =
     monthGlyphs = foldMap
       (\i -> use_ [
         XlinkHref_ <<- "#honey" <> tshow i,
+        Fill_ <<- "none",
         Transform_ <<-
           translateHelper 12 tileRadius 6.85 False i
           <> rotate (degrees $ polygonAngle 12 False i)
@@ -256,4 +271,4 @@ svg className content =
       Class_   <<- className,
       Width_   <<- tshow widthHeight,
       Height_  <<- tshow widthHeight,
-      ViewBox_ <<- point topLeft topLeft <> point widthHeight widthHeight]
+      ViewBox_ <<- dup point topLeft <> dup point widthHeight]
