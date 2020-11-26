@@ -1,248 +1,264 @@
-<?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
-<svg height="100%" style="fill-rule:evenodd;clip-rule:evenodd;stroke-linecap:round;stroke-linejoin:round;" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns="http://www.w3.org/2000/svg" xml:space="preserve" width="100%" version="1.1" viewBox="0 0 100 100">
+<?xml version="1.0" encoding="UTF-8" standalone="no"?> <!-- Created with Vectornator for iOS (http://vectornator.io/) --><!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+<svg height="100%" style="fill-rule:evenodd;clip-rule:evenodd;stroke-linecap:round;stroke-linejoin:round;" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns="http://www.w3.org/2000/svg" xml:space="preserve" width="100%" xmlns:vectornator="http://vectornator.io" version="1.1" viewBox="0 0 100 100">
+<metadata>
+<vectornator:setting key="DimensionsVisible" value="1"/>
+<vectornator:setting key="IsolateActiveLayer" value="1"/>
+<vectornator:setting key="New" value="1"/>
+<vectornator:setting key="SnapToPoints" value="0"/>
+<vectornator:setting key="OutlineMode" value="0"/>
+<vectornator:setting key="RulersVisible" value="1"/>
+<vectornator:setting key="GuidesVisible" value="1"/>
+<vectornator:setting key="SnapToEdges" value="0"/>
+<vectornator:setting key="CMYKEnabledKey" value="0"/>
+<vectornator:setting key="DisplayWhiteBackground" value="1"/>
+<vectornator:setting key="SnapToGuides" value="1"/>
+<vectornator:setting key="Units" value="Pixels"/>
+<vectornator:setting key="DynamicGuides" value="0"/>
+<vectornator:setting key="GridSpacing" value="2.5"/>
+<vectornator:setting key="SnapToGrid" value="0"/>
+</metadata>
 <defs/>
-<g id="honey39">
-<path stroke="#000000" stroke-width="5" d="M10+2.5C10+27.5+10+100+50+100C90+100+90+27.5+90+2.5C90+2.5+66.7325+0.0645175+50+0C31.7958-0.0701922+10+2.5+10+2.5Z" stroke-linecap="round" opacity="1" stroke-linejoin="round"/>
-<path stroke="#000000" stroke-width="5" d="M12.8979+47.4753C12.8979+47.4753+33.75+45+50+45C66.25+45+87.2861+47.4753+87.2861+47.4753" stroke-linecap="round" opacity="1" stroke-linejoin="round"/>
-<path stroke="#000000" stroke-width="5" d="M65+45C65+66.2132+67.5+72.5+67.5+72.5C67.5+72.5+34.4079+55.6703+23.6951+82.8404" stroke-linecap="round" opacity="1" stroke-linejoin="round"/>
-<path stroke="#000000" stroke-width="5" d="M65+45C65+30+67.5+12.5+50.0814+12.4571C43.7908+12.4416+40+17.5+40+22.5C40+27.5+45.6437+30.3187+47.6243+29.9586" stroke-linecap="round" opacity="1" stroke-linejoin="round"/>
+<g id="honey39" vectornator:layerName="honey39">
+<path stroke="#000000" stroke-width="1.02" d="M10+2.5C10+27.5+10+100+50+100C90+100+90+27.5+90+2.5C90+2.5+66.7325+0.0645175+50+0C31.7958-0.0701922+10+2.5+10+2.5Z" fill="none" stroke-linecap="round" opacity="1" stroke-linejoin="round"/>
+<path stroke="#000000" stroke-width="1.02" d="M12.8979+47.4753C12.8979+47.4753+33.75+45+50+45C66.25+45+87.2861+47.4753+87.2861+47.4753" fill="none" stroke-linecap="round" opacity="1" stroke-linejoin="round"/>
+<path stroke="#000000" stroke-width="1.02" d="M65+45C65+66.2132+67.5+72.5+67.5+72.5C67.5+72.5+34.4079+55.6703+23.6951+82.8404" fill="none" stroke-linecap="round" opacity="1" stroke-linejoin="round"/>
+<path stroke="#000000" stroke-width="1.02" d="M65+45C65+30+67.5+12.5+50.0814+12.4571C43.7908+12.4416+40+17.5+40+22.5C40+27.5+45.6437+30.3187+47.6243+29.9586" fill="none" stroke-linecap="round" opacity="1" stroke-linejoin="round"/>
 </g>
-<g id="honey38">
-<path stroke="#000000" stroke-width="5" d="M10+2.5C10+27.5+10+100+50+100C90+100+90+27.5+90+2.5C90+2.5+66.7325+0.0645175+50+0C31.7958-0.0701922+10+2.5+10+2.5Z" stroke-linecap="round" opacity="1" stroke-linejoin="round"/>
-<path stroke="#000000" stroke-width="5" d="M12.8979+47.4753C12.8979+47.4753+33.75+45+50+45C66.25+45+87.2861+47.4753+87.2861+47.4753" stroke-linecap="round" opacity="1" stroke-linejoin="round"/>
-<path stroke="#000000" stroke-width="5" d="M40+70C40+64.4772+44.4772+60+50+60C55.5228+60+60+64.4772+60+70C60+75.5228+55.5228+80+50+80C44.4772+80+40+75.5228+40+70Z" stroke-linecap="round" opacity="1" stroke-linejoin="round"/>
-<path stroke="#000000" stroke-width="5" d="M47.5+70.2204C47.5+68.9615+48.5797+67.9409+49.9116+67.9409C51.2435+67.9409+52.3232+68.9615+52.3232+70.2204C52.3232+71.4794+51.2435+72.5+49.9116+72.5C48.5797+72.5+47.5+71.4794+47.5+70.2204Z" stroke-linecap="round" opacity="1" stroke-linejoin="round"/>
-<path stroke="#000000" stroke-width="5" d="M65+45C65+30+67.5+12.5+50.0814+12.4571C43.7908+12.4416+40+17.5+40+22.5C40+27.5+45.6437+30.3187+47.6243+29.9586" stroke-linecap="round" opacity="1" stroke-linejoin="round"/>
-<path stroke="#000000" stroke-width="5" d="M65+44.8129C65+52.7427+65.7123+62.2323+63.7151+69.3573C61.9706+75.5807+55+80+50+80" stroke-linecap="round" opacity="1" stroke-linejoin="round" fill="none"/>
+<g id="honey38" vectornator:layerName="honey38">
+<path stroke="#000000" stroke-width="1.02" d="M10+2.5C10+27.5+10+100+50+100C90+100+90+27.5+90+2.5C90+2.5+66.7325+0.0645175+50+0C31.7958-0.0701922+10+2.5+10+2.5Z" fill="none" stroke-linecap="round" opacity="1" stroke-linejoin="round"/>
+<path stroke="#000000" stroke-width="1.02" d="M12.8979+47.4753C12.8979+47.4753+33.75+45+50+45C66.25+45+87.2861+47.4753+87.2861+47.4753" fill="none" stroke-linecap="round" opacity="1" stroke-linejoin="round"/>
+<path stroke="#000000" stroke-width="1.02" d="M40+70C40+64.4772+44.4772+60+50+60C55.5228+60+60+64.4772+60+70C60+75.5228+55.5228+80+50+80C44.4772+80+40+75.5228+40+70Z" fill="none" stroke-linecap="round" opacity="1" stroke-linejoin="round"/>
+<path d="M47.5+70.2204C47.5+68.9615+48.5797+67.9409+49.9116+67.9409C51.2435+67.9409+52.3232+68.9615+52.3232+70.2204C52.3232+71.4794+51.2435+72.5+49.9116+72.5C48.5797+72.5+47.5+71.4794+47.5+70.2204Z" opacity="1" fill="#000000"/>
+<path stroke="#000000" stroke-width="1.02" d="M65+45C65+30+67.5+12.5+50.0814+12.4571C43.7908+12.4416+40+17.5+40+22.5C40+27.5+45.6437+30.3187+47.6243+29.9586" fill="none" stroke-linecap="round" opacity="1" stroke-linejoin="round"/>
+<path stroke="#000000" stroke-width="1.02" d="M65+44.8129C65+52.7427+65.7123+62.2323+63.7151+69.3573C61.9706+75.5807+55+80+50+80" fill="none" stroke-linecap="round" opacity="1" stroke-linejoin="round"/>
 </g>
-<g id="honey37">
-<path stroke="#000000" stroke-width="5" d="M10+2.5C10+27.5+10+100+50+100C90+100+90+27.5+90+2.5C90+2.5+66.7325+0.0645175+50+0C31.7958-0.0701922+10+2.5+10+2.5Z" stroke-linecap="round" opacity="1" stroke-linejoin="round"/>
-<path stroke="#000000" stroke-width="5" d="M12.8979+47.4753C12.8979+47.4753+33.75+45+50+45C66.25+45+87.2861+47.4753+87.2861+47.4753" stroke-linecap="round" opacity="1" stroke-linejoin="round"/>
-<path stroke="#000000" stroke-width="5" d="M32.5+68.75C32.5+65.2982+35.2982+62.5+38.75+62.5C42.2018+62.5+45+65.2982+45+68.75C45+72.2018+42.2018+75+38.75+75C35.2982+75+32.5+72.2018+32.5+68.75Z" stroke-linecap="round" opacity="1" stroke-linejoin="round"/>
-<path stroke="#000000" stroke-width="5" d="M55+68.75C55+65.2982+57.7982+62.5+61.25+62.5C64.7018+62.5+67.5+65.2982+67.5+68.75C67.5+72.2018+64.7018+75+61.25+75C57.7982+75+55+72.2018+55+68.75Z" stroke-linecap="round" opacity="1" stroke-linejoin="round"/>
-<path stroke="#000000" stroke-width="5" d="M65+45C65+30+67.5+12.5+50.0814+12.4571C43.7908+12.4416+40+17.5+40+22.5C40+27.5+45.6437+30.3187+47.6243+29.9586" stroke-linecap="round" opacity="1" stroke-linejoin="round"/>
+<g id="honey37" vectornator:layerName="honey37">
+<path stroke="#000000" stroke-width="1.02" d="M10+2.5C10+27.5+10+100+50+100C90+100+90+27.5+90+2.5C90+2.5+66.7325+0.0645175+50+0C31.7958-0.0701922+10+2.5+10+2.5Z" fill="none" stroke-linecap="round" opacity="1" stroke-linejoin="round"/>
+<path stroke="#000000" stroke-width="1.02" d="M12.8979+47.4753C12.8979+47.4753+33.75+45+50+45C66.25+45+87.2861+47.4753+87.2861+47.4753" fill="none" stroke-linecap="round" opacity="1" stroke-linejoin="round"/>
+<path d="M35.0043+45.6235L35.0531+95.6119L39.8342+97.8738L39.9317+45.2332L35.0043+45.6235Z" opacity="1" fill="#000000"/>
+<path d="M64.9592+45.5747L64.9359+95.713L59.9803+97.97L60.0318+45.282L64.9592+45.5747Z" opacity="1" fill="#000000"/>
+<path stroke="#000000" stroke-width="1.02" d="M65+45C65+30+67.5+12.5+50.0814+12.4571C43.7908+12.4416+40+17.5+40+22.5C40+27.5+45.6437+30.3187+47.6243+29.9586" fill="none" stroke-linecap="round" opacity="1" stroke-linejoin="round"/>
 </g>
-<g id="honey36">
-<path stroke="#000000" stroke-width="5" d="M10+2.5C10+27.5+10+100+50+100C90+100+90+27.5+90+2.5C90+2.5+66.7325+0.0645175+50+0C31.7958-0.0701922+10+2.5+10+2.5Z" stroke-linecap="round" opacity="1" stroke-linejoin="round"/>
-<path stroke="#000000" stroke-width="5" d="M12.8979+47.4753C12.8979+47.4753+33.75+45+50+45C66.25+45+87.2861+47.4753+87.2861+47.4753" stroke-linecap="round" opacity="1" stroke-linejoin="round"/>
-<path stroke="#000000" stroke-width="5" d="M37.5491+45.8094L37.5984+96.6397L40.3755+97.8649L40.0624+45.5137L37.5491+45.8094Z" stroke-linecap="round" opacity="1" stroke-linejoin="round"/>
-<path stroke="#000000" stroke-width="5" d="M62.6083+45.8094L62.5928+96.7213L60.1423+97.5382L60.1689+45.6615L62.6083+45.8094Z" stroke-linecap="round" opacity="1" stroke-linejoin="round"/>
-<path stroke="#000000" stroke-width="5" d="M65+45C65+30+67.5+12.5+50.0814+12.4571C43.7908+12.4416+40+17.5+40+22.5C40+27.5+45.6437+30.3187+47.6243+29.9586" stroke-linecap="round" opacity="1" stroke-linejoin="round"/>
+<g id="honey36" vectornator:layerName="honey36">
+<path stroke="#000000" stroke-width="1.02" d="M10+2.5C10+27.5+10+100+50+100C90+100+90+27.5+90+2.5C90+2.5+66.7325+0.0645175+50+0C31.7958-0.0701922+10+2.5+10+2.5Z" fill="none" stroke-linecap="round" opacity="1" stroke-linejoin="round"/>
+<path stroke="#000000" stroke-width="1.02" d="M12.8979+47.4753C12.8979+47.4753+33.75+45+50+45C66.25+45+87.2861+47.4753+87.2861+47.4753" fill="none" stroke-linecap="round" opacity="1" stroke-linejoin="round"/>
+<path stroke="#000000" stroke-width="1" d="M32.5+68.75C32.5+65.2982+35.2982+62.5+38.75+62.5C42.2018+62.5+45+65.2982+45+68.75C45+72.2018+42.2018+75+38.75+75C35.2982+75+32.5+72.2018+32.5+68.75Z" fill="none" stroke-linecap="round" opacity="1" stroke-linejoin="round"/>
+<path stroke="#000000" stroke-width="1" d="M55+68.75C55+65.2982+57.7982+62.5+61.25+62.5C64.7018+62.5+67.5+65.2982+67.5+68.75C67.5+72.2018+64.7018+75+61.25+75C57.7982+75+55+72.2018+55+68.75Z" fill="none" stroke-linecap="round" opacity="1" stroke-linejoin="round"/>
+<path stroke="#000000" stroke-width="1.02" d="M65+45C65+30+67.5+12.5+50.0814+12.4571C43.7908+12.4416+40+17.5+40+22.5C40+27.5+45.6437+30.3187+47.6243+29.9586" fill="none" stroke-linecap="round" opacity="1" stroke-linejoin="round"/>
 </g>
-<g id="honey35">
-<path stroke="#000000" stroke-width="5" d="M10+2.5C10+27.5+10+100+50+100C90+100+90+27.5+90+2.5C90+2.5+66.7325+0.0645175+50+0C31.7958-0.0701922+10+2.5+10+2.5Z" stroke-linecap="round" opacity="1" stroke-linejoin="round"/>
-<path stroke="#000000" stroke-width="5" d="M12.8979+47.4753C12.8979+47.4753+33.75+45+50+45C66.25+45+87.2861+47.4753+87.2861+47.4753" stroke-linecap="round" opacity="1" stroke-linejoin="round"/>
-<path stroke="#000000" stroke-width="5" d="M45+68.75C45+65.2982+47.2386+62.5+50+62.5C52.7614+62.5+55+65.2982+55+68.75C55+72.2018+52.7614+75+50+75C47.2386+75+45+72.2018+45+68.75Z" stroke-linecap="round" opacity="1" stroke-linejoin="round" fill="black"/>
-<path stroke="#000000" stroke-width="5" d="M65+45C65+30+67.5+12.5+50.0814+12.4571C43.7908+12.4416+40+17.5+40+22.5C40+27.5+45.6437+30.3187+47.6243+29.9586" stroke-linecap="round" opacity="1" stroke-linejoin="round"/>
+<g id="honey35" vectornator:layerName="honey35">
+<path stroke="#000000" stroke-width="1.02" d="M10+2.5C10+27.5+10+100+50+100C90+100+90+27.5+90+2.5C90+2.5+66.7325+0.0645175+50+0C31.7958-0.0701922+10+2.5+10+2.5Z" fill="none" stroke-linecap="round" opacity="1" stroke-linejoin="round"/>
+<path stroke="#000000" stroke-width="1.02" d="M12.8979+47.4753C12.8979+47.4753+33.75+45+50+45C66.25+45+87.2861+47.4753+87.2861+47.4753" fill="none" stroke-linecap="round" opacity="1" stroke-linejoin="round"/>
+<path d="M45+68.75C45+65.2982+47.2386+62.5+50+62.5C52.7614+62.5+55+65.2982+55+68.75C55+72.2018+52.7614+75+50+75C47.2386+75+45+72.2018+45+68.75Z" opacity="1" fill="#000000"/>
+<path stroke="#000000" stroke-width="1.02" d="M65+45C65+30+67.5+12.5+50.0814+12.4571C43.7908+12.4416+40+17.5+40+22.5C40+27.5+45.6437+30.3187+47.6243+29.9586" fill="none" stroke-linecap="round" opacity="1" stroke-linejoin="round"/>
 </g>
-<g id="honey34">
-<path stroke="#000000" stroke-width="5" d="M10+2.5C10+27.5+10+100+50+100C90+100+90+27.5+90+2.5C90+2.5+66.7325+0.0645175+50+0C31.7958-0.0701922+10+2.5+10+2.5Z" stroke-linecap="round" opacity="1" stroke-linejoin="round"/>
-<path stroke="#000000" stroke-width="5" d="M12.8979+47.4753C12.8979+47.4753+33.75+45+50+45C66.25+45+87.2861+47.4753+87.2861+47.4753" stroke-linecap="round" opacity="1" stroke-linejoin="round"/>
-<path stroke="#000000" stroke-width="5" d="M65+45C65+57.5+65+67.5+55+67.5C45+67.5+37.5+67.5+37.5+77.5C37.5+87.5+45+95+52.5+100" stroke-linecap="round" opacity="1" stroke-linejoin="round"/>
-<path stroke="#000000" stroke-width="5" d="M65+45C65+30+67.5+12.5+50.0814+12.4571C43.7908+12.4416+40+17.5+40+22.5C40+27.5+45.6437+30.3187+47.6243+29.9586" stroke-linecap="round" opacity="1" stroke-linejoin="round"/>
+<g id="honey34" vectornator:layerName="honey34">
+<path stroke="#000000" stroke-width="1.02" d="M10+2.5C10+27.5+10+100+50+100C90+100+90+27.5+90+2.5C90+2.5+66.7325+0.0645175+50+0C31.7958-0.0701922+10+2.5+10+2.5Z" fill="none" stroke-linecap="round" opacity="1" stroke-linejoin="round"/>
+<path stroke="#000000" stroke-width="1.02" d="M12.8979+47.4753C12.8979+47.4753+33.75+45+50+45C66.25+45+87.2861+47.4753+87.2861+47.4753" fill="none" stroke-linecap="round" opacity="1" stroke-linejoin="round"/>
+<path stroke="#000000" stroke-width="1.02" d="M65+45C65+57.5+64.9618+80.278+22.4618+80.278" fill="none" stroke-linecap="round" opacity="1" stroke-linejoin="round"/>
+<path stroke="#000000" stroke-width="1.02" d="M65+45C65+30+67.5+12.5+50.0814+12.4571C43.7908+12.4416+40+17.5+40+22.5C40+27.5+45.6437+30.3187+47.6243+29.9586" fill="none" stroke-linecap="round" opacity="1" stroke-linejoin="round"/>
 </g>
-<g id="honey33">
-<path stroke="#000000" stroke-width="5" d="M10+2.5C10+27.5+10+100+50+100C90+100+90+27.5+90+2.5C90+2.5+66.7325+0.0645175+50+0C31.7958-0.0701922+10+2.5+10+2.5Z" stroke-linecap="round" opacity="1" stroke-linejoin="round"/>
-<path stroke="#000000" stroke-width="5" d="M12.8979+47.4753C12.8979+47.4753+33.75+45+50+45C66.25+45+87.2861+47.4753+87.2861+47.4753" stroke-linecap="round" opacity="1" stroke-linejoin="round"/>
-<path stroke="#000000" stroke-width="5" d="M65+45C65+30+67.5+12.5+50.0814+12.4571C43.7908+12.4416+40+17.5+40+22.5C40+27.5+45.6437+30.3187+47.6243+29.9586" stroke-linecap="round" opacity="1" stroke-linejoin="round"/>
-<path stroke="#000000" stroke-width="5" d="M35.0221+45.8177C35.0221+60.8177+32.5221+78.3177+49.9407+78.3606C56.2313+78.3761+60.0221+73.3177+60.0221+68.3177C60.0221+63.3177+54.3784+60.4991+52.3979+60.8592" stroke-linecap="round" opacity="1" stroke-linejoin="round"/>
+<g id="honey33" vectornator:layerName="honey33">
+<path stroke="#000000" stroke-width="1.02" d="M10+2.5C10+27.5+10+100+50+100C90+100+90+27.5+90+2.5C90+2.5+66.7325+0.0645175+50+0C31.7958-0.0701922+10+2.5+10+2.5Z" fill="none" stroke-linecap="round" opacity="1" stroke-linejoin="round"/>
+<path stroke="#000000" stroke-width="1.02" d="M12.8979+47.4753C12.8979+47.4753+33.75+45+50+45C66.25+45+87.2861+47.4753+87.2861+47.4753" fill="none" stroke-linecap="round" opacity="1" stroke-linejoin="round"/>
+<path stroke="#000000" stroke-width="1.02" d="M65+45C65+30+67.5+12.5+50.0814+12.4571C43.7908+12.4416+40+17.5+40+22.5C40+27.5+45.6437+30.3187+47.6243+29.9586" fill="none" stroke-linecap="round" opacity="1" stroke-linejoin="round"/>
+<path stroke="#000000" stroke-width="1.02" d="M35.0221+45.8177C35.0221+60.8177+32.5221+78.3177+49.9407+78.3606C56.2313+78.3761+60.0221+73.3177+60.0221+68.3177C60.0221+63.3177+54.3784+60.4991+52.3979+60.8592" fill="none" stroke-linecap="round" opacity="1" stroke-linejoin="round"/>
 </g>
-<g id="honey32">
-<path stroke="#000000" stroke-width="5" d="M10+2.5C10+27.5+10+100+50+100C90+100+90+27.5+90+2.5C90+2.5+66.7325+0.0645175+50+0C31.7958-0.0701922+10+2.5+10+2.5Z" stroke-linecap="round" opacity="1" stroke-linejoin="round"/>
-<path stroke="#000000" stroke-width="5" d="M12.8979+47.4753C12.8979+47.4753+33.75+45+50+45C66.25+45+87.2861+47.4753+87.2861+47.4753" stroke-linecap="round" opacity="1" stroke-linejoin="round"/>
-<path stroke="#000000" stroke-width="5" d="M64.9766+45.3598L42.5+67.5" stroke-linecap="round" opacity="1" stroke-linejoin="round"/>
-<path stroke="#000000" stroke-width="5" d="M57.5+72.5L49.9831+80.0169L42.5+87.5" stroke-linecap="round" opacity="1" stroke-linejoin="round"/>
-<path stroke="#000000" stroke-width="5" d="M65+45C65+30+67.5+12.5+50.0814+12.4571C43.7908+12.4416+40+17.5+40+22.5C40+27.5+45.6437+30.3187+47.6243+29.9586" stroke-linecap="round" opacity="1" stroke-linejoin="round"/>
+<g id="honey32" vectornator:layerName="honey32">
+<path stroke="#000000" stroke-width="1.02" d="M10+2.5C10+27.5+10+100+50+100C90+100+90+27.5+90+2.5C90+2.5+66.7325+0.0645175+50+0C31.7958-0.0701922+10+2.5+10+2.5Z" fill="none" stroke-linecap="round" opacity="1" stroke-linejoin="round"/>
+<path stroke="#000000" stroke-width="1.02" d="M12.8979+47.4753C12.8979+47.4753+33.75+45+50+45C66.25+45+87.2861+47.4753+87.2861+47.4753" fill="none" stroke-linecap="round" opacity="1" stroke-linejoin="round"/>
+<path stroke="#000000" stroke-width="1.02" d="M64.9766+45.3598L42.5+67.5" fill="none" stroke-linecap="round" opacity="1" stroke-linejoin="round"/>
+<path stroke="#000000" stroke-width="1.02" d="M57.5+72.5L49.9831+80.0169L42.5+87.5" fill="none" stroke-linecap="round" opacity="1" stroke-linejoin="round"/>
+<path stroke="#000000" stroke-width="1.02" d="M65+45C65+30+67.5+12.5+50.0814+12.4571C43.7908+12.4416+40+17.5+40+22.5C40+27.5+45.6437+30.3187+47.6243+29.9586" fill="none" stroke-linecap="round" opacity="1" stroke-linejoin="round"/>
 </g>
-<g id="honey31">
-<path stroke="#000000" stroke-width="5" d="M10+2.5C10+27.5+10+100+50+100C90+100+90+27.5+90+2.5C90+2.5+66.7325+0.0645175+50+0C31.7958-0.0701922+10+2.5+10+2.5Z" stroke-linecap="round" opacity="1" stroke-linejoin="round"/>
-<path stroke="#000000" stroke-width="5" d="M12.8979+47.4753C12.8979+47.4753+33.75+45+50+45C66.25+45+87.2861+47.4753+87.2861+47.4753" stroke-linecap="round" opacity="1" stroke-linejoin="round"/>
-<path stroke="#000000" stroke-width="5" d="M64.9303+44.9345L65+67.5C65+67.5+56.5098+66.8135+50.2598+66.8135C44.0098+66.8135+35+67.5+35+67.5L34.9178+95.6724" stroke-linecap="round" opacity="1" stroke-linejoin="round"/>
-<path stroke="#000000" stroke-width="5" d="M65+45C65+30+67.5+12.5+50.0814+12.4571C43.7908+12.4416+40+17.5+40+22.5C40+27.5+45.6437+30.3187+47.6243+29.9586" stroke-linecap="round" opacity="1" stroke-linejoin="round"/>
+<g id="honey31" vectornator:layerName="honey31">
+<path stroke="#000000" stroke-width="1.02" d="M10+2.5C10+27.5+10+100+50+100C90+100+90+27.5+90+2.5C90+2.5+66.7325+0.0645175+50+0C31.7958-0.0701922+10+2.5+10+2.5Z" fill="none" stroke-linecap="round" opacity="1" stroke-linejoin="round"/>
+<path stroke="#000000" stroke-width="1.02" d="M12.8979+47.4753C12.8979+47.4753+33.75+45+50+45C66.25+45+87.2861+47.4753+87.2861+47.4753" fill="none" stroke-linecap="round" opacity="1" stroke-linejoin="round"/>
+<path stroke="#000000" stroke-width="1.02" d="M64.9303+44.9345L65+67.5C65+67.5+56.5098+66.8135+50.2598+66.8135C44.0098+66.8135+35+67.5+35+67.5L34.9178+95.6724" fill="none" stroke-linecap="round" opacity="1" stroke-linejoin="round"/>
+<path stroke="#000000" stroke-width="1.02" d="M65+45C65+30+67.5+12.5+50.0814+12.4571C43.7908+12.4416+40+17.5+40+22.5C40+27.5+45.6437+30.3187+47.6243+29.9586" fill="none" stroke-linecap="round" opacity="1" stroke-linejoin="round"/>
 </g>
-<g id="honey30">
-<path stroke="#000000" stroke-width="5" d="M10+2.5C10+27.5+10+100+50+100C90+100+90+27.5+90+2.5C90+2.5+66.7325+0.0645175+50+0C31.7958-0.0701922+10+2.5+10+2.5Z" stroke-linecap="round" opacity="1" stroke-linejoin="round"/>
-<path stroke="#000000" stroke-width="5" d="M12.8979+47.4753C12.8979+47.4753+33.75+45+50+45C66.25+45+87.2861+47.4753+87.2861+47.4753" stroke-linecap="round" opacity="1" stroke-linejoin="round"/>
-<path stroke="#000000" stroke-width="5" d="M65+45C65+30+67.5+12.5+50.0814+12.4571C43.7908+12.4416+40+17.5+40+22.5C40+27.5+45.6437+30.3187+47.6243+29.9586" stroke-linecap="round" opacity="1" stroke-linejoin="round"/>
+<g id="honey30" vectornator:layerName="honey30">
+<path stroke="#000000" stroke-width="1.02" d="M10+2.5C10+27.5+10+100+50+100C90+100+90+27.5+90+2.5C90+2.5+66.7325+0.0645175+50+0C31.7958-0.0701922+10+2.5+10+2.5Z" fill="none" stroke-linecap="round" opacity="1" stroke-linejoin="round"/>
+<path stroke="#000000" stroke-width="1.02" d="M12.8979+47.4753C12.8979+47.4753+33.75+45+50+45C66.25+45+87.2861+47.4753+87.2861+47.4753" fill="none" stroke-linecap="round" opacity="1" stroke-linejoin="round"/>
+<path stroke="#000000" stroke-width="1.02" d="M65+45C65+30+67.5+12.5+50.0814+12.4571C43.7908+12.4416+40+17.5+40+22.5C40+27.5+45.6437+30.3187+47.6243+29.9586" fill="none" stroke-linecap="round" opacity="1" stroke-linejoin="round"/>
 </g>
-<g id="honey29">
-<path stroke="#000000" stroke-width="5" d="M10+2.5C10+27.5+10+100+50+100C90+100+90+27.5+90+2.5C90+2.5+66.7325+0.0645175+50+0C31.7958-0.0701922+10+2.5+10+2.5Z" stroke-linecap="round" opacity="1" stroke-linejoin="round"/>
-<path stroke="#000000" stroke-width="5" d="M12.8979+47.4753C12.8979+47.4753+33.75+45+50+45C66.25+45+87.2861+47.4753+87.2861+47.4753" stroke-linecap="round" opacity="1" stroke-linejoin="round"/>
-<path stroke="#000000" stroke-width="5" d="M52.5+30C30+55+52.5+67.5+52.5+67.5C52.5+67.5+30+62.5+23.6951+82.8404" stroke-linecap="round" opacity="1" stroke-linejoin="round"/>
-<path stroke="#000000" stroke-width="5" d="M47.5+15L32.5+30" stroke-linecap="round" opacity="1" stroke-linejoin="round"/>
-<path stroke="#000000" stroke-width="5" d="M67.5+15L59.9831+22.5169L52.5+30" stroke-linecap="round" opacity="1" stroke-linejoin="round"/>
+<g id="honey29" vectornator:layerName="honey29">
+<path stroke="#000000" stroke-width="1.02" d="M10+2.5C10+27.5+10+100+50+100C90+100+90+27.5+90+2.5C90+2.5+66.7325+0.0645175+50+0C31.7958-0.0701922+10+2.5+10+2.5Z" fill="none" stroke-linecap="round" opacity="1" stroke-linejoin="round"/>
+<path stroke="#000000" stroke-width="1.02" d="M12.8979+47.4753C12.8979+47.4753+33.75+45+50+45C66.25+45+87.2861+47.4753+87.2861+47.4753" fill="none" stroke-linecap="round" opacity="1" stroke-linejoin="round"/>
+<path stroke="#000000" stroke-width="1.02" d="M52.5+30C30+55+52.5+67.5+52.5+67.5C52.5+67.5+30+62.5+23.6951+82.8404" fill="none" stroke-linecap="round" opacity="1" stroke-linejoin="round"/>
+<path stroke="#000000" stroke-width="1.02" d="M47.5+15L32.5+30" fill="none" stroke-linecap="round" opacity="1" stroke-linejoin="round"/>
+<path stroke="#000000" stroke-width="1.02" d="M67.5+15L59.9831+22.5169L52.5+30" fill="none" stroke-linecap="round" opacity="1" stroke-linejoin="round"/>
 </g>
-<g id="honey28">
-<path stroke="#000000" stroke-width="5" d="M10+2.5C10+27.5+10+100+50+100C90+100+90+27.5+90+2.5C90+2.5+66.7325+0.0645175+50+0C31.7958-0.0701922+10+2.5+10+2.5Z" stroke-linecap="round" opacity="1" stroke-linejoin="round"/>
-<path stroke="#000000" stroke-width="5" d="M12.8979+47.4753C12.8979+47.4753+33.75+45+50+45C66.25+45+87.2861+47.4753+87.2861+47.4753" stroke-linecap="round" opacity="1" stroke-linejoin="round"/>
-<path stroke="#000000" stroke-width="5" d="M40+70C40+64.4772+44.4772+60+50+60C55.5228+60+60+64.4772+60+70C60+75.5228+55.5228+80+50+80C44.4772+80+40+75.5228+40+70Z" stroke-linecap="round" opacity="1" stroke-linejoin="round"/>
-<path stroke="#000000" stroke-width="5" d="M47.5+70.2204C47.5+68.9615+48.5797+67.9409+49.9116+67.9409C51.2435+67.9409+52.3232+68.9615+52.3232+70.2204C52.3232+71.4794+51.2435+72.5+49.9116+72.5C48.5797+72.5+47.5+71.4794+47.5+70.2204Z" stroke-linecap="round" opacity="1" stroke-linejoin="round"/>
-<path stroke="#000000" stroke-width="5" d="M47.5+15L32.5+30" stroke-linecap="round" opacity="1" stroke-linejoin="round"/>
-<path stroke="#000000" stroke-width="5" d="M67.5+15L59.9831+22.5169L52.5+30" stroke-linecap="round" opacity="1" stroke-linejoin="round"/>
-<path stroke="#000000" stroke-width="5" d="M50+80C40+80+22.5+60+52.5+30" stroke-linecap="round" opacity="1" stroke-linejoin="round" fill="none"/>
+<g id="honey28" vectornator:layerName="honey28">
+<path stroke="#000000" stroke-width="1.02" d="M10+2.5C10+27.5+10+100+50+100C90+100+90+27.5+90+2.5C90+2.5+66.7325+0.0645175+50+0C31.7958-0.0701922+10+2.5+10+2.5Z" fill="none" stroke-linecap="round" opacity="1" stroke-linejoin="round"/>
+<path stroke="#000000" stroke-width="1.02" d="M12.8979+47.4753C12.8979+47.4753+33.75+45+50+45C66.25+45+87.2861+47.4753+87.2861+47.4753" fill="none" stroke-linecap="round" opacity="1" stroke-linejoin="round"/>
+<path stroke="#000000" stroke-width="1.02" d="M40+70C40+64.4772+44.4772+60+50+60C55.5228+60+60+64.4772+60+70C60+75.5228+55.5228+80+50+80C44.4772+80+40+75.5228+40+70Z" fill="none" stroke-linecap="round" opacity="1" stroke-linejoin="round"/>
+<path d="M47.5+70.2204C47.5+68.9615+48.5797+67.9409+49.9116+67.9409C51.2435+67.9409+52.3232+68.9615+52.3232+70.2204C52.3232+71.4794+51.2435+72.5+49.9116+72.5C48.5797+72.5+47.5+71.4794+47.5+70.2204Z" opacity="1" fill="#000000"/>
+<path stroke="#000000" stroke-width="1.02" d="M47.5+15L32.5+30" fill="none" stroke-linecap="round" opacity="1" stroke-linejoin="round"/>
+<path stroke="#000000" stroke-width="1.02" d="M67.5+15L59.9831+22.5169L52.5+30" fill="none" stroke-linecap="round" opacity="1" stroke-linejoin="round"/>
+<path stroke="#000000" stroke-width="1.02" d="M50+80C40+80+22.5+60+52.5+30" fill="none" stroke-linecap="round" opacity="1" stroke-linejoin="round"/>
 </g>
-<g id="honey27">
-<path stroke="#000000" stroke-width="5" d="M10+2.5C10+27.5+10+100+50+100C90+100+90+27.5+90+2.5C90+2.5+66.7325+0.0645175+50+0C31.7958-0.0701922+10+2.5+10+2.5Z" stroke-linecap="round" opacity="1" stroke-linejoin="round"/>
-<path stroke="#000000" stroke-width="5" d="M12.8979+47.4753C12.8979+47.4753+33.75+45+50+45C66.25+45+87.2861+47.4753+87.2861+47.4753" stroke-linecap="round" opacity="1" stroke-linejoin="round"/>
-<path stroke="#000000" stroke-width="5" d="M32.5+68.75C32.5+65.2982+35.2982+62.5+38.75+62.5C42.2018+62.5+45+65.2982+45+68.75C45+72.2018+42.2018+75+38.75+75C35.2982+75+32.5+72.2018+32.5+68.75Z" stroke-linecap="round" opacity="1" stroke-linejoin="round"/>
-<path stroke="#000000" stroke-width="5" d="M55+68.75C55+65.2982+57.7982+62.5+61.25+62.5C64.7018+62.5+67.5+65.2982+67.5+68.75C67.5+72.2018+64.7018+75+61.25+75C57.7982+75+55+72.2018+55+68.75Z" stroke-linecap="round" opacity="1" stroke-linejoin="round"/>
-<path stroke="#000000" stroke-width="5" d="M47.5+15L32.5+30" stroke-linecap="round" opacity="1" stroke-linejoin="round"/>
-<path stroke="#000000" stroke-width="5" d="M67.5+15L59.9831+22.5169L52.5+30" stroke-linecap="round" opacity="1" stroke-linejoin="round"/>
+<g id="honey27" vectornator:layerName="honey27">
+<path stroke="#000000" stroke-width="1.02" d="M10+2.5C10+27.5+10+100+50+100C90+100+90+27.5+90+2.5C90+2.5+66.7325+0.0645175+50+0C31.7958-0.0701922+10+2.5+10+2.5Z" fill="none" stroke-linecap="round" opacity="1" stroke-linejoin="round"/>
+<path stroke="#000000" stroke-width="1.02" d="M47.5+15L32.5+30" fill="none" stroke-linecap="round" opacity="1" stroke-linejoin="round"/>
+<path stroke="#000000" stroke-width="1.02" d="M67.5+15L59.9831+22.5169L52.5+30" fill="none" stroke-linecap="round" opacity="1" stroke-linejoin="round"/>
+<path stroke="#000000" stroke-width="1.02" d="M12.8979+47.4753C12.8979+47.4753+33.75+45+50+45C66.25+45+87.2861+47.4753+87.2861+47.4753" fill="none" stroke-linecap="round" opacity="1" stroke-linejoin="round"/>
+<path d="M35.0426+45.7458L34.9951+95.7653L40.0778+97.9979L39.7999+45.5137L35.0426+45.7458Z" opacity="1" fill="#000000"/>
+<path d="M64.9688+45.7458L64.9688+95.3853L59.9336+97.9504L60.1689+45.6615L64.9688+45.7458Z" opacity="1" fill="#000000"/>
 </g>
-<g id="honey26">
-<path stroke="#000000" stroke-width="5" d="M10+2.5C10+27.5+10+100+50+100C90+100+90+27.5+90+2.5C90+2.5+66.7325+0.0645175+50+0C31.7958-0.0701922+10+2.5+10+2.5Z" stroke-linecap="round" opacity="1" stroke-linejoin="round"/>
-<path stroke="#000000" stroke-width="5" d="M47.5+15L32.5+30" stroke-linecap="round" opacity="1" stroke-linejoin="round"/>
-<path stroke="#000000" stroke-width="5" d="M67.5+15L59.9831+22.5169L52.5+30" stroke-linecap="round" opacity="1" stroke-linejoin="round"/>
-<path stroke="#000000" stroke-width="5" d="M12.8979+47.4753C12.8979+47.4753+33.75+45+50+45C66.25+45+87.2861+47.4753+87.2861+47.4753" stroke-linecap="round" opacity="1" stroke-linejoin="round"/>
-<path stroke="#000000" stroke-width="5" d="M37.5491+45.8094L37.5984+96.6397L40.3755+97.8649L40.0624+45.5137L37.5491+45.8094Z" stroke-linecap="round" opacity="1" stroke-linejoin="round"/>
-<path stroke="#000000" stroke-width="5" d="M62.6083+45.8094L62.5928+96.7213L60.1423+97.5382L60.1689+45.6615L62.6083+45.8094Z" stroke-linecap="round" opacity="1" stroke-linejoin="round"/>
+<g id="honey26" vectornator:layerName="honey26">
+<path stroke="#000000" stroke-width="1.02" d="M10+2.5C10+27.5+10+100+50+100C90+100+90+27.5+90+2.5C90+2.5+66.7325+0.0645175+50+0C31.7958-0.0701922+10+2.5+10+2.5Z" fill="none" stroke-linecap="round" opacity="1" stroke-linejoin="round"/>
+<path stroke="#000000" stroke-width="1.02" d="M12.8979+47.4753C12.8979+47.4753+33.75+45+50+45C66.25+45+87.2861+47.4753+87.2861+47.4753" fill="none" stroke-linecap="round" opacity="1" stroke-linejoin="round"/>
+<path stroke="#000000" stroke-width="1" d="M32.5+68.75C32.5+65.2982+35.2982+62.5+38.75+62.5C42.2018+62.5+45+65.2982+45+68.75C45+72.2018+42.2018+75+38.75+75C35.2982+75+32.5+72.2018+32.5+68.75Z" fill="none" stroke-linecap="round" opacity="1" stroke-linejoin="round"/>
+<path stroke="#000000" stroke-width="1" d="M55+68.75C55+65.2982+57.7982+62.5+61.25+62.5C64.7018+62.5+67.5+65.2982+67.5+68.75C67.5+72.2018+64.7018+75+61.25+75C57.7982+75+55+72.2018+55+68.75Z" fill="none" stroke-linecap="round" opacity="1" stroke-linejoin="round"/>
+<path stroke="#000000" stroke-width="1.02" d="M47.5+15L32.5+30" fill="none" stroke-linecap="round" opacity="1" stroke-linejoin="round"/>
+<path stroke="#000000" stroke-width="1.02" d="M67.5+15L59.9831+22.5169L52.5+30" fill="none" stroke-linecap="round" opacity="1" stroke-linejoin="round"/>
 </g>
-<g id="honey25">
-<path stroke="#000000" stroke-width="5" d="M10+2.5C10+27.5+10+100+50+100C90+100+90+27.5+90+2.5C90+2.5+66.7325+0.0645175+50+0C31.7958-0.0701922+10+2.5+10+2.5Z" stroke-linecap="round" opacity="1" stroke-linejoin="round"/>
-<path stroke="#000000" stroke-width="5" d="M12.8979+47.4753C12.8979+47.4753+33.75+45+50+45C66.25+45+87.2861+47.4753+87.2861+47.4753" stroke-linecap="round" opacity="1" stroke-linejoin="round"/>
-<path stroke="#000000" stroke-width="5" d="M45+68.75C45+65.2982+47.2386+62.5+50+62.5C52.7614+62.5+55+65.2982+55+68.75C55+72.2018+52.7614+75+50+75C47.2386+75+45+72.2018+45+68.75Z" stroke-linecap="round" opacity="1" stroke-linejoin="round" fill="black"/>
-<path stroke="#000000" stroke-width="5" d="M47.5+15L32.5+30" stroke-linecap="round" opacity="1" stroke-linejoin="round"/>
-<path stroke="#000000" stroke-width="5" d="M67.5+15L59.9831+22.5169L52.5+30" stroke-linecap="round" opacity="1" stroke-linejoin="round"/>
+<g id="honey25" vectornator:layerName="honey25">
+<path stroke="#000000" stroke-width="1.02" d="M10+2.5C10+27.5+10+100+50+100C90+100+90+27.5+90+2.5C90+2.5+66.7325+0.0645175+50+0C31.7958-0.0701922+10+2.5+10+2.5Z" fill="none" stroke-linecap="round" opacity="1" stroke-linejoin="round"/>
+<path stroke="#000000" stroke-width="1.02" d="M12.8979+47.4753C12.8979+47.4753+33.75+45+50+45C66.25+45+87.2861+47.4753+87.2861+47.4753" fill="none" stroke-linecap="round" opacity="1" stroke-linejoin="round"/>
+<path d="M45+68.75C45+65.2982+47.2386+62.5+50+62.5C52.7614+62.5+55+65.2982+55+68.75C55+72.2018+52.7614+75+50+75C47.2386+75+45+72.2018+45+68.75Z" opacity="1" fill="#000000"/>
+<path stroke="#000000" stroke-width="1.02" d="M47.5+15L32.5+30" fill="none" stroke-linecap="round" opacity="1" stroke-linejoin="round"/>
+<path stroke="#000000" stroke-width="1.02" d="M67.5+15L59.9831+22.5169L52.5+30" fill="none" stroke-linecap="round" opacity="1" stroke-linejoin="round"/>
 </g>
-<g id="honey24">
-<path stroke="#000000" stroke-width="5" d="M10+2.5C10+27.5+10+100+50+100C90+100+90+27.5+90+2.5C90+2.5+66.7325+0.0645175+50+0C31.7958-0.0701922+10+2.5+10+2.5Z" stroke-linecap="round" opacity="1" stroke-linejoin="round"/>
-<path stroke="#000000" stroke-width="5" d="M12.8979+47.4753C12.8979+47.4753+33.75+45+50+45C66.25+45+87.2861+47.4753+87.2861+47.4753" stroke-linecap="round" opacity="1" stroke-linejoin="round"/>
-<path stroke="#000000" stroke-width="5" d="M47.5+15L32.5+30" stroke-linecap="round" opacity="1" stroke-linejoin="round"/>
-<path stroke="#000000" stroke-width="5" d="M67.5+15L59.9831+22.5169L52.5+30" stroke-linecap="round" opacity="1" stroke-linejoin="round"/>
-<path stroke="#000000" stroke-width="5" d="M64.8999+45.9572C64.8999+58.4572+65+67.5+55+67.5C45+67.5+37.5+67.5+37.5+77.5C37.5+87.5+45+95+52.5+100" stroke-linecap="round" opacity="1" stroke-linejoin="round"/>
+<g id="honey24" vectornator:layerName="honey24">
+<path stroke="#000000" stroke-width="1.02" d="M10+2.5C10+27.5+10+100+50+100C90+100+90+27.5+90+2.5C90+2.5+66.7325+0.0645175+50+0C31.7958-0.0701922+10+2.5+10+2.5Z" fill="none" stroke-linecap="round" opacity="1" stroke-linejoin="round"/>
+<path stroke="#000000" stroke-width="1.02" d="M12.8979+47.4753C12.8979+47.4753+33.75+45+50+45C66.25+45+87.2861+47.4753+87.2861+47.4753" fill="none" stroke-linecap="round" opacity="1" stroke-linejoin="round"/>
+<path stroke="#000000" stroke-width="1.02" d="M47.5+15L32.5+30" fill="none" stroke-linecap="round" opacity="1" stroke-linejoin="round"/>
+<path stroke="#000000" stroke-width="1.02" d="M67.5+15L59.9831+22.5169L52.5+30" fill="none" stroke-linecap="round" opacity="1" stroke-linejoin="round"/>
+<path stroke="#000000" stroke-width="1.02" d="M65+45C65+57.5+64.9618+80.278+22.4618+80.278" fill="none" stroke-linecap="round" opacity="1" stroke-linejoin="round"/>
 </g>
-<g id="honey23">
-<path stroke="#000000" stroke-width="5" d="M10+2.5C10+27.5+10+100+50+100C90+100+90+27.5+90+2.5C90+2.5+66.7325+0.0645175+50+0C31.7958-0.0701922+10+2.5+10+2.5Z" stroke-linecap="round" opacity="1" stroke-linejoin="round"/>
-<path stroke="#000000" stroke-width="5" d="M12.8979+47.4753C12.8979+47.4753+33.75+45+50+45C66.25+45+87.2861+47.4753+87.2861+47.4753" stroke-linecap="round" opacity="1" stroke-linejoin="round"/>
-<path stroke="#000000" stroke-width="5" d="M47.5+15L32.5+30" stroke-linecap="round" opacity="1" stroke-linejoin="round"/>
-<path stroke="#000000" stroke-width="5" d="M67.5+15L59.9831+22.5169L52.5+30" stroke-linecap="round" opacity="1" stroke-linejoin="round"/>
-<path stroke="#000000" stroke-width="5" d="M64.9037+45.3964C64.9037+60.3964+67.4867+79.7272+50.0681+79.7701C43.7775+79.7856+39.4736+74.5608+39.4736+69.5608C39.4736+64.5608+45.5474+60.0778+47.528+60.4379" stroke-linecap="round" opacity="1" stroke-linejoin="round"/>
+<g id="honey23" vectornator:layerName="honey23">
+<path stroke="#000000" stroke-width="1.02" d="M10+2.5C10+27.5+10+100+50+100C90+100+90+27.5+90+2.5C90+2.5+66.7325+0.0645175+50+0C31.7958-0.0701922+10+2.5+10+2.5Z" fill="none" stroke-linecap="round" opacity="1" stroke-linejoin="round"/>
+<path stroke="#000000" stroke-width="1.02" d="M12.8979+47.4753C12.8979+47.4753+33.75+45+50+45C66.25+45+87.2861+47.4753+87.2861+47.4753" fill="none" stroke-linecap="round" opacity="1" stroke-linejoin="round"/>
+<path stroke="#000000" stroke-width="1.02" d="M47.5+15L32.5+30" fill="none" stroke-linecap="round" opacity="1" stroke-linejoin="round"/>
+<path stroke="#000000" stroke-width="1.02" d="M67.5+15L59.9831+22.5169L52.5+30" fill="none" stroke-linecap="round" opacity="1" stroke-linejoin="round"/>
+<path stroke="#000000" stroke-width="1.02" d="M64.9037+45.3964C64.9037+60.3964+67.4867+79.7272+50.0681+79.7701C43.7775+79.7856+39.4736+74.5608+39.4736+69.5608C39.4736+64.5608+45.5474+60.0778+47.528+60.4379" fill="none" stroke-linecap="round" opacity="1" stroke-linejoin="round"/>
 </g>
-<g id="honey22">
-<path stroke="#000000" stroke-width="5" d="M10+2.5C10+27.5+10+100+50+100C90+100+90+27.5+90+2.5C90+2.5+66.7325+0.0645175+50+0C31.7958-0.0701922+10+2.5+10+2.5Z" stroke-linecap="round" opacity="1" stroke-linejoin="round"/>
-<path stroke="#000000" stroke-width="5" d="M12.8979+47.4753C12.8979+47.4753+33.75+45+50+45C66.25+45+87.2861+47.4753+87.2861+47.4753" stroke-linecap="round" opacity="1" stroke-linejoin="round"/>
-<path stroke="#000000" stroke-width="5" d="M47.5+60L32.5+75" stroke-linecap="round" opacity="1" stroke-linejoin="round"/>
-<path stroke="#000000" stroke-width="5" d="M67.5+60L59.9831+67.5169L52.5+75" stroke-linecap="round" opacity="1" stroke-linejoin="round"/>
-<path stroke="#000000" stroke-width="5" d="M47.5+15L32.5+30" stroke-linecap="round" opacity="1" stroke-linejoin="round"/>
-<path stroke="#000000" stroke-width="5" d="M67.5+15L59.9831+22.5169L52.5+30" stroke-linecap="round" opacity="1" stroke-linejoin="round"/>
+<g id="honey22" vectornator:layerName="honey22">
+<path stroke="#000000" stroke-width="1.02" d="M10+2.5C10+27.5+10+100+50+100C90+100+90+27.5+90+2.5C90+2.5+66.7325+0.0645175+50+0C31.7958-0.0701922+10+2.5+10+2.5Z" fill="none" stroke-linecap="round" opacity="1" stroke-linejoin="round"/>
+<path stroke="#000000" stroke-width="1.02" d="M12.8979+47.4753C12.8979+47.4753+33.75+45+50+45C66.25+45+87.2861+47.4753+87.2861+47.4753" fill="none" stroke-linecap="round" opacity="1" stroke-linejoin="round"/>
+<path stroke="#000000" stroke-width="1.02" d="M47.5+60L32.5+75" fill="none" stroke-linecap="round" opacity="1" stroke-linejoin="round"/>
+<path stroke="#000000" stroke-width="1.02" d="M67.5+60L59.9831+67.5169L52.5+75" fill="none" stroke-linecap="round" opacity="1" stroke-linejoin="round"/>
+<path stroke="#000000" stroke-width="1.02" d="M47.5+15L32.5+30" fill="none" stroke-linecap="round" opacity="1" stroke-linejoin="round"/>
+<path stroke="#000000" stroke-width="1.02" d="M67.5+15L59.9831+22.5169L52.5+30" fill="none" stroke-linecap="round" opacity="1" stroke-linejoin="round"/>
 </g>
-<g id="honey21">
-<path stroke="#000000" stroke-width="5" d="M10+2.5C10+27.5+10+100+50+100C90+100+90+27.5+90+2.5C90+2.5+66.7325+0.0645175+50+0C31.7958-0.0701922+10+2.5+10+2.5Z" stroke-linecap="round" opacity="1" stroke-linejoin="round"/>
-<path stroke="#000000" stroke-width="5" d="M12.8979+47.4753C12.8979+47.4753+33.75+45+50+45C66.25+45+87.2861+47.4753+87.2861+47.4753" stroke-linecap="round" opacity="1" stroke-linejoin="round"/>
-<path stroke="#000000" stroke-width="5" d="M34.9629+45.8235L34.9178+67.5C34.9178+67.5+43.408+66.8135+49.658+66.8135C55.908+66.8135+64.9178+67.5+64.9178+67.5L65+95.6724" stroke-linecap="round" opacity="1" stroke-linejoin="round"/>
-<path stroke="#000000" stroke-width="5" d="M47.5+15L32.5+30" stroke-linecap="round" opacity="1" stroke-linejoin="round"/>
-<path stroke="#000000" stroke-width="5" d="M67.5+15L59.9831+22.5169L52.5+30" stroke-linecap="round" opacity="1" stroke-linejoin="round"/>
+<g id="honey21" vectornator:layerName="honey21">
+<path stroke="#000000" stroke-width="1.02" d="M10+2.5C10+27.5+10+100+50+100C90+100+90+27.5+90+2.5C90+2.5+66.7325+0.0645175+50+0C31.7958-0.0701922+10+2.5+10+2.5Z" fill="none" stroke-linecap="round" opacity="1" stroke-linejoin="round"/>
+<path stroke="#000000" stroke-width="1.02" d="M12.8979+47.4753C12.8979+47.4753+33.75+45+50+45C66.25+45+87.2861+47.4753+87.2861+47.4753" fill="none" stroke-linecap="round" opacity="1" stroke-linejoin="round"/>
+<path stroke="#000000" stroke-width="1.02" d="M34.9629+45.8235L34.9178+67.5C34.9178+67.5+43.408+66.8135+49.658+66.8135C55.908+66.8135+64.9178+67.5+64.9178+67.5L65+95.6724" fill="none" stroke-linecap="round" opacity="1" stroke-linejoin="round"/>
+<path stroke="#000000" stroke-width="1.02" d="M47.5+15L32.5+30" fill="none" stroke-linecap="round" opacity="1" stroke-linejoin="round"/>
+<path stroke="#000000" stroke-width="1.02" d="M67.5+15L59.9831+22.5169L52.5+30" fill="none" stroke-linecap="round" opacity="1" stroke-linejoin="round"/>
 </g>
-<g id="honey20">
-<path stroke="#000000" stroke-width="5" d="M10+2.5C10+27.5+10+100+50+100C90+100+90+27.5+90+2.5C90+2.5+66.7325+0.0645175+50+0C31.7958-0.0701922+10+2.5+10+2.5Z" stroke-linecap="round" opacity="1" stroke-linejoin="round"/>
-<path stroke="#000000" stroke-width="5" d="M12.8979+47.4753C12.8979+47.4753+33.75+45+50+45C66.25+45+87.2861+47.4753+87.2861+47.4753" stroke-linecap="round" opacity="1" stroke-linejoin="round"/>
-<path stroke="#000000" stroke-width="5" d="M47.5+15L32.5+30" stroke-linecap="round" opacity="1" stroke-linejoin="round"/>
-<path stroke="#000000" stroke-width="5" d="M67.5+15L59.9831+22.5169L52.5+30" stroke-linecap="round" opacity="1" stroke-linejoin="round"/>
+<g id="honey20" vectornator:layerName="honey20">
+<path stroke="#000000" stroke-width="1.02" d="M10+2.5C10+27.5+10+100+50+100C90+100+90+27.5+90+2.5C90+2.5+66.7325+0.0645175+50+0C31.7958-0.0701922+10+2.5+10+2.5Z" fill="none" stroke-linecap="round" opacity="1" stroke-linejoin="round"/>
+<path stroke="#000000" stroke-width="1.02" d="M12.8979+47.4753C12.8979+47.4753+33.75+45+50+45C66.25+45+87.2861+47.4753+87.2861+47.4753" fill="none" stroke-linecap="round" opacity="1" stroke-linejoin="round"/>
+<path stroke="#000000" stroke-width="1.02" d="M47.5+15L32.5+30" fill="none" stroke-linecap="round" opacity="1" stroke-linejoin="round"/>
+<path stroke="#000000" stroke-width="1.02" d="M67.5+15L59.9831+22.5169L52.5+30" fill="none" stroke-linecap="round" opacity="1" stroke-linejoin="round"/>
 </g>
-<g id="honey19">
-<path stroke="#000000" stroke-width="5" d="M10+2.5C10+27.5+10+100+50+100C90+100+90+27.5+90+2.5C90+2.5+66.7325+0.0645175+50+0C31.7958-0.0701922+10+2.5+10+2.5Z" stroke-linecap="round" opacity="1" stroke-linejoin="round"/>
-<path stroke="#000000" stroke-width="5" d="M12.8979+47.4753C12.8979+47.4753+33.75+45+50+45C66.25+45+87.2861+47.4753+87.2861+47.4753" stroke-linecap="round" opacity="1" stroke-linejoin="round"/>
-<path stroke="#000000" stroke-width="5" d="M34.9178+0.46937L35+22.5C35+22.5+43.9282+21.7595+50.1782+21.7595C56.4282+21.7595+65+22.5+65+22.5L64.8999+45.2919" stroke-linecap="round" opacity="1" stroke-linejoin="round"/>
-<path stroke="#000000" stroke-width="5" d="M64.8999+45.5137C64.8999+68.0137+67.5+72.5+67.5+72.5C67.5+72.5+42.5+50+23.4456+82.5387" stroke-linecap="round" opacity="1" stroke-linejoin="round"/>
+<g id="honey19" vectornator:layerName="honey19">
+<path stroke="#000000" stroke-width="1.02" d="M10+2.5C10+27.5+10+100+50+100C90+100+90+27.5+90+2.5C90+2.5+66.7325+0.0645175+50+0C31.7958-0.0701922+10+2.5+10+2.5Z" fill="none" stroke-linecap="round" opacity="1" stroke-linejoin="round"/>
+<path stroke="#000000" stroke-width="1.02" d="M12.8979+47.4753C12.8979+47.4753+33.75+45+50+45C66.25+45+87.2861+47.4753+87.2861+47.4753" fill="none" stroke-linecap="round" opacity="1" stroke-linejoin="round"/>
+<path stroke="#000000" stroke-width="1.02" d="M34.9178+0.46937L35+22.5C35+22.5+43.9282+21.7595+50.1782+21.7595C56.4282+21.7595+65+22.5+65+22.5L64.8999+45.2919" fill="none" stroke-linecap="round" opacity="1" stroke-linejoin="round"/>
+<path stroke="#000000" stroke-width="1.02" d="M64.8999+45.5137C64.8999+68.0137+67.5+72.5+67.5+72.5C67.5+72.5+42.5+50+23.4456+82.5387" fill="none" stroke-linecap="round" opacity="1" stroke-linejoin="round"/>
 </g>
-<g id="honey18">
-<path stroke="#000000" stroke-width="5" d="M10+2.5C10+27.5+10+100+50+100C90+100+90+27.5+90+2.5C90+2.5+66.7325+0.0645175+50+0C31.7958-0.0701922+10+2.5+10+2.5Z" stroke-linecap="round" opacity="1" stroke-linejoin="round"/>
-<path stroke="#000000" stroke-width="5" d="M12.8979+47.4753C12.8979+47.4753+33.75+45+50+45C66.25+45+87.2861+47.4753+87.2861+47.4753" stroke-linecap="round" opacity="1" stroke-linejoin="round"/>
-<path stroke="#000000" stroke-width="5" d="M34.9178+0.46937L35+22.5C35+22.5+43.9282+21.7595+50.1782+21.7595C56.4282+21.7595+65+22.5+65+22.5C65+22.5+65+30+65+44.8129C65+52.7427+65.7123+62.2323+63.7151+69.3573C61.9706+75.5807+55+80+50+80" stroke-linecap="round" opacity="1" stroke-linejoin="round" fill="none"/>
-<path stroke="#000000" stroke-width="5" d="M40+70C40+64.4772+44.4772+60+50+60C55.5228+60+60+64.4772+60+70C60+75.5228+55.5228+80+50+80C44.4772+80+40+75.5228+40+70Z" stroke-linecap="round" opacity="1" stroke-linejoin="round"/>
-<path stroke="#000000" stroke-width="5" d="M47.5+70.2204C47.5+68.9615+48.5797+67.9409+49.9116+67.9409C51.2435+67.9409+52.3232+68.9615+52.3232+70.2204C52.3232+71.4794+51.2435+72.5+49.9116+72.5C48.5797+72.5+47.5+71.4794+47.5+70.2204Z" stroke-linecap="round" opacity="1" stroke-linejoin="round"/>
+<g id="honey18" vectornator:layerName="honey18">
+<path stroke="#000000" stroke-width="1.02" d="M10+2.5C10+27.5+10+100+50+100C90+100+90+27.5+90+2.5C90+2.5+66.7325+0.0645175+50+0C31.7958-0.0701922+10+2.5+10+2.5Z" fill="none" stroke-linecap="round" opacity="1" stroke-linejoin="round"/>
+<path stroke="#000000" stroke-width="1.02" d="M12.8979+47.4753C12.8979+47.4753+33.75+45+50+45C66.25+45+87.2861+47.4753+87.2861+47.4753" fill="none" stroke-linecap="round" opacity="1" stroke-linejoin="round"/>
+<path stroke="#000000" stroke-width="1.02" d="M34.9178+0.46937L35+22.5C35+22.5+43.9282+21.7595+50.1782+21.7595C56.4282+21.7595+65+22.5+65+22.5C65+22.5+65+30+65+44.8129C65+52.7427+65.7123+62.2323+63.7151+69.3573C61.9706+75.5807+55+80+50+80" fill="none" stroke-linecap="round" opacity="1" stroke-linejoin="round"/>
+<path stroke="#000000" stroke-width="1.02" d="M40+70C40+64.4772+44.4772+60+50+60C55.5228+60+60+64.4772+60+70C60+75.5228+55.5228+80+50+80C44.4772+80+40+75.5228+40+70Z" fill="none" stroke-linecap="round" opacity="1" stroke-linejoin="round"/>
+<path d="M47.5+70.2204C47.5+68.9615+48.5797+67.9409+49.9116+67.9409C51.2435+67.9409+52.3232+68.9615+52.3232+70.2204C52.3232+71.4794+51.2435+72.5+49.9116+72.5C48.5797+72.5+47.5+71.4794+47.5+70.2204Z" opacity="1" fill="#000000"/>
 </g>
-<g id="honey17">
-<path stroke="#000000" stroke-width="5" d="M10+2.5C10+27.5+10+100+50+100C90+100+90+27.5+90+2.5C90+2.5+66.7325+0.0645175+50+0C31.7958-0.0701922+10+2.5+10+2.5Z" stroke-linecap="round" opacity="1" stroke-linejoin="round"/>
-<path stroke="#000000" stroke-width="5" d="M12.8979+47.4753C12.8979+47.4753+33.75+45+50+45C66.25+45+87.2861+47.4753+87.2861+47.4753" stroke-linecap="round" opacity="1" stroke-linejoin="round"/>
-<path stroke="#000000" stroke-width="5" d="M32.5+68.75C32.5+65.2982+35.2982+62.5+38.75+62.5C42.2018+62.5+45+65.2982+45+68.75C45+72.2018+42.2018+75+38.75+75C35.2982+75+32.5+72.2018+32.5+68.75Z" stroke-linecap="round" opacity="1" stroke-linejoin="round"/>
-<path stroke="#000000" stroke-width="5" d="M55+68.75C55+65.2982+57.7982+62.5+61.25+62.5C64.7018+62.5+67.5+65.2982+67.5+68.75C67.5+72.2018+64.7018+75+61.25+75C57.7982+75+55+72.2018+55+68.75Z" stroke-linecap="round" opacity="1" stroke-linejoin="round"/>
-<path stroke="#000000" stroke-width="5" d="M34.9178+0.46937L35+22.5C35+22.5+43.9282+21.7595+50.1782+21.7595C56.4282+21.7595+65+22.5+65+22.5L65.0175+44.9347" stroke-linecap="round" opacity="1" stroke-linejoin="round"/>
+<g id="honey17" vectornator:layerName="honey17">
+<path stroke="#000000" stroke-width="1.02" d="M10+2.5C10+27.5+10+100+50+100C90+100+90+27.5+90+2.5C90+2.5+66.7325+0.0645175+50+0C31.7958-0.0701922+10+2.5+10+2.5Z" fill="none" stroke-linecap="round" opacity="1" stroke-linejoin="round"/>
+<path stroke="#000000" stroke-width="1.02" d="M12.8979+47.4753C12.8979+47.4753+33.75+45+50+45C66.25+45+87.2861+47.4753+87.2861+47.4753" fill="none" stroke-linecap="round" opacity="1" stroke-linejoin="round"/>
+<path d="M35.1347+45.7387L34.9483+95.434L40.1663+97.9809L40.0624+45.5137L35.1347+45.7387Z" opacity="1" fill="#000000"/>
+<path d="M65.014+45.6765L65.0761+95.8688L60.0445+98.1673L60.0445+45.2417L65.014+45.6765Z" opacity="1" fill="#000000"/>
+<path stroke="#000000" stroke-width="1.02" d="M34.9178+0.46937L35+22.5C35+22.5+43.9282+21.7595+50.1782+21.7595C56.4282+21.7595+65+22.5+65+22.5L65.0175+44.9347" fill="none" stroke-linecap="round" opacity="1" stroke-linejoin="round"/>
 </g>
-<g id="honey16">
-<path stroke="#000000" stroke-width="5" d="M10+2.5C10+27.5+10+100+50+100C90+100+90+27.5+90+2.5C90+2.5+66.7325+0.0645175+50+0C31.7958-0.0701922+10+2.5+10+2.5Z" stroke-linecap="round" opacity="1" stroke-linejoin="round"/>
-<path stroke="#000000" stroke-width="5" d="M12.8979+47.4753C12.8979+47.4753+33.75+45+50+45C66.25+45+87.2861+47.4753+87.2861+47.4753" stroke-linecap="round" opacity="1" stroke-linejoin="round"/>
-<path stroke="#000000" stroke-width="5" d="M37.5491+45.8094L37.5984+96.6397L40.3755+97.8649L40.0624+45.5137L37.5491+45.8094Z" stroke-linecap="round" opacity="1" stroke-linejoin="round"/>
-<path stroke="#000000" stroke-width="5" d="M62.6083+45.8094L62.5928+96.7213L60.1423+97.5382L60.1689+45.6615L62.6083+45.8094Z" stroke-linecap="round" opacity="1" stroke-linejoin="round"/>
-<path stroke="#000000" stroke-width="5" d="M34.9178+0.46937L35+22.5C35+22.5+43.9282+21.7595+50.1782+21.7595C56.4282+21.7595+65+22.5+65+22.5L65.0175+44.9347" stroke-linecap="round" opacity="1" stroke-linejoin="round"/>
+<g id="honey16" vectornator:layerName="honey16">
+<path stroke="#000000" stroke-width="1.02" d="M10+2.5C10+27.5+10+100+50+100C90+100+90+27.5+90+2.5C90+2.5+66.7325+0.0645175+50+0C31.7958-0.0701922+10+2.5+10+2.5Z" fill="none" stroke-linecap="round" opacity="1" stroke-linejoin="round"/>
+<path stroke="#000000" stroke-width="1.02" d="M12.8979+47.4753C12.8979+47.4753+33.75+45+50+45C66.25+45+87.2861+47.4753+87.2861+47.4753" fill="none" stroke-linecap="round" opacity="1" stroke-linejoin="round"/>
+<path stroke="#000000" stroke-width="1" d="M32.5+68.75C32.5+65.2982+35.2982+62.5+38.75+62.5C42.2018+62.5+45+65.2982+45+68.75C45+72.2018+42.2018+75+38.75+75C35.2982+75+32.5+72.2018+32.5+68.75Z" fill="none" stroke-linecap="round" opacity="1" stroke-linejoin="round"/>
+<path stroke="#000000" stroke-width="1" d="M55+68.75C55+65.2982+57.7982+62.5+61.25+62.5C64.7018+62.5+67.5+65.2982+67.5+68.75C67.5+72.2018+64.7018+75+61.25+75C57.7982+75+55+72.2018+55+68.75Z" fill="none" stroke-linecap="round" opacity="1" stroke-linejoin="round"/>
+<path stroke="#000000" stroke-width="1.02" d="M34.9178+0.46937L35+22.5C35+22.5+43.9282+21.7595+50.1782+21.7595C56.4282+21.7595+65+22.5+65+22.5L65.0175+44.9347" fill="none" stroke-linecap="round" opacity="1" stroke-linejoin="round"/>
 </g>
-<g id="honey15">
-<path stroke="#000000" stroke-width="5" d="M10+2.5C10+27.5+10+100+50+100C90+100+90+27.5+90+2.5C90+2.5+66.7325+0.0645175+50+0C31.7958-0.0701922+10+2.5+10+2.5Z" stroke-linecap="round" opacity="1" stroke-linejoin="round"/>
-<path stroke="#000000" stroke-width="5" d="M12.8979+47.4753C12.8979+47.4753+33.75+45+50+45C66.25+45+87.2861+47.4753+87.2861+47.4753" stroke-linecap="round" opacity="1" stroke-linejoin="round"/>
-<path stroke="#000000" stroke-width="5" d="M45+68.75C45+65.2982+47.2386+62.5+50+62.5C52.7614+62.5+55+65.2982+55+68.75C55+72.2018+52.7614+75+50+75C47.2386+75+45+72.2018+45+68.75Z" stroke-linecap="round" opacity="1" stroke-linejoin="round" fill="black"/>
-<path stroke="#000000" stroke-width="5" d="M34.9178+0.46937L35+22.5C35+22.5+43.9282+21.7595+50.1782+21.7595C56.4282+21.7595+65+22.5+65+22.5L65.0175+44.9347" stroke-linecap="round" opacity="1" stroke-linejoin="round"/>
+<g id="honey15" vectornator:layerName="honey15">
+<path stroke="#000000" stroke-width="1.02" d="M10+2.5C10+27.5+10+100+50+100C90+100+90+27.5+90+2.5C90+2.5+66.7325+0.0645175+50+0C31.7958-0.0701922+10+2.5+10+2.5Z" fill="none" stroke-linecap="round" opacity="1" stroke-linejoin="round"/>
+<path stroke="#000000" stroke-width="1.02" d="M12.8979+47.4753C12.8979+47.4753+33.75+45+50+45C66.25+45+87.2861+47.4753+87.2861+47.4753" fill="none" stroke-linecap="round" opacity="1" stroke-linejoin="round"/>
+<path d="M45+68.75C45+65.2982+47.2386+62.5+50+62.5C52.7614+62.5+55+65.2982+55+68.75C55+72.2018+52.7614+75+50+75C47.2386+75+45+72.2018+45+68.75Z" opacity="1" fill="#000000"/>
+<path stroke="#000000" stroke-width="1.02" d="M34.9178+0.46937L35+22.5C35+22.5+43.9282+21.7595+50.1782+21.7595C56.4282+21.7595+65+22.5+65+22.5L65.0175+44.9347" fill="none" stroke-linecap="round" opacity="1" stroke-linejoin="round"/>
 </g>
-<g id="honey14">
-<path stroke="#000000" stroke-width="5" d="M10+2.5C10+27.5+10+100+50+100C90+100+90+27.5+90+2.5C90+2.5+66.7325+0.0645175+50+0C31.7958-0.0701922+10+2.5+10+2.5Z" stroke-linecap="round" opacity="1" stroke-linejoin="round"/>
-<path stroke="#000000" stroke-width="5" d="M12.8979+47.4753C12.8979+47.4753+33.75+45+50+45C66.25+45+87.2861+47.4753+87.2861+47.4753" stroke-linecap="round" opacity="1" stroke-linejoin="round"/>
-<path stroke="#000000" stroke-width="5" d="M34.9178+0.46937L35+22.5C35+22.5+43.9282+21.7595+50.1782+21.7595C56.4282+21.7595+65+22.5+65+22.5L64.9403+44.5156" stroke-linecap="round" opacity="1" stroke-linejoin="round"/>
-<path stroke="#000000" stroke-width="5" d="M65+45C65+50.625+65.0253+45+65+52.5C64.9162+77.382+35+60+35+80C35+90+45+100+52.5+100" stroke-linecap="round" opacity="1" stroke-linejoin="round"/>
+<g id="honey14" vectornator:layerName="honey14">
+<path stroke="#000000" stroke-width="1.02" d="M10+2.5C10+27.5+10+100+50+100C90+100+90+27.5+90+2.5C90+2.5+66.7325+0.0645175+50+0C31.7958-0.0701922+10+2.5+10+2.5Z" fill="none" stroke-linecap="round" opacity="1" stroke-linejoin="round"/>
+<path stroke="#000000" stroke-width="1.02" d="M12.8979+47.4753C12.8979+47.4753+33.75+45+50+45C66.25+45+87.2861+47.4753+87.2861+47.4753" fill="none" stroke-linecap="round" opacity="1" stroke-linejoin="round"/>
+<path stroke="#000000" stroke-width="1.02" d="M34.9178+0.46937L35+22.5C35+22.5+43.9282+21.7595+50.1782+21.7595C56.4282+21.7595+65+22.5+65+22.5L64.9403+44.5156" fill="none" stroke-linecap="round" opacity="1" stroke-linejoin="round"/>
+<path stroke="#000000" stroke-width="1.02" d="M65+45C65+57.5+64.9618+80.278+22.4618+80.278" fill="none" stroke-linecap="round" opacity="1" stroke-linejoin="round"/>
 </g>
-<g id="honey13">
-<path stroke="#000000" stroke-width="5" d="M10+2.5C10+27.5+10+100+50+100C90+100+90+27.5+90+2.5C90+2.5+66.7325+0.0645175+50+0C31.7958-0.0701922+10+2.5+10+2.5Z" stroke-linecap="round" opacity="1" stroke-linejoin="round"/>
-<path stroke="#000000" stroke-width="5" d="M12.8979+47.4753C12.8979+47.4753+33.75+45+50+45C66.25+45+87.2861+47.4753+87.2861+47.4753" stroke-linecap="round" opacity="1" stroke-linejoin="round"/>
-<path stroke="#000000" stroke-width="5" d="M34.9178+0.46937L35+22.5C35+22.5+43.9282+21.7595+50.1782+21.7595C56.4282+21.7595+65+22.5+65+22.5L64.9968+45.386" stroke-linecap="round" opacity="1" stroke-linejoin="round"/>
-<path stroke="#000000" stroke-width="5" d="M64.9037+45.3964C64.9037+60.3964+67.4867+79.7272+50.0681+79.7701C43.7775+79.7856+39.4736+74.5608+39.4736+69.5608C39.4736+64.5608+45.5474+60.0778+47.528+60.4379" stroke-linecap="round" opacity="1" stroke-linejoin="round"/>
+<g id="honey13" vectornator:layerName="honey13">
+<path stroke="#000000" stroke-width="1.02" d="M10+2.5C10+27.5+10+100+50+100C90+100+90+27.5+90+2.5C90+2.5+66.7325+0.0645175+50+0C31.7958-0.0701922+10+2.5+10+2.5Z" fill="none" stroke-linecap="round" opacity="1" stroke-linejoin="round"/>
+<path stroke="#000000" stroke-width="1.02" d="M12.8979+47.4753C12.8979+47.4753+33.75+45+50+45C66.25+45+87.2861+47.4753+87.2861+47.4753" fill="none" stroke-linecap="round" opacity="1" stroke-linejoin="round"/>
+<path stroke="#000000" stroke-width="1.02" d="M34.9178+0.46937L35+22.5C35+22.5+43.9282+21.7595+50.1782+21.7595C56.4282+21.7595+65+22.5+65+22.5L64.9968+45.386" fill="none" stroke-linecap="round" opacity="1" stroke-linejoin="round"/>
+<path stroke="#000000" stroke-width="1.02" d="M64.9037+45.3964C64.9037+60.3964+67.4867+79.7272+50.0681+79.7701C43.7775+79.7856+39.4736+74.5608+39.4736+69.5608C39.4736+64.5608+45.5474+60.0778+47.528+60.4379" fill="none" stroke-linecap="round" opacity="1" stroke-linejoin="round"/>
 </g>
-<g id="honey12">
-<path stroke="#000000" stroke-width="5" d="M10+2.5C10+27.5+10+100+50+100C90+100+90+27.5+90+2.5C90+2.5+66.7325+0.0645175+50+0C31.7958-0.0701922+10+2.5+10+2.5Z" stroke-linecap="round" opacity="1" stroke-linejoin="round"/>
-<path stroke="#000000" stroke-width="5" d="M12.8979+47.4753C12.8979+47.4753+33.75+45+50+45C66.25+45+87.2861+47.4753+87.2861+47.4753" stroke-linecap="round" opacity="1" stroke-linejoin="round"/>
-<path stroke="#000000" stroke-width="5" d="M32.5+77.5L45+60" stroke-linecap="round" opacity="1" stroke-linejoin="round"/>
-<path stroke="#000000" stroke-width="5" d="M67.5+60L55+77.5" stroke-linecap="round" opacity="1" stroke-linejoin="round"/>
-<path stroke="#000000" stroke-width="5" d="M34.9178+0.46937L35+22.5C35+22.5+43.9282+21.7595+50.1782+21.7595C56.4282+21.7595+65+22.5+65+22.5L65.0175+44.9347" stroke-linecap="round" opacity="1" stroke-linejoin="round"/>
+<g id="honey12" vectornator:layerName="honey12">
+<path stroke="#000000" stroke-width="1.02" d="M10+2.5C10+27.5+10+100+50+100C90+100+90+27.5+90+2.5C90+2.5+66.7325+0.0645175+50+0C31.7958-0.0701922+10+2.5+10+2.5Z" fill="none" stroke-linecap="round" opacity="1" stroke-linejoin="round"/>
+<path stroke="#000000" stroke-width="1.02" d="M12.8979+47.4753C12.8979+47.4753+33.75+45+50+45C66.25+45+87.2861+47.4753+87.2861+47.4753" fill="none" stroke-linecap="round" opacity="1" stroke-linejoin="round"/>
+<path stroke="#000000" stroke-width="1.02" d="M32.5+77.5L45+60" fill="none" stroke-linecap="round" opacity="1" stroke-linejoin="round"/>
+<path stroke="#000000" stroke-width="1.02" d="M67.5+60L55+77.5" fill="none" stroke-linecap="round" opacity="1" stroke-linejoin="round"/>
+<path stroke="#000000" stroke-width="1.02" d="M34.9178+0.46937L35+22.5C35+22.5+43.9282+21.7595+50.1782+21.7595C56.4282+21.7595+65+22.5+65+22.5L65.0175+44.9347" fill="none" stroke-linecap="round" opacity="1" stroke-linejoin="round"/>
 </g>
-<g id="honey11">
-<path stroke="#000000" stroke-width="5" d="M10.327+2.24702C10+27.5+10+100+50+100C90+100+90+27.5+90+2.5C90+2.5+66.7325+0.0645175+50+0C31.7958-0.0701922+10.3323+1.83364+10.327+2.24702Z" stroke-linecap="round" opacity="1" stroke-linejoin="round"/>
-<path stroke="#000000" stroke-width="5" d="M12.7488+47.6244C12.7488+47.6244+33.75+45+50+45C66.25+45+87.2861+47.4753+87.2861+47.4753" stroke-linecap="round" opacity="1" stroke-linejoin="round"/>
-<path stroke="#000000" stroke-width="5" d="M34.9178+0.666887L35+22.5C35+22.5+43.8466+21.8412+50.0966+21.8412C56.3466+21.8412+65+22.5+65+22.5L65+67.5C65+67.5+56.5098+66.8135+50.2598+66.8135C44.0098+66.8135+35+67.5+35+67.5L34.9178+95.6724" stroke-linecap="round" opacity="1" stroke-linejoin="round" fill="none"/>
+<g id="honey11" vectornator:layerName="honey11">
+<path stroke="#000000" stroke-width="1.02" d="M10.327+2.24702C10+27.5+10+100+50+100C90+100+90+27.5+90+2.5C90+2.5+66.7325+0.0645175+50+0C31.7958-0.0701922+10.3323+1.83364+10.327+2.24702Z" fill="none" stroke-linecap="round" opacity="1" stroke-linejoin="round"/>
+<path stroke="#000000" stroke-width="1.02" d="M12.7488+47.6244C12.7488+47.6244+33.75+45+50+45C66.25+45+87.2861+47.4753+87.2861+47.4753" fill="none" stroke-linecap="round" opacity="1" stroke-linejoin="round"/>
+<path stroke="#000000" stroke-width="1.02" d="M34.9178+0.666887L35+22.5C35+22.5+43.8466+21.8412+50.0966+21.8412C56.3466+21.8412+65+22.5+65+22.5L65+67.5C65+67.5+56.5098+66.8135+50.2598+66.8135C44.0098+66.8135+35+67.5+35+67.5L34.9178+95.6724" fill="none" stroke-linecap="round" opacity="1" stroke-linejoin="round"/>
 </g>
-<g id="honey10">
-<path stroke="#000000" stroke-width="5" d="M10+2.5C10+27.5+10+100+50+100C90+100+90+27.5+90+2.5C90+2.5+66.7325+0.0645175+50+0C31.7958-0.0701922+10+2.5+10+2.5Z" stroke-linecap="round" opacity="1" stroke-linejoin="round"/>
-<path stroke="#000000" stroke-width="5" d="M12.8979+47.4753C12.8979+47.4753+33.75+45+50+45C66.25+45+87.2861+47.4753+87.2861+47.4753" stroke-linecap="round" opacity="1" stroke-linejoin="round"/>
-<path stroke="#000000" stroke-width="5" d="M34.9178+0.46937L35+22.5C35+22.5+43.9282+21.7595+50.1782+21.7595C56.4282+21.7595+65+22.5+65+22.5L65.0175+44.9347" stroke-linecap="round" opacity="1" stroke-linejoin="round"/>
+<g id="honey10" vectornator:layerName="honey10">
+<path stroke="#000000" stroke-width="1.02" d="M10+2.5C10+27.5+10+100+50+100C90+100+90+27.5+90+2.5C90+2.5+66.7325+0.0645175+50+0C31.7958-0.0701922+10+2.5+10+2.5Z" fill="none" stroke-linecap="round" opacity="1" stroke-linejoin="round"/>
+<path stroke="#000000" stroke-width="1.02" d="M12.8979+47.4753C12.8979+47.4753+33.75+45+50+45C66.25+45+87.2861+47.4753+87.2861+47.4753" fill="none" stroke-linecap="round" opacity="1" stroke-linejoin="round"/>
+<path stroke="#000000" stroke-width="1.02" d="M34.9178+0.46937L35+22.5C35+22.5+43.9282+21.7595+50.1782+21.7595C56.4282+21.7595+65+22.5+65+22.5L65.0175+44.9347" fill="none" stroke-linecap="round" opacity="1" stroke-linejoin="round"/>
 </g>
-<g id="honey9">
-<path stroke="#000000" stroke-width="5" d="M10+2.5C10+27.5+10+100.003+50.0003+100.002C90+100+90+27.5+90+2.5C90+2.5+66.7328+0.0660846+50.0003+0.00156701C31.7961-0.0686252+10+2.5+10+2.5Z" stroke-linecap="round" opacity="1" stroke-linejoin="round"/>
-<path stroke="#000000" stroke-width="5" d="M11.109+32.5679C39.9113+32.3875+50.1+57.6031+50.1+57.6031C50.1+57.6031+61.0477+32.1022+88.9259+32.4933" stroke-linecap="round" opacity="1" stroke-linejoin="round"/>
+<g id="honey9" vectornator:layerName="honey9">
+<path stroke="#000000" stroke-width="1.02" d="M10+2.5C10+27.5+10+100.003+50.0003+100.002C90+100+90+27.5+90+2.5C90+2.5+66.7328+0.0660846+50.0003+0.00156701C31.7961-0.0686252+10+2.5+10+2.5Z" fill="none" stroke-linecap="round" opacity="1" stroke-linejoin="round"/>
+<path stroke="#000000" stroke-width="1.02" d="M11.109+32.5679C39.9113+32.3875+50.1+57.6031+50.1+57.6031C50.1+57.6031+61.0477+32.1022+88.9259+32.4933" fill="none" stroke-linecap="round" opacity="1" stroke-linejoin="round"/>
 </g>
-<g id="honey8">
-<path stroke="#000000" stroke-width="5" d="M10+2.5C10+27.5+10+100+50+100C90+100+90+27.5+90+2.5C90+2.5+66.7325+0.0645175+50+0C31.7958-0.0701922+10+2.5+10+2.5Z" stroke-linecap="round" opacity="1" stroke-linejoin="round"/>
-<path stroke="#000000" stroke-width="5" d="M30+45C30+33.9543+38.9543+25+50+25C61.0457+25+70+33.9543+70+45C70+56.0457+61.0457+65+50+65C38.9543+65+30+56.0457+30+45Z" stroke-linecap="round" opacity="1" stroke-linejoin="round"/>
-<path stroke="#000000" stroke-width="5" d="M45+44.7796C45+42.1399+47.1858+40+49.8821+40C52.5784+40+54.7642+42.1399+54.7642+44.7796C54.7642+47.4192+52.5784+49.5591+49.8821+49.5591C47.1858+49.5591+45+47.4192+45+44.7796Z" stroke-linecap="round" opacity="1" stroke-linejoin="round" fill="black"/>
+<g id="honey8" vectornator:layerName="honey8">
+<path stroke="#000000" stroke-width="1.02" d="M10+2.5C10+27.5+10+100+50+100C90+100+90+27.5+90+2.5C90+2.5+66.7325+0.0645175+50+0C31.7958-0.0701922+10+2.5+10+2.5Z" fill="none" stroke-linecap="round" opacity="1" stroke-linejoin="round"/>
+<path stroke="#000000" stroke-width="1.02" d="M30+45C30+33.9543+38.9543+25+50+25C61.0457+25+70+33.9543+70+45C70+56.0457+61.0457+65+50+65C38.9543+65+30+56.0457+30+45Z" fill="none" stroke-linecap="round" opacity="1" stroke-linejoin="round"/>
+<path d="M45+44.7796C45+42.1399+47.1858+40+49.8821+40C52.5784+40+54.7642+42.1399+54.7642+44.7796C54.7642+47.4192+52.5784+49.5591+49.8821+49.5591C47.1858+49.5591+45+47.4192+45+44.7796Z" opacity="1" fill="#000000"/>
 </g>
-<g id="honey7">
-<path stroke="#000000" stroke-width="5" d="M10+2.5C10+27.5+10+100+50.0003+100C90+100+90+27.5+90+2.5C90+2.5+66.7328+0.0645175+50.0003+3.55271e-15C31.7961-0.0701922+10+2.5+10+2.5Z" stroke-linecap="round" opacity="1" stroke-linejoin="round"/>
-<path stroke="#000000" stroke-width="5" d="M42.5+27.5C42.5+23.3579+45.8579+20+50+20C54.1421+20+57.5+23.3579+57.5+27.5C57.5+31.6421+54.1421+35+50+35C45.8579+35+42.5+31.6421+42.5+27.5Z" stroke-linecap="round" opacity="1" stroke-linejoin="round"/>
-<path stroke="#000000" stroke-width="5" d="M42.5+62.5C42.5+58.3579+45.8579+55+50+55C54.1421+55+57.5+58.3579+57.5+62.5C57.5+66.6421+54.1421+70+50+70C45.8579+70+42.5+66.6421+42.5+62.5Z" stroke-linecap="round" opacity="1" stroke-linejoin="round"/>
+<g id="honey7" vectornator:layerName="honey7">
+<path stroke="#000000" stroke-width="1.02" d="M10+2.5C10+27.5+10+100+50+100C90+100+90+27.5+90+2.5C90+2.5+66.7325+0.0645175+50+0C31.7958-0.0701922+10+2.5+10+2.5Z" fill="none" stroke-linecap="round" opacity="1" stroke-linejoin="round"/>
+<path d="M31.1034+0.850619L31.1034+92.749L39.0398+97.7926L39.1139+0.702276L31.1034+0.850619Z" opacity="1" fill="#000000"/>
+<path d="M68.9308+0.776448L68.6342+93.1198L61.1428+97.5701L61.3654+0.405591L68.9308+0.776448Z" opacity="1" fill="#000000"/>
 </g>
-<g id="honey6">
-<path stroke="#000000" stroke-width="5" d="M10+2.5C10+27.5+10+100+50+100C90+100+90+27.5+90+2.5C90+2.5+66.7325+0.0645175+50+0C31.7958-0.0701922+10+2.5+10+2.5Z" stroke-linecap="round" opacity="1" stroke-linejoin="round"/>
-<path stroke="#000000" stroke-width="5" d="M32.4835+1.19228L32.7993+93.5394L37.7188+96.5954L37.6801+0.872495L32.4835+1.19228Z" stroke-linecap="round" opacity="1" stroke-linejoin="round"/>
-<path stroke="#000000" stroke-width="5" d="M67.3405+1.35218L67.4592+93.3903L62.4652+96.6699L62.4637+1.11234L67.3405+1.35218Z" stroke-linecap="round" opacity="1" stroke-linejoin="round"/>
+<g id="honey6" vectornator:layerName="honey6">
+<path stroke="#000000" stroke-width="1.02" d="M10+2.5C10+27.5+10+100+50.0003+100C90+100+90+27.5+90+2.5C90+2.5+66.7328+0.0645175+50.0003+3.55271e-15C31.7961-0.0701922+10+2.5+10+2.5Z" fill="none" stroke-linecap="round" opacity="1" stroke-linejoin="round"/>
+<path stroke="#000000" stroke-width="1" d="M42.5+27.5C42.5+23.3579+45.8579+20+50+20C54.1421+20+57.5+23.3579+57.5+27.5C57.5+31.6421+54.1421+35+50+35C45.8579+35+42.5+31.6421+42.5+27.5Z" fill="none" stroke-linecap="round" opacity="1" stroke-linejoin="round"/>
+<path stroke="#000000" stroke-width="1" d="M42.5+62.5C42.5+58.3579+45.8579+55+50+55C54.1421+55+57.5+58.3579+57.5+62.5C57.5+66.6421+54.1421+70+50+70C45.8579+70+42.5+66.6421+42.5+62.5Z" fill="none" stroke-linecap="round" opacity="1" stroke-linejoin="round"/>
 </g>
-<g id="honey5">
-<path stroke="#000000" stroke-width="5" d="M10+2.5C10+27.5+10+100+50+100C90+100+90+27.5+90+2.5C90+2.5+66.7325+0.0645175+50+0C31.7958-0.0701922+10+2.5+10+2.5Z" stroke-linecap="round" opacity="1" stroke-linejoin="round"/>
-<path stroke="#000000" stroke-width="5" d="M40+45C40+38.0964+44.4772+32.5+50+32.5C55.5228+32.5+60+38.0964+60+45C60+51.9036+55.5228+57.5+50+57.5C44.4772+57.5+40+51.9036+40+45Z" stroke-linecap="round" opacity="1" stroke-linejoin="round" fill="black" />
+<g id="honey5" vectornator:layerName="honey5">
+<path stroke="#000000" stroke-width="1.02" d="M10+2.5C10+27.5+10+100+50+100C90+100+90+27.5+90+2.5C90+2.5+66.7325+0.0645175+50+0C31.7958-0.0701922+10+2.5+10+2.5Z" fill="none" stroke-linecap="round" opacity="1" stroke-linejoin="round"/>
+<path d="M40+45C40+38.0964+44.4772+32.5+50+32.5C55.5228+32.5+60+38.0964+60+45C60+51.9036+55.5228+57.5+50+57.5C44.4772+57.5+40+51.9036+40+45Z" opacity="1" fill="#000000"/>
 </g>
-<g id="honey4">
-<path stroke="#000000" stroke-width="5" d="M10+2.5C10+12.0251+10+28.4457+12.2124+45.1245C15.8066+72.2214+25.2402+100+50+100C90+100+90+27.5+90+2.5C90+2.5+66.7325+0.0645175+50+0C31.7958-0.0701922+10+2.5+10+2.5Z" stroke-linecap="round" opacity="1" stroke-linejoin="round"/>
-<path stroke="#000000" stroke-width="5" d="M12.227+45.0156C12.227+45.0156+19.7525+32.5+32.5+32.5C45+32.5+55+52.5+67.5+52.5C80.2475+52.5+87.7333+44.9411+87.7333+44.9411" stroke-linecap="round" opacity="1" stroke-linejoin="round"/>
+<g id="honey4" vectornator:layerName="honey4">
+<path stroke="#000000" stroke-width="1.02" d="M10+2.5C10+12.0251+10+28.4457+12.2124+45.1245C15.8066+72.2214+25.2402+100+50+100C90+100+90+27.5+90+2.5C90+2.5+66.7325+0.0645175+50+0C31.7958-0.0701922+10+2.5+10+2.5Z" fill="none" stroke-linecap="round" opacity="1" stroke-linejoin="round"/>
+<path stroke="#000000" stroke-width="1.02" d="M12.227+45.0156C12.227+45.0156+19.7525+32.5+32.5+32.5C45+32.5+55+52.5+67.5+52.5C80.2475+52.5+87.7333+44.9411+87.7333+44.9411" fill="none" stroke-linecap="round" opacity="1" stroke-linejoin="round"/>
 </g>
-<g id="honey3">
-<path stroke="#000000" stroke-width="5" d="M10+2.5C10+27.5+10+100+50+100C90+100+90+27.5+90+2.5C90+2.5+66.7325+0.0645175+50+0C31.7958-0.0701922+10+2.5+10+2.5Z" stroke-linecap="round" opacity="1" stroke-linejoin="round"/>
-<path stroke="#000000" stroke-width="5" d="M30.1627+0.954992C30.1627+0.954992+29.5133+37.1463+34.1307+55.7458C38.3786+72.8566+47.5+75+50+75C60+75+65+67.5+65+57.5C65+52.5+60+45+52.5+45" stroke-linecap="round" opacity="1" stroke-linejoin="round"/>
+<g id="honey3" vectornator:layerName="honey3">
+<path stroke="#000000" stroke-width="1.02" d="M10+2.5C10+27.5+10+100+50+100C90+100+90+27.5+90+2.5C90+2.5+66.7325+0.0645175+50+0C31.7958-0.0701922+10+2.5+10+2.5Z" fill="none" stroke-linecap="round" opacity="1" stroke-linejoin="round"/>
+<path stroke="#000000" stroke-width="1.02" d="M30.1627+0.954992C30.1627+0.954992+29.5133+37.1463+34.1307+55.7458C38.3786+72.8566+47.5+75+50+75C60+75+65+67.5+65+57.5C65+52.5+60+45+52.5+45" fill="none" stroke-linecap="round" opacity="1" stroke-linejoin="round"/>
 </g>
-<g id="honey2">
-<path stroke="#000000" stroke-width="5" d="M10+2.5C10+27.5+10+100+50+100C90+100+90+27.5+90+2.5C90+2.5+66.7325+0.0645175+50+0C31.7958-0.0701922+10+2.5+10+2.5Z" stroke-linecap="round" opacity="1" stroke-linejoin="round"/>
-<path stroke="#000000" stroke-width="5" d="M35+72.5L65+42.5" stroke-linecap="round" opacity="1" stroke-linejoin="round"/>
-<path stroke="#000000" stroke-width="5" d="M35+42.5L52.0233+25.4767L65+12.5" stroke-linecap="round" opacity="1" stroke-linejoin="round"/>
+<g id="honey2" vectornator:layerName="honey2">
+<path stroke="#000000" stroke-width="1.02" d="M10+2.5C10+27.5+10+100+50+100C90+100+90+27.5+90+2.5C90+2.5+66.7325+0.0645175+50+0C31.7958-0.0701922+10+2.5+10+2.5Z" fill="none" stroke-linecap="round" opacity="1" stroke-linejoin="round"/>
+<path stroke="#000000" stroke-width="1.02" d="M35+72.5L65+42.5" fill="none" stroke-linecap="round" opacity="1" stroke-linejoin="round"/>
+<path stroke="#000000" stroke-width="1.02" d="M35+42.5L52.0233+25.4767L65+12.5" fill="none" stroke-linecap="round" opacity="1" stroke-linejoin="round"/>
 </g>
-<g id="honey1">
-<path stroke="#000000" stroke-width="5" d="M10+2.5C10+27.5+10+100+50+100C90+100+90+27.5+90+2.5C90+2.5+66.7325+0.0645175+50+0C31.7958-0.0701922+10+2.5+10+2.5Z" stroke-linecap="round" opacity="1" stroke-linejoin="round"/>
-<path stroke="#000000" stroke-width="5" d="M34.8872+0.617589L35.3108+45.0576C35.3108+45.0576+44.0412+44.2794+50.2912+44.2794C56.5412+44.2794+64.9797+44.8631+64.9797+44.8631L65.1672+95.2526" stroke-linecap="round" opacity="1" stroke-linejoin="round"/>
+<g id="honey1" vectornator:layerName="honey1">
+<path stroke="#000000" stroke-width="1.02" d="M10+2.5C10+27.5+10+100+50+100C90+100+90+27.5+90+2.5C90+2.5+66.7325+0.0645175+50+0C31.7958-0.0701922+10+2.5+10+2.5Z" fill="none" stroke-linecap="round" opacity="1" stroke-linejoin="round"/>
+<path stroke="#000000" stroke-width="1.02" d="M34.8872+0.617589L35.3108+45.0576C35.3108+45.0576+44.0412+44.2794+50.2912+44.2794C56.5412+44.2794+64.9797+44.8631+64.9797+44.8631L65.1672+95.2526" fill="none" stroke-linecap="round" opacity="1" stroke-linejoin="round"/>
 </g>
-<g id="honey0">
-<path stroke="#000000" stroke-width="5" d="M10+2.5C10+27.5+10+100+50+100C90+100+90+27.5+90+2.5C90+2.5+66.7325+0.0645175+50+0C31.7958-0.0701922+10+2.5+10+2.5Z" stroke-linecap="round" opacity="1" stroke-linejoin="round"/>
+<g id="honey0" vectornator:layerName="honey0">
+<path stroke="#000000" stroke-width="1.02" d="M10+2.5C10+27.5+10+100+50+100C90+100+90+27.5+90+2.5C90+2.5+66.7325+0.0645175+50+0C31.7958-0.0701922+10+2.5+10+2.5Z" fill="none" stroke-linecap="round" opacity="1" stroke-linejoin="round"/>
 </g>
 </svg>
