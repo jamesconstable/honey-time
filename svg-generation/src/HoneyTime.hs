@@ -197,7 +197,7 @@ glyphBaseTransform nativeSize displaySize =
 mythDial :: RealFloat a => a -> Element
 mythDial tileRadius =
   let
-    innerDivide  = tileRadius * 2.5
+    innerDivide  = tileRadius * 3
     middleDivide = tileRadius * 8.5
     dialSize     = tileRadius * 11
     numberGlyphs = foldMap
@@ -209,6 +209,15 @@ mythDial tileRadius =
           <> rotate (degrees $ polygonAngle 40 False i)
           <> glyphBaseTransform 100 (tileRadius * 2.1)])
       [0..39]
+    roleGlyphs = foldMap
+      (\i -> use_ [
+        XlinkHref_ <<- "#mythrole" <> tshow i,
+        Class_     <<- "cell cell" <> tshow i,
+        Transform_ <<-
+          translateHelper 9 tileRadius 6.5 False i
+          <> rotate (degrees $ polygonAngle 9 False i)
+          <> glyphBaseTransform 100 (tileRadius * 2.5)])
+      [0..8]
   in g_ [Class_ <<- "myth-dial"] $ fold [
     circle_ [Cx_ <<- "0", Cy_ <<- "0", R_ <<- toText dialSize,
       Fill_ <<- "none", Stroke_width_ <<- "2", Stroke_ <<- "black"],
@@ -216,7 +225,14 @@ mythDial tileRadius =
     -- createRing 40 dialSize middleDivide "myth-number",
     with (polygon 9 (innerDivide + tileRadius/2) True)
       [Fill_ <<- "white", Stroke_ <<- "black", Stroke_width_ <<- "2"],
-    g_ [Class_ <<- "myth-number"] numberGlyphs]
+    g_ [Class_ <<- "myth-role"] roleGlyphs,
+    g_ [Class_ <<- "myth-number"] numberGlyphs,
+    use_ [XlinkHref_ <<- "#honey6",
+      Fill_ <<- "none",
+      Transform_ <<-
+        translate 0 (-1)
+        <> rotate 90
+        <> glyphBaseTransform 100 (tileRadius * 3.5)]]
 
 createDotMarkers :: (Integral a, RealFloat b)
                  => a -> (a -> Bool) -> b -> b -> T.Text -> Element

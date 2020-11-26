@@ -9,7 +9,8 @@ purs_deps  = $(shell find purescript -not -path '*/output/*' -not -path '*/.spag
 hs_deps    = $(shell find svg-generation -not -path '*/.stack-work/*' -name '*.hs' -o -name '*.yaml' -o -name '*.cabal')
 svg_assets = $(shell find svg-generation/assets -name '*.svg')
 svg_dir    = svg-generation/output
-svgs       = $(svg_dir)/clock-dial.svg $(svg_dir)/date-dial.svg $(svg_dir)/myth-dial.svg $(svg_assets)
+svg_glyphs = $(svg_dir)/myth-role-icons.svg
+svgs       = $(svg_dir)/clock-dial.svg $(svg_dir)/date-dial.svg $(svg_dir)/myth-dial.svg
 
 site : site/index.js site/index.html site/style.css
 
@@ -22,13 +23,16 @@ site/index.js : $(purs_deps)
 	$(SPAGO) build $(PSFLAGS) && \
 	$(SPAGO) bundle-app --main Main --to ../$@
 
-site/index.html : template.html assemble_page.py $(svgs)
+site/index.html : template.html assemble_page.py $(svgs) $(svg_glyphs)
 	$(MKDIR) site
 	$(PYTHON) assemble_page.py $< > $@
 
 $(svgs) : $(hs_deps)
 	$(MKDIR) svg-generation/output
 	cd svg-generation && $(STACK) run
+
+$(svg_glyphs) : preprocess_svg.py $(svg_assets)
+	$(PYTHON) $<
 
 site/style.css : style.scss
 	$(MKDIR) site
