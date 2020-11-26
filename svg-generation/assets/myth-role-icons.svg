@@ -2,8 +2,8 @@
 <svg height="100%" style="fill-rule:evenodd;clip-rule:evenodd;stroke-linecap:round;stroke-linejoin:round;" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns="http://www.w3.org/2000/svg" xml:space="preserve" width="100%" xmlns:vectornator="http://vectornator.io" version="1.1" viewBox="0 0 100 100">
 <metadata>
 <vectornator:setting key="DimensionsVisible" value="1"/>
+<vectornator:setting key="Units" value="Pixels"/>
 <vectornator:setting key="IsolateActiveLayer" value="1"/>
-<vectornator:setting key="New" value="1"/>
 <vectornator:setting key="SnapToPoints" value="0"/>
 <vectornator:setting key="OutlineMode" value="0"/>
 <vectornator:setting key="RulersVisible" value="1"/>
@@ -12,10 +12,10 @@
 <vectornator:setting key="SnapToEdges" value="0"/>
 <vectornator:setting key="DisplayWhiteBackground" value="1"/>
 <vectornator:setting key="SnapToGuides" value="1"/>
-<vectornator:setting key="Units" value="Pixels"/>
+<vectornator:setting key="GridSpacing" value="2.5"/>
 <vectornator:setting key="DynamicGuides" value="0"/>
 <vectornator:setting key="SnapToGrid" value="1"/>
-<vectornator:setting key="GridSpacing" value="2.5"/>
+<vectornator:setting key="New" value="1"/>
 </metadata>
 <defs/>
 <g id="mythrole8" vectornator:layerName="mythrole8">
@@ -24,11 +24,11 @@
 <path d="M36.0912+89.5129L42.273+74.3567L45.2875+75.0274L47.494+81.7222L41.8419+89.5334L36.0912+89.5129Z" opacity="1" fill="#ffffff"/>
 </g>
 <g id="mythrole7" vectornator:layerName="mythrole7">
-<path stroke="#000000" stroke-width="0.1" d="M16.648+5.18421C27.2001+3.72485+36.9373+11.096+38.3967+21.648C39.856+32.2001+32.4849+41.9373+21.9328+43.3967C11.3808+44.856+1.64356+37.4849+0.184205+26.9328C-1.27515+16.3808+6.09595+6.64356+16.648+5.18421Z" fill="#000000" stroke-linecap="round" opacity="1" stroke-linejoin="round"/>
-<path stroke="#000000" stroke-width="0.1" d="M78.0672+5.18421C88.6192+3.72485+98.3564+11.096+99.8158+21.648C101.275+32.2001+93.904+41.9373+83.352+43.3967C72.7999+44.856+63.0627+37.4849+61.6033+26.9328C60.144+16.3808+67.5151+6.64356+78.0672+5.18421Z" fill="#000000" stroke-linecap="round" opacity="1" stroke-linejoin="round"/>
+<path d="M16.648+5.18421C27.2001+3.72485+36.9373+11.096+38.3967+21.648C39.856+32.2001+32.4849+41.9373+21.9328+43.3967C11.3808+44.856+1.64356+37.4849+0.184205+26.9328C-1.27515+16.3808+6.09595+6.64356+16.648+5.18421Z" opacity="1" fill="#000000"/>
+<path d="M78.0672+5.18421C88.6192+3.72485+98.3564+11.096+99.8158+21.648C101.275+32.2001+93.904+41.9373+83.352+43.3967C72.7999+44.856+63.0627+37.4849+61.6033+26.9328C60.144+16.3808+67.5151+6.64356+78.0672+5.18421Z" opacity="1" fill="#000000"/>
 <path d="M19.2503+18.0577C23.2193+17.5088+26.8818+20.2813+27.4307+24.2503C27.9796+28.2193+25.2071+31.8818+21.2381+32.4307C17.2691+32.9796+13.6066+30.2071+13.0577+26.2381C12.5088+22.2691+15.2813+18.6066+19.2503+18.0577Z" opacity="1" fill="#ffffff"/>
 <path d="M78.7619+18.0577C82.7309+17.5088+86.3934+20.2813+86.9423+24.2503C87.4912+28.2193+84.7187+31.8818+80.7497+32.4307C76.7807+32.9796+73.1182+30.2071+72.5693+26.2381C72.0204+22.2691+74.7929+18.6066+78.7619+18.0577Z" opacity="1" fill="#ffffff"/>
-<path stroke="#000000" stroke-width="0.1" d="M44.5243+20.382C66.4069+17.3556+86.5996+32.6416+89.626+54.5243C92.6524+76.4069+77.3664+96.5996+55.4838+99.626C33.6011+102.652+13.4084+87.3664+10.382+65.4837C7.35562+43.6011+22.6416+23.4084+44.5243+20.382Z" fill="#000000" stroke-linecap="round" opacity="1" stroke-linejoin="round"/>
+<path d="M44.5243+20.382C66.4069+17.3556+86.5996+32.6416+89.626+54.5243C92.6524+76.4069+77.3664+96.5996+55.4838+99.626C33.6011+102.652+13.4084+87.3664+10.382+65.4837C7.35562+43.6011+22.6416+23.4084+44.5243+20.382Z" opacity="1" fill="#000000"/>
 <path stroke="#000000" stroke-width="0.1" d="M85.4156+14.8658C85.4379+14.8627+85.4669+14.9392+85.4803+15.0367C85.4938+15.1342+85.4867+15.2157+85.4645+15.2188C85.4422+15.2219+85.4132+15.1453+85.3997+15.0479C85.3862+14.9504+85.3934+14.8689+85.4156+14.8658Z" fill="#000000" stroke-linecap="round" opacity="1" stroke-linejoin="round"/>
 <path d="M33.6433+47.5518C36.7016+47.1413+39.5237+49.2147+39.9466+52.1828C40.3696+55.1509+38.2332+57.8898+35.175+58.3003C32.1168+58.7107+29.2947+56.6374+28.8717+53.6693C28.4488+50.7012+30.5851+47.9623+33.6433+47.5518Z" opacity="1" fill="#ffffff"/>
 <path d="M66.3307+47.5518C69.2988+47.1413+72.0377+49.2147+72.4482+52.1828C72.8587+55.1509+70.7853+57.8898+67.8172+58.3003C64.8491+58.7107+62.1102+56.6374+61.6997+53.6693C61.2893+50.7012+63.3626+47.9623+66.3307+47.5518Z" opacity="1" fill="#ffffff"/>
@@ -79,7 +79,6 @@
 <path stroke="#ffffff" stroke-width="1" d="M81.6667+5L50+97.625" fill="none" stroke-linecap="round" opacity="1" stroke-linejoin="round"/>
 <path stroke="#ffffff" stroke-width="1" d="M50+5L71.375+33.5" fill="none" stroke-linecap="round" opacity="1" stroke-linejoin="round"/>
 <path stroke="#ffffff" stroke-width="1" d="M28.625+33.5L50+5" fill="none" stroke-linecap="round" opacity="1" stroke-linejoin="round"/>
-<path d="M2.5+5L97.5+5L97.5+100L2.5+100L2.5+5Z" opacity="1" fill="none"/>
 </g>
 <g id="mythrole3" vectornator:layerName="mythrole3">
 <path d="M5+29.6795L5+13.9744C5+13.9744+10.0806+5+27.5+5C47.75+5+55.0806+21.2037+72.5+21.2037C89.9194+21.2037+95+12.2917+95+12.2917L95+26.875C95+26.875+89.9194+34.1667+72.5+34.1667C52.25+34.1667+44.9194+17.963+27.5+17.963C10.0806+17.963+5+29.6795+5+29.6795Z" opacity="1" fill="#000000"/>

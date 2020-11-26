@@ -19,6 +19,8 @@ def process_myth_role_icons():
     vectornator_matcher = re.compile(r'<vectornator[^>]*>')
     open_group_matcher = re.compile(r'<g id="(?P<id>[^"]*)" [^>]*>')
     close_group_matcher = re.compile(r'</g>')
+    stroke_width_matcher = re.compile(r' stroke-width="[^"]*"')
+    stroke_matcher = re.compile(r' stroke-color="[^"]*"')
 
     output_file = open('svg-generation/output/myth-role-icons.svg', 'w')
     def write(text, end='\n'):
@@ -32,7 +34,7 @@ def process_myth_role_icons():
 
         if start:
             current_id = start.group('id')
-            write('<g id="' + current_id + '">')
+            write('<g id="' + current_id + '" stroke-width="5">')
             write('<defs><mask id="' + current_id + '-mask">')
         elif end:
             write('</mask></defs>')
@@ -44,6 +46,7 @@ def process_myth_role_icons():
             line = (line
                 .replace('#000000', 'white')
                 .replace('#ffffff', 'black'))
+            line = stroke_width_matcher.sub('', line)
             write(line, end='')
 
 if __name__ == "__main__":
