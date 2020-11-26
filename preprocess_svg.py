@@ -77,6 +77,30 @@ def process_myth_role_icons():
             line = stroke_width_matcher.sub('', line)
             write(line, end='')
 
+def process_season_icons():
+    write = file_print('svg-generation/output/season-icons.svg')
+    current_id = None
+    for line in open('svg-generation/assets/season-icons.svg'):
+        start = open_group_matcher.match(line)
+        end = close_group_matcher.match(line)
+        if start:
+            current_id = start.group('id')
+            write('<g id="' + current_id + '" stroke-width="10">')
+            write('<defs><mask id="' + current_id + '-mask">')
+        elif end:
+            write('</mask></defs>')
+            write('<rect x="-10" y="-10" width="120" height="120" mask="url(#' +
+                current_id + '-mask)" fill="black"></g>')
+        elif vectornator_matcher.match(line):
+            pass
+        else:
+            line = (line
+                .replace('#000000', 'white')
+                .replace('#ffffff', 'black'))
+            line = stroke_width_matcher.sub('', line)
+            write(line, end='')
+
 if __name__ == "__main__":
     process_numeral_icons()
     process_myth_role_icons()
+    process_season_icons()

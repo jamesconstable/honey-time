@@ -194,38 +194,35 @@ glyphBaseTransform nativeSize displaySize =
     translateFactor = -nativeSize / 2
   in rotate 90 <> dup scale scaleFactor <> dup translate translateFactor
 
+glyphRing :: (Integral a, Show a, RealFloat b)
+          => T.Text -> T.Text -> a -> b -> b -> b -> Element
+glyphRing useIdPrefix className n tileRadius size d =
+  let
+    createUsage i = use_ [
+      XlinkHref_ <<- "#" <> useIdPrefix <> tshow i,
+      Class_     <<- "cell cell" <> tshow i,
+      Transform_ <<-
+        translateHelper n tileRadius d False (fromIntegral i)
+        <> rotate (degrees $ polygonAngle n False (fromIntegral i))
+        <> glyphBaseTransform 100 (tileRadius * size)]
+  in g_ [Class_ <<- className] $ foldMap createUsage [0..(n-1)]
+
 mythDial :: RealFloat a => a -> Element
 mythDial tileRadius =
   let
     innerDivide  = tileRadius * 3
     middleDivide = tileRadius * 8.5
     dialSize     = tileRadius * 11
-    numberGlyphs = foldMap
-      (\i -> use_ [
-        XlinkHref_ <<- "#honey" <> tshow i,
-        Class_     <<- "cell cell" <> tshow i,
-        Transform_ <<-
-          translateHelper 40 tileRadius 9.96 False i
-          <> rotate (degrees $ polygonAngle 40 False i)
-          <> glyphBaseTransform 100 (tileRadius * 2.1)])
-      [0..39]
-    roleGlyphs = foldMap
-      (\i -> use_ [
-        XlinkHref_ <<- "#mythrole" <> tshow i,
-        Class_     <<- "cell cell" <> tshow i,
-        Transform_ <<-
-          translateHelper 9 tileRadius 6.5 False i
-          <> rotate (degrees $ polygonAngle 9 False i)
-          <> glyphBaseTransform 100 (tileRadius * 2.5)])
-      [0..8]
+    numberGlyphs = glyphRing "honey" "myth-number" 40 tileRadius 2.1 9.96
+    roleGlyphs   = glyphRing "mythrole" "myth-role" 9 tileRadius 2.5 6.5
   in g_ [Class_ <<- "myth-dial"] $ fold [
     circle_ [Cx_ <<- "0", Cy_ <<- "0", R_ <<- toText dialSize,
       Fill_ <<- "none", Stroke_width_ <<- "2", Stroke_ <<- "black"],
     createRing 9 middleDivide innerDivide "myth-role",
     with (polygon 9 (innerDivide + tileRadius/2) True)
       [Fill_ <<- "white", Stroke_ <<- "black", Stroke_width_ <<- "2"],
-    g_ [Class_ <<- "myth-role"] roleGlyphs,
-    g_ [Class_ <<- "myth-number"] numberGlyphs,
+    roleGlyphs,
+    numberGlyphs,
     use_ [
       XlinkHref_ <<- "#honey0",
       Class_     <<- "year",
@@ -254,25 +251,19 @@ createDotMarkers n skip radius dotRadius className =
 dateDial :: RealFloat a => a -> Element
 dateDial tileRadius =
   let
-    divide0     = tileRadius * 1.5
-    divide1     = tileRadius * 4.75
-    divide2     = tileRadius * 8.5
-    divide3     = tileRadius * 9
-    dialSize    = tileRadius * 11
-    monthGlyphs = foldMap
-      (\i -> use_ [
-        XlinkHref_ <<- "#honey" <> tshow i,
-        Fill_ <<- "none",
-        Transform_ <<-
-          translateHelper 12 tileRadius 6.85 False i
-          <> rotate (degrees $ polygonAngle 12 False i)
-          <> glyphBaseTransform 100 (tileRadius * 1.9)])
-      [0..11]
+    divide0      = tileRadius * 1.5
+    divide1      = tileRadius * 4.75
+    divide2      = tileRadius * 8.5
+    divide3      = tileRadius * 9
+    dialSize     = tileRadius * 11
+    seasonGlyphs = glyphRing "season" "season" 6 tileRadius 1.8 3.9
+    monthGlyphs  = glyphRing "honey" "month" 12 tileRadius 1.9 6.85
   in g_ [Class_ <<- "date-dial"] $ fold [
     createRing 30 dialSize divide3 "day-of-month",
     createRing 12 divide3 divide1 "month",
     createDotMarkers 72 (\x -> x `mod` 6 /= 0) divide2 2 "week",
     createHexagonRing divide1 divide0 "season",
+    seasonGlyphs,
     monthGlyphs]
 
 svg :: T.Text -> Element -> Element
