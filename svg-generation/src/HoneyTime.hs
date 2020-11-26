@@ -222,13 +222,14 @@ mythDial tileRadius =
     circle_ [Cx_ <<- "0", Cy_ <<- "0", R_ <<- toText dialSize,
       Fill_ <<- "none", Stroke_width_ <<- "2", Stroke_ <<- "black"],
     createRing 9 middleDivide innerDivide "myth-role",
-    -- createRing 40 dialSize middleDivide "myth-number",
     with (polygon 9 (innerDivide + tileRadius/2) True)
       [Fill_ <<- "white", Stroke_ <<- "black", Stroke_width_ <<- "2"],
     g_ [Class_ <<- "myth-role"] roleGlyphs,
     g_ [Class_ <<- "myth-number"] numberGlyphs,
-    use_ [XlinkHref_ <<- "#honey6",
-      Fill_ <<- "none",
+    use_ [
+      XlinkHref_ <<- "#honey0",
+      Class_     <<- "year",
+      Fill_      <<- "none",
       Transform_ <<-
         translate 0 (-1)
         <> rotate 90

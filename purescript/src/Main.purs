@@ -16,7 +16,6 @@ import Data.String.CodeUnits (singleton)
 import Data.Traversable (traverse)
 import Control.Monad.Maybe.Trans (lift, runMaybeT)
 import Effect (Effect)
---import Effect.Console (log)
 import Effect.Timer (setInterval)
 import Math ((%))
 import Partial.Unsafe (unsafePartial)
@@ -34,6 +33,8 @@ import Web.HTML.HTMLDocument (toDocument)
 import Web.HTML.HTMLElement (fromEventTarget, getBoundingClientRect)
 import Web.HTML.Window (document)
 import Web.UIEvent.MouseEvent (clientX, clientY, fromEvent)
+
+import Effect.Console (log)
 
 type TranslatedName = ( sajemTan :: String, english :: String )
 
@@ -64,6 +65,7 @@ type HoneyDate = HoneyComponents Int
 
 data DisplayComponent =
   None
+  | ImageComponent (Array Element) String
   | TextComponent (Array Element) (Int -> String)
   | LinearComponent (Array (Array Element))
   | SenaryComponent (Array (Array Element)) (Array (Array Element))
@@ -214,6 +216,9 @@ getTextualDisplay =
 getGraphicalDisplay :: Effect Display
 getGraphicalDisplay =
   let
+    imageComponent name useIdPrefix = ImageComponent
+      <$> elementsBySelector (".myth-dial ." <> name)
+      <@> useIdPrefix
     linearComponent name n =
       let selectorFor i = fold [".", name, " .cell", show i]
       in LinearComponent <$> traverse elementsBySelector (selectorFor <$> 0..n)
@@ -223,6 +228,7 @@ getGraphicalDisplay =
         <$> traverse elementsBySelector (selectorFor "units" <$> 0..5)
         <*> traverse elementsBySelector (selectorFor "sixes" <$> 0..5)
   in ado
+    year       <- imageComponent  "year"         "honey"
     season     <- linearComponent "season"       6
     month      <- linearComponent "month"        12
     week       <- linearComponent "week"         60
@@ -233,8 +239,8 @@ getGraphicalDisplay =
     minute     <- senaryComponent "minute"
     second     <- senaryComponent "second"
     subsecond  <- senaryComponent "subsecond"
-    in { season, month, week, dayOfMonth, mythRole, mythNumber,
-         hour, minute, second, subsecond, year: None, dayOfYear: None }
+    in { year, season, month, week, dayOfMonth, mythRole, mythNumber,
+         hour, minute, second, subsecond, dayOfYear: None }
 
 setDisplay :: HoneyDate -> Display -> Effect Unit
 setDisplay date display =
@@ -248,10 +254,14 @@ setDisplay date display =
     setComponent :: DisplayComponent -> Int -> Effect Unit
     setComponent c n = case c of
       None                        -> mempty
-      TextComponent es formatFn   -> setText es (formatFn n)
+      ImageComponent  es prefix   -> setImage es ("#" <> prefix <> show n)
+      TextComponent   es formatFn -> setText es (formatFn n)
       LinearComponent es          -> setElements es n
       SenaryComponent units sixes -> setElements units (mod n 6) *>
                                      setElements sixes (n/6)
+
+    setImage :: Array Element -> String -> Effect Unit
+    setImage es useId = foldMap (setAttribute "xlink:href" useId) es
 
     setText :: Array Element -> String -> Effect Unit
     setText es t = foldMap (setTextContent t <<< toNode) es
