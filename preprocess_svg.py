@@ -1,6 +1,6 @@
 #! /bin/bash/env python3
 
-"""
+'''
 Preprocessor for the Vectornator SVG files containing the UI icons and glyphs.
 
 Usage: python3 preprocess_svg.py
@@ -11,27 +11,55 @@ intended to be robust to variations in the input format, as it merely performs a
 file-specific surface-level correction of some of the problems that cannot be
 fixed within Vectornator itself, like multi-path masking and obligatory stroke
 styles.
-"""
+'''
 
 import re
 
+vectornator_matcher = re.compile(r'<vectornator[^>]*>')
+open_group_matcher = re.compile(r'<g id="(?P<id>[^"]*)" [^>]*>')
+close_group_matcher = re.compile(r'</g>')
+stroke_width_matcher = re.compile(r' stroke-width="[^"]*"')
+stroke_linecap_matcher = re.compile(r' stroke-linecap="[^"]*"')
+stroke_linejoin_matcher = re.compile(r' stroke-linejoin="[^"]*"')
+stroke_matcher = re.compile(r' stroke-color="[^"]*"')
+
+def file_print(filename):
+    f = open(filename, 'w')
+    def print_fn(*args, **kwargs):
+        print(*args, **kwargs, file=f)
+    return print_fn
+
+def process_numeral_icons():
+    write = file_print('svg-generation/output/honey-numerals.svg')
+    is_first_path = False
+    for line in open('svg-generation/assets/honey-numerals.svg'):
+        start = open_group_matcher.match(line)
+        if start:
+            is_first_path = True
+            write(''.join([
+                '<g id="', start.group('id') +
+                '" stroke-linecap="round" stroke-linejoin="round" ',
+                'stroke-width="5">']))
+        elif vectornator_matcher.match(line):
+            pass
+        else:
+            # The first path in each group is the background numeral shape,
+            # which needs to inherit its parent's fill.
+            if is_first_path:
+                line = line.replace(' fill="none"', '')
+            is_first_path = False
+
+            line = stroke_width_matcher.sub('', line)
+            line = stroke_linecap_matcher.sub('', line)
+            line = stroke_linejoin_matcher.sub('', line)
+            write(line, end='')
+
 def process_myth_role_icons():
-    vectornator_matcher = re.compile(r'<vectornator[^>]*>')
-    open_group_matcher = re.compile(r'<g id="(?P<id>[^"]*)" [^>]*>')
-    close_group_matcher = re.compile(r'</g>')
-    stroke_width_matcher = re.compile(r' stroke-width="[^"]*"')
-    stroke_matcher = re.compile(r' stroke-color="[^"]*"')
-
-    output_file = open('svg-generation/output/myth-role-icons.svg', 'w')
-    def write(text, end='\n'):
-        print(text, end=end, file=output_file)
-
+    write = file_print('svg-generation/output/myth-role-icons.svg')
     current_id = None
     for line in open('svg-generation/assets/myth-role-icons.svg'):
-        vectornator = vectornator_matcher.match(line)
         start = open_group_matcher.match(line)
         end = close_group_matcher.match(line)
-
         if start:
             current_id = start.group('id')
             write('<g id="' + current_id + '" stroke-width="5">')
@@ -40,7 +68,7 @@ def process_myth_role_icons():
             write('</mask></defs>')
             write('<rect x="-10" y="-10" width="120" height="120" mask="url(#' +
                 current_id + '-mask)" fill="black"></g>')
-        elif vectornator:
+        elif vectornator_matcher.match(line):
             pass
         else:
             line = (line
@@ -50,4 +78,5 @@ def process_myth_role_icons():
             write(line, end='')
 
 if __name__ == "__main__":
+    process_numeral_icons()
     process_myth_role_icons()
