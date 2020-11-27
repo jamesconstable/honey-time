@@ -54,6 +54,23 @@ def process_numeral_icons():
             line = stroke_linejoin_matcher.sub('', line)
             write(line, end='')
 
+def process_letter_icons():
+    write = file_print('svg-generation/output/honey-letters.svg')
+    for line in open('svg-generation/assets/honey-letters.svg'):
+        start = open_group_matcher.match(line)
+        if start:
+            write(''.join([
+                '<g id="', start.group('id') +
+                '" stroke-linecap="round" stroke-linejoin="round" ',
+                'stroke-width="10">']))
+        elif vectornator_matcher.match(line):
+            pass
+        else:
+            line = stroke_width_matcher.sub('', line)
+            line = stroke_linecap_matcher.sub('', line)
+            line = stroke_linejoin_matcher.sub('', line)
+            write(line, end='')
+
 def process_myth_role_icons():
     write = file_print('svg-generation/output/myth-role-icons.svg')
     current_id = None
@@ -102,5 +119,6 @@ def process_season_icons():
 
 if __name__ == "__main__":
     process_numeral_icons()
+    process_letter_icons()
     process_myth_role_icons()
     process_season_icons()

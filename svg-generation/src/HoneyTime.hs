@@ -217,7 +217,7 @@ mythDial tileRadius =
     roleGlyphs   = glyphRing "mythrole" "myth-role" 9 tileRadius 2.5 6.5
   in g_ [Class_ <<- "myth-dial"] $ fold [
     circle_ [Cx_ <<- "0", Cy_ <<- "0", R_ <<- toText dialSize,
-      Fill_ <<- "none", Stroke_width_ <<- "2", Stroke_ <<- "black"],
+      Fill_ <<- "none", Stroke_width_ <<- "5", Stroke_ <<- "black"],
     createRing 9 middleDivide innerDivide "myth-role",
     with (polygon 9 (innerDivide + tileRadius/2) True)
       [Fill_ <<- "white", Stroke_ <<- "black", Stroke_width_ <<- "2"],
@@ -258,13 +258,17 @@ dateDial tileRadius =
     dialSize     = tileRadius * 11
     seasonGlyphs = glyphRing "season" "season" 6 tileRadius 1.8 3.9
     monthGlyphs  = glyphRing "honey" "month" 12 tileRadius 1.9 6.85
+    dayGlyphs    = glyphRing "letter" "day-of-month" 30 tileRadius 1.1 10.11
   in g_ [Class_ <<- "date-dial"] $ fold [
+    circle_ [Cx_ <<- "0", Cy_ <<- "0", R_ <<- toText dialSize,
+      Fill_ <<- "none", Stroke_width_ <<- "5", Stroke_ <<- "black"],
     createRing 30 dialSize divide3 "day-of-month",
     createRing 12 divide3 divide1 "month",
     createDotMarkers 72 (\x -> x `mod` 6 /= 0) divide2 2 "week",
     createHexagonRing divide1 divide0 "season",
     seasonGlyphs,
-    monthGlyphs]
+    monthGlyphs,
+    dayGlyphs]
 
 svg :: T.Text -> Element -> Element
 svg className content =
