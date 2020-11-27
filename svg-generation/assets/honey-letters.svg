@@ -2,8 +2,8 @@
 <svg height="100%" style="fill-rule:evenodd;clip-rule:evenodd;stroke-linecap:round;stroke-linejoin:round;" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns="http://www.w3.org/2000/svg" xml:space="preserve" width="100%" xmlns:vectornator="http://vectornator.io" version="1.1" viewBox="0 0 100 100">
 <metadata>
 <vectornator:setting key="DimensionsVisible" value="1"/>
-<vectornator:setting key="SnapToGrid" value="1"/>
-<vectornator:setting key="IsolateActiveLayer" value="1"/>
+<vectornator:setting key="Units" value="Pixels"/>
+<vectornator:setting key="New" value="1"/>
 <vectornator:setting key="SnapToPoints" value="0"/>
 <vectornator:setting key="GuidesVisible" value="1"/>
 <vectornator:setting key="RulersVisible" value="1"/>
@@ -12,54 +12,55 @@
 <vectornator:setting key="DisplayWhiteBackground" value="1"/>
 <vectornator:setting key="SnapToGuides" value="1"/>
 <vectornator:setting key="GridSpacing" value="5"/>
-<vectornator:setting key="Units" value="Pixels"/>
 <vectornator:setting key="DynamicGuides" value="0"/>
-<vectornator:setting key="New" value="1"/>
+<vectornator:setting key="IsolateActiveLayer" value="1"/>
+<vectornator:setting key="SnapToGrid" value="1"/>
 </metadata>
 <defs/>
 <g id="letter29" vectornator:layerName="letter29">
 <path stroke="#000000" stroke-width="1.02" d="M45+90C45+90+15+85+15+50C15+15+45+10+45+10" fill="none" stroke-linecap="round" opacity="1" stroke-linejoin="round"/>
-<path stroke="#000000" stroke-width="1.02" d="M35+50L85+50" fill="none" stroke-linecap="round" opacity="1" stroke-linejoin="round"/>
+<path stroke="#000000" stroke-width="1.02" d="M45+50L85+50" fill="none" stroke-linecap="round" opacity="1" stroke-linejoin="round"/>
 </g>
 <g id="letter28" vectornator:layerName="letter28">
-<path stroke="#000000" stroke-width="1.02" d="M50+10C50+10+25+30+25+50C25+65+35+70+50+70C65+70+75+60.3078+75+50C75+40+70+35.094+62.5729+35.0474C55+35+50+40+50+55C50+69.0931+50+90+50+90" fill="none" stroke-linecap="round" opacity="1" stroke-linejoin="round"/>
+<path stroke="#000000" stroke-width="1.02" d="M50+10C50+10+25+30+25+50C25+65+35+75+50+75C65+75+75+60.3078+75+50C75+40+70+35.094+62.5729+35.0474C55+35+50+40+50+50C50+55+50+95+50+95" fill="none" stroke-linecap="round" opacity="1" stroke-linejoin="round"/>
 </g>
 <g id="letter27" vectornator:layerName="letter27">
-<path stroke="#000000" stroke-width="1.02" d="M30+10C30+15+30+35+30+45C30+45+39.9222+45+50+45C60+45+70+45+70+45C70+45+70+60+70+70C70+80+60.0629+89.6476+50.0629+89.6476C40.0629+89.6476+30+80+30+70C30+61.6863+35+60+35+60" fill="none" stroke-linecap="round" opacity="1" stroke-linejoin="round"/>
+<path stroke="#000000" stroke-width="1.02" d="M30+10C30+15+30+35+30+45C30+45+39.9222+45+50+45C60+45+70+45+70+45C70+45+70+60+70+70C70+80+60.0629+89.6476+50.0629+89.6476C40.0629+89.6476+30+80+30+70" fill="none" stroke-linecap="round" opacity="1" stroke-linejoin="round"/>
 <path stroke="#000000" stroke-width="1.02" d="M70+10L70+45" fill="none" stroke-linecap="round" opacity="1" stroke-linejoin="round"/>
 </g>
 <g id="letter26" vectornator:layerName="letter26">
-<path stroke="#000000" stroke-width="1.02" d="M70+25C70+15+60+10+50+10C39.9222+10+30+20+30+30C30+40+39.9222+50+50+50C60+50+70+40+70+40C70+40+70+60+70+70C70+80+60.0629+89.6476+50.0629+89.6476C40.0629+89.6476+30+80+30+70C30+61.6863+35+60+35+60" fill="none" stroke-linecap="round" opacity="1" stroke-linejoin="round"/>
+<path stroke="#000000" stroke-width="1.02" d="M70+15C65.0871+12.2976+60+10+50+10C39.9222+10+30.0362+17.4537+30.0362+27.4537C30.0362+37.4537+39.9222+45+50+45C60+45+70+40+70+40C70+40+70+60+70+70C70+80+60.0629+89.6476+50.0629+89.6476C40.0629+89.6476+30+80+30+70" fill="none" stroke-linecap="round" opacity="1" stroke-linejoin="round"/>
 </g>
 <g id="letter25" vectornator:layerName="letter25">
-<path stroke="#000000" stroke-width="1.02" d="M10+10L90+10C90+10+90+65+90+75C90+85+85+90+75+90C65+90+60+85+60+75" fill="none" stroke-linecap="round" opacity="1" stroke-linejoin="round"/>
+<path stroke="#000000" stroke-width="1.02" d="M15+15L85+15C85+15+85+65+85+75C85+85+80+90+70+90C60+90+55+85+55+75" fill="none" stroke-linecap="round" opacity="1" stroke-linejoin="round"/>
 </g>
 <g id="letter24" vectornator:layerName="letter24">
-<path stroke="#000000" stroke-width="1.02" d="M50+15C40+15+37.3026+24.8975+37.52+34.8951C37.8472+49.9466+60+85+75+85C80+85+90+85+90+75C90+60+75+55+50+55C25+55+10+60+10+75C10+85+20+85+25+85C40+85+62.7149+49.7285+62.7149+35.0042C62.7149+25.0042+60+15+50+15Z" fill="none" stroke-linecap="round" opacity="1" stroke-linejoin="round"/>
+<path stroke="#000000" stroke-width="1.02" d="M50+10C38.75+10+35.7155+21.3114+35.96+32.7373C36.3281+49.939+61.25+90+78.125+90C83.75+90+95+90+95+78.5714C95+61.4286+78.125+55.7143+50+55.7143C21.875+55.7143+5+61.4286+5+78.5714C5+90+16.25+90+21.875+90C38.75+90+64.3042+49.6897+64.3042+32.8619C64.3042+21.4333+61.25+10+50+10Z" fill="none" stroke-linecap="round" opacity="1" stroke-linejoin="round"/>
 </g>
 <g id="letter23" vectornator:layerName="letter23">
-<path stroke="#000000" stroke-width="1.02" d="M20+10L20+50L45+70L20+90L80+90L80+10" fill="none" stroke-linecap="round" opacity="1" stroke-linejoin="round"/>
+<path stroke="#000000" stroke-width="1.02" d="M20+10L20+45L50+65L20+90L80+90L80+10" fill="none" stroke-linecap="round" opacity="1" stroke-linejoin="round"/>
 </g>
 <g id="letter22" vectornator:layerName="letter22">
-<path stroke="#000000" stroke-width="1.02" d="M15+30C15+30+25+10+50+10C75+10+90+25+90+50C90+70+75+90+50+90C25+90+10+75+10+50C10+50+15+40+40+40C80+40+90+90+90+90" fill="none" stroke-linecap="round" opacity="1" stroke-linejoin="round"/>
+<path stroke="#000000" stroke-width="1.02" d="M10+50C10+25+25+10+50+10C75+10+90+25+90+50C90+70+75+90+50+90C25+90+10+75+10+50" fill="none" stroke-linecap="round" opacity="1" stroke-linejoin="round"/>
+<path stroke="#000000" stroke-width="1.02" d="M12.5659+34.8527C40+35+90+65+90+90" fill="none" stroke-linecap="round" opacity="1" stroke-linejoin="round"/>
 </g>
 <g id="letter21" vectornator:layerName="letter21">
-<path stroke="#000000" stroke-width="1.02" d="M70+10L30+10L30+45C30+45+39.6922+35+50+35C60+35+70+40+70+50C70+57.5+60.172+62.7076+50.172+62.7076C39.492+62.7076+45.0457+62.7076+45.0457+62.7076C45.0457+62.7076+47.9667+62.7566+50.172+62.7076C59.9882+62.4895+70+67.5+70+75C70+85+60+90+50+90C39.6922+90+30+80+30+80" fill="none" stroke-linecap="round" opacity="1" stroke-linejoin="round"/>
+<path stroke="#000000" stroke-width="1.02" d="M72.6145+10.0702L27.6145+10.0702L27.6145+25.7992L27.6145+40.0702C27.6145+40.0702+32.6145+30.0702+47.6145+30.0702C62.6145+30.0702+72.6145+35.0702+72.6145+45.0702C72.6145+60.0702+57.7864+62.7778+47.7864+62.7778C37.1064+62.7778+42.6602+62.7778+42.6602+62.7778C42.6602+62.7778+45.5812+62.8268+47.7864+62.7778C57.6026+62.5597+72.6145+65.0702+72.6145+80.0702C72.6145+90.0702+62.6145+95.0702+47.6145+95.0702C32.6145+95.0702+27.6145+85.0702+27.6145+85.0702" fill="none" stroke-linecap="round" opacity="1" stroke-linejoin="round"/>
 </g>
 <g id="letter20" vectornator:layerName="letter20">
-<path stroke="#000000" stroke-width="1.02" d="M30+10C30+10+30+45+50+45C70+45+70+10+70+10L70+60C70+60+60+55+50+55C39.8564+55+30+60+30.2124+72.742C30.4167+85.0001+39.7288+90+50+90C60+90+70+85+70+85" fill="none" stroke-linecap="round" opacity="1" stroke-linejoin="round"/>
+<path stroke="#000000" stroke-width="1.02" d="M27.5924+10.1401C27.5924+10.1401+30.2927+40.1604+50.2927+40.1604C70.2927+40.1604+75+10+75+10L72.5924+65.1401C72.5924+65.1401+62.5924+60.1401+52.5924+60.1401C42.4488+60.1401+32.4761+65.2246+32.6885+77.9666C32.8928+90.2247+42.3212+95.1401+52.5924+95.1401C62.5924+95.1401+72.5924+90.1401+72.5924+90.1401" fill="none" stroke-linecap="round" opacity="1" stroke-linejoin="round"/>
 </g>
 <g id="letter19" vectornator:layerName="letter19">
-<path stroke="#000000" stroke-width="1.02" d="M10+90L10+10L90+10C90+10+90+65+90+75C90+85+85+90+75+90C65+90+60+85+60+75" fill="none" stroke-linecap="round" opacity="1" stroke-linejoin="round"/>
+<path stroke="#000000" stroke-width="1.02" d="M15+90L15+15L85+15C85+15+85+65+85+75C85+85+80+90+70+90C60+90+55+85+55+75" fill="none" stroke-linecap="round" opacity="1" stroke-linejoin="round"/>
 </g>
 <g id="letter18" vectornator:layerName="letter18">
-<path stroke="#000000" stroke-width="1.02" d="M15+90L45+90L45+60C45+60+85+60+85+10" fill="none" stroke-linecap="round" opacity="1" stroke-linejoin="round"/>
+<path stroke="#000000" stroke-width="1.02" d="M15+90L45+90L45+60C45+60+90+60+90+10" fill="none" stroke-linecap="round" opacity="1" stroke-linejoin="round"/>
 </g>
 <g id="letter17" vectornator:layerName="letter17">
-<path stroke="#000000" stroke-width="1.02" d="M10+90L30+10C30+10+35+40+45+40C55+40+60+10+60+10C60+10+65+40+75+40C85+40+90+10+90+10" fill="none" stroke-linecap="round" opacity="1" stroke-linejoin="round"/>
+<path stroke="#000000" stroke-width="1.02" d="M10+90L25+10C25+10+32.4833+40.0013+42.4833+40.0013C52.4833+40.0013+60+10+60+10C60+10+67.5598+40.0471+77.5598+40.0471C87.5598+40.0471+95+10+95+10" fill="none" stroke-linecap="round" opacity="1" stroke-linejoin="round"/>
 </g>
 <g id="letter16" vectornator:layerName="letter16">
-<path stroke="#000000" stroke-width="1.02" d="M10+10L90+10L90+90" fill="none" stroke-linecap="round" opacity="1" stroke-linejoin="round"/>
+<path stroke="#000000" stroke-width="1.02" d="M15+15L85+15L85+90" fill="none" stroke-linecap="round" opacity="1" stroke-linejoin="round"/>
 </g>
 <g id="letter15" vectornator:layerName="letter15">
 <path stroke="#000000" stroke-width="1.02" d="M10+65C10+55+20+40+35+40C50+40+50+65+65+65C80+65+90+55+90+40" fill="none" stroke-linecap="round" opacity="1" stroke-linejoin="round"/>
@@ -69,10 +70,10 @@
 </g>
 <g id="letter13" vectornator:layerName="letter13">
 <path stroke="#000000" stroke-width="1.02" d="M10+40C10+40+15+10+50+10C85+10+90+40+90+40" fill="none" stroke-linecap="round" opacity="1" stroke-linejoin="round"/>
-<path stroke="#000000" stroke-width="1.02" d="M40+30C40+30+40+53.1543+40+69.6875C40+75.8529+42.1592+84.3574+48.1162+88.1011C50.0096+89.291+52.2866+90+55+90C66.25+90+70+77.8125+70+69.6875" fill="none" stroke-linecap="round" opacity="1" stroke-linejoin="round"/>
+<path stroke="#000000" stroke-width="1.02" d="M40+40C40+40+40+58.1543+40+74.6875C40+80.8529+42.1592+89.3574+48.1162+93.1011C50.0096+94.291+52.2866+95+55+95C66.25+95+70+82.8125+70+74.6875" fill="none" stroke-linecap="round" opacity="1" stroke-linejoin="round"/>
 </g>
 <g id="letter12" vectornator:layerName="letter12">
-<path stroke="#000000" stroke-width="1.02" d="M35+90C35+90+65+75+65+45C65+20+57.5+10+50+10C42.5+10+35+20+35+45C35+75+65+90+65+90" fill="none" stroke-linecap="round" opacity="1" stroke-linejoin="round"/>
+<path stroke="#000000" stroke-width="1.02" d="M35+95C35+95+65+70+65+40C65+15+57.5+10+50+10C42.5+10+35+15+35+40C35+70+65+95+65+95" fill="none" stroke-linecap="round" opacity="1" stroke-linejoin="round"/>
 </g>
 <g id="letter11" vectornator:layerName="letter11">
 <path stroke="#000000" stroke-width="1.02" d="M25+10C25+30.1556+25+90+25+90C25+90+35.3691+90+50+90C70+90+75+80+75+70C75+60+70+45+50+45C25+45+25+70+25+70" fill="none" stroke-linecap="round" opacity="1" stroke-linejoin="round"/>

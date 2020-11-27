@@ -2,8 +2,8 @@
 <svg height="100%" style="fill-rule:evenodd;clip-rule:evenodd;stroke-linecap:round;stroke-linejoin:round;" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns="http://www.w3.org/2000/svg" xml:space="preserve" width="100%" xmlns:vectornator="http://vectornator.io" version="1.1" viewBox="0 0 100 100">
 <metadata>
 <vectornator:setting key="DimensionsVisible" value="1"/>
-<vectornator:setting key="Units" value="Pixels"/>
-<vectornator:setting key="IsolateActiveLayer" value="1"/>
+<vectornator:setting key="GridSpacing" value="2.5"/>
+<vectornator:setting key="New" value="1"/>
 <vectornator:setting key="SnapToPoints" value="0"/>
 <vectornator:setting key="OutlineMode" value="0"/>
 <vectornator:setting key="RulersVisible" value="1"/>
@@ -12,10 +12,10 @@
 <vectornator:setting key="SnapToEdges" value="0"/>
 <vectornator:setting key="DisplayWhiteBackground" value="1"/>
 <vectornator:setting key="SnapToGuides" value="1"/>
-<vectornator:setting key="GridSpacing" value="2.5"/>
+<vectornator:setting key="Units" value="Pixels"/>
 <vectornator:setting key="DynamicGuides" value="0"/>
-<vectornator:setting key="SnapToGrid" value="1"/>
-<vectornator:setting key="New" value="1"/>
+<vectornator:setting key="IsolateActiveLayer" value="1"/>
+<vectornator:setting key="SnapToGrid" value="0"/>
 </metadata>
 <defs/>
 <g id="mythrole8" vectornator:layerName="mythrole8">
@@ -36,25 +36,24 @@
 <path d="M49.4591+67.5518C52.5173+67.1413+55.3394+69.2147+55.7624+72.1828C56.1853+75.1509+54.049+77.8898+50.9907+78.3003C47.9325+78.7107+45.1104+76.6374+44.6875+73.6693C44.2645+70.7012+46.4008+67.9623+49.4591+67.5518Z" opacity="1" fill="#000000"/>
 </g>
 <g id="mythrole6" vectornator:layerName="mythrole6">
-<path stroke="#000000" stroke-width="5" d="M31.4545+20.109L39.6257+28.5059" fill="none" stroke-linecap="round" opacity="1" stroke-linejoin="round"/>
-<path stroke="#000000" stroke-width="5" d="M68.228+20.2646L60.783+28.3941" fill="none" stroke-linecap="round" opacity="1" stroke-linejoin="round"/>
-<path stroke="#000000" stroke-width="5" d="M39.927+45.2201L24.7485+67.9426" fill="none" stroke-linecap="round" opacity="1" stroke-linejoin="round"/>
-<path stroke="#000000" stroke-width="5" d="M29.1488+79.8015L41.9361+43.7428" fill="none" stroke-linecap="round" opacity="1" stroke-linejoin="round"/>
-<path stroke="#000000" stroke-width="5" d="M70.0152+79.2959L58.2305+45.5601" fill="none" stroke-linecap="round" opacity="1" stroke-linejoin="round"/>
-<path stroke="#000000" stroke-width="5" d="M74.4564+67.1843L60.2859+47.2524" fill="none" stroke-linecap="round" opacity="1" stroke-linejoin="round"/>
-<path d="M65.144+71.9964C64.7295+85.412+57.6559+95.6946+49.3446+94.9633C41.0332+94.232+34.6316+82.7636+35.046+69.348C35.4605+55.9324+42.5341+45.6498+50.8454+46.3811C59.1568+47.1124+65.5584+58.5808+65.144+71.9964Z" opacity="1" fill="#000000"/>
+<path stroke="#000000" stroke-width="5" d="M31.4545+20.109L40+30" fill="none" stroke-linecap="round" opacity="1" stroke-linejoin="round"/>
+<path stroke="#000000" stroke-width="5" d="M68.228+20.2646L60+30" fill="none" stroke-linecap="round" opacity="1" stroke-linejoin="round"/>
+<path stroke="#000000" stroke-width="5" d="M72.5+77.5L60+55" fill="none" stroke-linecap="round" opacity="1" stroke-linejoin="round"/>
+<path stroke="#000000" stroke-width="5" d="M77.5+67.5L60+50" fill="none" stroke-linecap="round" opacity="1" stroke-linejoin="round"/>
+<path d="M65.144+71.9964C64.7295+85.412+57.6559+95.6946+49.3446+94.9633C41.0332+94.232+34.6316+82.7636+35.046+69.348C35.4605+55.9324+42.5341+45.6498+50.8454+46.3811C59.1568+47.1124+65.5584+58.5808+65.144+71.9964Z" opacity="1" fill="#ffffff"/>
 <path d="M59.9014+20.4704C61.9228+25.943+59.1252+32.0181+53.6526+34.0395C48.1801+36.0609+42.105+33.2632+40.0836+27.7907C38.0621+22.3181+40.8598+16.243+46.3324+14.2216C51.8049+12.2002+57.88+14.9979+59.9014+20.4704Z" opacity="1" fill="#000000"/>
 <path stroke="#000000" stroke-width="5" d="M43.8996+11.555L46.5357+17.1653" fill="none" stroke-linecap="round" opacity="1" stroke-linejoin="round"/>
 <path stroke="#000000" stroke-width="5" d="M55.9773+11.3503L53.3029+16.6879" fill="none" stroke-linecap="round" opacity="1" stroke-linejoin="round"/>
-<path d="M27.0248+24.3347C38.7738+28.0085+46.1488+36.6726+43.4974+43.6865C40.846+50.7005+29.1722+53.4082+17.4232+49.7344C8.59821+46.9749+2.24096+41.3998+0.746962+35.8234C0.251966+33.9758+0.29083+32.1281+0.950677+30.3825C3.60208+23.3686+15.2759+20.6609+27.0248+24.3347Z" opacity="1" fill="#000000"/>
-<path d="M73.5257+24.3601C61.7221+27.8544+54.2159+36.4051+56.7601+43.4586C59.3043+50.5122+70.9355+53.3975+82.739+49.9032C91.6051+47.2785+98.0466+41.801+99.6254+36.248C100.148+34.4082+100.138+32.56+99.5046+30.8046C96.9604+23.7511+85.3293+20.8658+73.5257+24.3601Z" opacity="1" fill="#000000"/>
-<path d="M63.6694+32.292C66.5942+40.2101+62.5462+49+54.6281+51.9247C46.71+54.8495+37.9201+50.8016+34.9954+42.8835C32.0706+34.9653+36.1186+26.1755+44.0367+23.2507C51.9548+20.326+60.7447+24.3739+63.6694+32.292Z" opacity="1" fill="#000000"/>
-<path d="M20.0179+44.5917C25.7189+39.9686+32.4552+39.1643+35.064+42.7952C37.6727+46.4262+35.166+53.1174+29.4651+57.7405C25.1829+61.2131+20.3166+62.5311+17.0541+61.4333C15.9731+61.0696+15.0683+60.4407+14.419+59.537C11.8103+55.9061+14.317+49.2149+20.0179+44.5917Z" opacity="1" fill="#000000"/>
-<path d="M79.2736+45.2092C85.4439+49.1843+88.3086+55.3339+85.6722+58.9448C83.0358+62.5557+75.8965+62.2605+69.7262+58.2854C65.0915+55.2996+62.3217+51.0868+62.3475+47.6447C62.356+46.5042+62.6714+45.4483+63.3276+44.5497C65.964+40.9388+73.1033+41.2341+79.2736+45.2092Z" opacity="1" fill="#000000"/>
-<path stroke="#ffffff" stroke-width="5" d="M42.6346+59.3747L57.6346+59.3747" fill="none" stroke-linecap="round" opacity="1" stroke-linejoin="round"/>
-<path stroke="#ffffff" stroke-width="5" d="M40.1346+71.8747L60.1346+71.8747" fill="none" stroke-linecap="round" opacity="1" stroke-linejoin="round"/>
-<path stroke="#ffffff" stroke-width="5" d="M42.6346+84.3747L57.6346+84.3747" fill="none" stroke-linecap="round" opacity="1" stroke-linejoin="round"/>
+<path d="M73.5477+25.5915C61.5065+27.6884+53.3321+34.7438+55.2896+41.3503C57.247+47.9567+68.5952+51.6124+80.6364+49.5155C89.681+47.9404+96.5439+43.5677+98.5701+38.6891C99.2414+37.0727+99.3817+35.4008+98.8946+33.7567C96.9371+27.1502+85.5889+23.4946+73.5477+25.5915Z" opacity="1" fill="#000000"/>
+<path d="M64.625+34.9922C67.5497+42.9103+63.5018+51.7002+55.5837+54.625C47.6656+57.5497+38.8757+53.5018+35.9509+45.5837C33.0262+37.6656+37.0741+28.8757+44.9922+25.9509C52.9103+23.0262+61.7002+27.0741+64.625+34.9922Z" opacity="1" fill="#000000"/>
+<path stroke="#000000" stroke-width="5" d="M40+65L60+65" fill="none" stroke-linecap="round" opacity="1" stroke-linejoin="round"/>
+<path stroke="#000000" stroke-width="5" d="M40+77.5L60+77.5" fill="none" stroke-linecap="round" opacity="1" stroke-linejoin="round"/>
 <path stroke="#000000" stroke-width="5" d="M62.6445+70.6612C62.299+83.3785+56.4017+93.1259+49.4726+92.4326C42.5434+91.7394+37.2063+80.868+37.5518+68.1507C37.8973+55.4334+43.7946+45.6859+50.7238+46.3792C57.653+47.0725+62.9901+57.9439+62.6445+70.6612Z" fill="none" stroke-linecap="round" opacity="1" stroke-linejoin="round"/>
+<path stroke="#000000" stroke-width="5" d="M27.5+77.5L40+55" fill="none" stroke-linecap="round" opacity="1" stroke-linejoin="round"/>
+<path stroke="#000000" stroke-width="5" d="M22.5+67.5L40+50" fill="none" stroke-linecap="round" opacity="1" stroke-linejoin="round"/>
+<path d="M72.9232+33.3319C62.4062+30.9155+53.2836+33.9424+52.5474+40.0928C51.8112+46.2432+59.7401+53.1879+70.2571+55.6044C78.1568+57.4194+85.2697+56.1633+88.6328+52.8192C89.747+51.7112+90.4497+50.3741+90.6329+48.8434C91.3691+42.6931+83.4402+35.7483+72.9232+33.3319Z" opacity="1" fill="#000000"/>
+<path d="M26.4523+25.5915C38.4935+27.6884+46.6679+34.7438+44.7104+41.3503C42.753+47.9567+31.4048+51.6124+19.3636+49.5155C10.319+47.9404+3.45611+43.5677+1.42994+38.6891C0.758622+37.0727+0.618257+35.4008+1.10541+33.7567C3.0629+27.1502+14.4111+23.4946+26.4523+25.5915Z" opacity="1" fill="#000000"/>
+<path d="M27.0768+33.3319C37.5938+30.9155+46.7164+33.9424+47.4526+40.0928C48.1888+46.2432+40.2599+53.1879+29.7429+55.6044C21.8432+57.4194+14.7303+56.1633+11.3672+52.8192C10.253+51.7112+9.55034+50.3741+9.36712+48.8434C8.6309+42.6931+16.5598+35.7483+27.0768+33.3319Z" opacity="1" fill="#000000"/>
 </g>
 <g id="mythrole5" vectornator:layerName="mythrole5">
 <path d="M32.5+37.5C32.5+27.835+40.335+20+50+20C59.665+20+67.5+27.835+67.5+37.5C67.5+47.165+59.665+55+50+55C40.335+55+32.5+47.165+32.5+37.5Z" opacity="1" fill="#000000"/>
@@ -101,8 +100,8 @@
 <path d="M30+25C30+11.1929+41.1929-8.29977e-06+55-8.29977e-06C68.8071-8.29977e-06+80+11.1929+80+25C80+38.8071+68.8071+50+55+50C41.1929+50+30+38.8071+30+25Z" opacity="0" fill="#b6b8ff"/>
 <path d="M72.5+43.75C72.5+36.1561+78.6561+30+86.25+30C93.8439+30+100+36.1561+100+43.75C100+51.3439+93.8439+57.5+86.25+57.5C78.6561+57.5+72.5+51.3439+72.5+43.75Z" opacity="0" fill="#b6b8ff"/>
 <path d="M55+0C30+0+30+25+30+25C30+25+27.5+20+17.5+20C7.5+20+0+27.5+0+37.5C0+52.5+10+57.5+20+57.5C27.5+57.5+65+57.5+87.5+57.5C95+57.5+99.917+51.3263+100+45C100.098+37.5006+95+30+87.5+30C82.5+30+79.2533+31.874+79.2533+31.874C79.2533+31.874+80.1055+30.4709+80+22.5C79.8617+12.0585+70.595+0+55+0" opacity="1" fill="#000000"/>
-<path stroke="#000000" stroke-width="1" d="M42.5+62.5L20+97.5" fill="#000598" stroke-linecap="round" fill-opacity="0" opacity="1" stroke-linejoin="round"/>
-<path stroke="#000000" stroke-width="1" d="M65+62.5L42.5+97.5" fill="#000598" stroke-linecap="round" fill-opacity="0" opacity="1" stroke-linejoin="round"/>
+<path stroke="#000000" stroke-width="1" d="M40+67.5L20+97.5" fill="#000598" stroke-linecap="round" fill-opacity="0" opacity="1" stroke-linejoin="round"/>
+<path stroke="#000000" stroke-width="1" d="M62.5+67.5L42.5+97.5" fill="#000598" stroke-linecap="round" fill-opacity="0" opacity="1" stroke-linejoin="round"/>
 </g>
 <g id="mythrole0" vectornator:layerName="mythrole0">
 <path stroke="#000000" stroke-width="1" d="M50+97.5L62.5+77.5L37.5+77.5L50+57.5" fill="#000598" stroke-linecap="round" fill-opacity="0" opacity="1" stroke-linejoin="round"/>
