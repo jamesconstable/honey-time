@@ -37,6 +37,7 @@ $(svg_glyphs) : preprocess_svg.py $(svg_assets)
 site/style.css : style.scss
 	$(MKDIR) site
 	$(SASS) $< $@
+	cp paper.jpeg site/paper.jpeg
 
 clean :
 	rm -rf site purescript/output svg-generation/output

@@ -2,18 +2,19 @@ body {
   margin: 0;
 
   &::before {
-    background: gold;
+    background: center / 1200px 1200px url("paper.jpeg"), gold;
+    background-blend-mode: multiply;
     content: "";
     display: block;
-    filter: url("#rough-paper-filter");
     height: 100%;
     width: 100%;
   }
 }
 
 #sajem-tan-clock {
-  background: darkorange;
-  filter: url('#shadow-filter');
+  background: center / 300px 300px url("paper.jpeg"), darkorange;
+  background-blend-mode: multiply;
+  box-shadow: 0px 1px 4px 0px rgba(0, 0, 0, 0.5);
   left: 50%;
   padding: 2.2vmin 1vmin 3vmin 1vmin;
   position: absolute;
@@ -22,11 +23,11 @@ body {
   width: 85vmin;
 
   &::before {
-    background: white;
+    background: center / 400px 400px url("paper.jpeg");
+    box-shadow: 0px 1px 4px 0px rgba(0, 0, 0, 0.5);
     box-sizing: border-box;
     content: "";
     display: block;
-    filter: url('#paper-filter') url('#shadow-filter');
     height: calc(100% - 20px);
     left: 10px;
     position: absolute;
@@ -36,12 +37,10 @@ body {
 }
 
 .graphical-display {
-  filter: url('#deboss-filter');
   position: relative;
   text-align: center;
 
   svg {
-    filter: url("#paper-filter");
     height: 28vmin;
     position: relative;
     width: calc(33% - 2vmin / 3);
@@ -59,7 +58,6 @@ body {
 }
 
 .textual-display {
-  filter: url('#deboss-filter');
   position: relative;
   font-family: "Helvetica Neue", sans-serif;
   text-align: center;
@@ -71,12 +69,12 @@ body {
   }
 
   .time {
-    font-size: 8vmin;
+    font-size: 7vmin;
     margin-bottom: -1vmin;
   }
 
   .date, .season {
-    font-size: 4vmin;
+    font-size: 3vmin;
   }
 
   .decimal-unit {
@@ -95,7 +93,7 @@ body {
 }
 
 .graphical-display .cell {
-  fill: white;
+  fill: none;
   stroke: black;
   stroke-width: 1;
 
@@ -106,6 +104,13 @@ body {
   &.filled {
     fill: gold;
   }
+}
+
+.season .cell {
+  // These cells need to have a solid colour even when inactive to hide the
+  // curved inner edges of the month cells. This is a close visual match for the
+  // overall grey of the paper texture.
+  fill: #e6e6e6;
 }
 
 .graphical-display .week .cell {

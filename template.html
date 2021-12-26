@@ -43,10 +43,12 @@
               k1="0" k2="1" k3="1" k4="0" result="light2" />
         </filter>
 
-        <filter id="deboss-filter" color-interpolation-filters="linearRGB"
+        <!--filter id="deboss-filter" color-interpolation-filters="linearRGB"
             filterUnits="objectBoundingBox" primitiveUnits="objectBoundingBox">
-          <feColorMatrix type="matrix" result="depthMap"
+          <feColorMatrix type="matrix" result="blocked"
               values="0 0 0 0 0  0 0 0 0 0  0 0 0 0 0  -1 -1 -1 1 0" />
+          <feGaussianBlur stdDeviation="3 3" x="0%" y="0%" in="blocked"
+            width="100%" height="100%" result="depthMap">
           <feDiffuseLighting surfaceScale="-0.5" diffuseConstant="05"
               lighting-color="saddlebrown" in="depthMap" result="diffuse">
             <feDistantLight azimuth="-90" elevation="20"/>
@@ -58,8 +60,49 @@
           </feSpecularLighting>
           <feComposite in="diffuse" in2="specular" operator="arithmetic"
               k1="0" k2="1" k3="1" k4="0" />
-          <feComposite in2="depthMap" operator="in" />
+          <feComposite in2="blocked" operator="in" />
           <feComposite in2="SourceGraphic" operator="over" />
+        </filter-->
+
+        <filter id="deboss-filter" x="-20%" y="-20%" width="140%" height="140%"
+            filterUnits="objectBoundingBox" primitiveUnits="userSpaceOnUse"
+            color-interpolation-filters="linearRGB">
+          <feComponentTransfer x="0%" y="0%" width="100%" height="100%"
+              in="SourceGraphic" result="componentTransfer">
+            <feFuncR type="linear" slope="0" intercept="0"/>
+            <feFuncG type="linear" slope="0" intercept="0"/>
+            <feFuncB type="linear" slope="0" intercept="0"/>
+            <feFuncA type="table" tableValues="0 1"/>
+          </feComponentTransfer>
+          <feGaussianBlur stdDeviation="1 1" x="0%" y="0%"
+              width="100%" height="100%" in="componentTransfer" edgeMode="none"
+              result="blur"/>
+          <feComponentTransfer x="0%" y="0%" width="100%" height="100%"
+              in="blur" result="componentTransfer1">
+            <feFuncR type="identity"/>
+            <feFuncG type="identity"/>
+            <feFuncB type="identity"/>
+            <feFuncA type="table" tableValues="0 0 1"/>
+          </feComponentTransfer>
+          <feSpecularLighting surfaceScale="1" specularConstant="1"
+              specularExponent="40" lighting-color="#ffe7a3" x="0%" y="0%"
+              width="100%" height="100%" in="componentTransfer1"
+              result="specularLighting">
+            <feDistantLight azimuth="230" elevation="40"/>
+          </feSpecularLighting>
+          <feFlood flood-color="#000000" flood-opacity="1" x="0%" y="0%"
+              width="100%" height="100%" result="flood"/>
+          <feDiffuseLighting surfaceScale="1" diffuseConstant="0.75"
+              lighting-color="#fad000" x="0%" y="0%" width="100%" height="100%"
+              in="componentTransfer1" result="diffuseLighting">
+            <feDistantLight azimuth="45" elevation="40"/>
+          </feDiffuseLighting>
+          <feComposite in="diffuseLighting" in2="flood" operator="atop"
+              x="0%" y="0%" width="100%" height="100%" result="composite2"/>
+          <feComposite in="specularLighting" in2="composite2" operator="atop"
+              x="0%" y="0%" width="100%" height="100%" result="composite"/>
+          <feComposite in="composite" in2="SourceAlpha" operator="in"
+              x="0%" y="0%" width="100%" height="100%" result="composite1"/>
         </filter>
 
         <filter id="shadow-filter" color-interpolation-filters="linearRGB">
