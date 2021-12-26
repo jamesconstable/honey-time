@@ -30,7 +30,7 @@ polygonAngle n vertexAtTop i =
   let
     sides  = fromIntegral n
     offset = if vertexAtTop then 0 else pi/sides
-  in (fromIntegral i) * 2*pi/sides - pi/2 + offset
+  in fromIntegral i * 2*pi/sides - pi/2 + offset
 
 hexagonAngle :: (Integral a, RealFloat b) => Bool -> a -> b
 hexagonAngle = polygonAngle 6
@@ -58,19 +58,21 @@ polygon n r vertexAtTop =
 hexagon :: RealFloat a => a -> Bool -> Element
 hexagon = polygon 6
 
-annulusSector :: (Integral a, RealFloat b) => a -> b -> b -> Element
-annulusSector n outerRadius innerRadius =
+annulusSector :: (Integral a, RealFloat b) => a -> b -> b -> Bool -> Element
+annulusSector n outerRadius innerRadius innerArc =
   let
     theta = 2 * pi / fromIntegral n
     start = polygonAngle n True 0
     end   = polygonAngle n True 1
   in path_ [
     D_ <<- fold [
-      polar mA outerRadius start,     -- move to start position
-      arc end outerRadius theta,      -- draw outer arc
-      polar lA innerRadius end,       -- draw straight line to inner arc
-      arc start innerRadius (-theta), -- draw inner arc
-      z]]                             -- draw straight line back to start
+      polar mA outerRadius start,            -- move to start position
+      arc end outerRadius theta,             -- draw outer arc
+      polar lA innerRadius end,              -- draw straight line to inner arc
+      if innerArc                            -- draw inner arc / line
+         then arc start innerRadius (-theta)
+         else polar lA innerRadius start,
+      z]]                                    -- draw straight line back to start
 
 createRing :: (Integral a, Show a, RealFloat b)
            => a -> b -> b -> T.Text -> Element
@@ -78,7 +80,7 @@ createRing n outerRadius innerRadius className =
   let
     useId = className <> "-template"
     template = defs_ [] $
-      with (annulusSector n outerRadius innerRadius) [Id_ <<- useId]
+      with (annulusSector n outerRadius innerRadius innerArcs) [Id_ <<- useId]
     createUsage i = use_ [
       XlinkHref_ <<- "#" <> useId,
       Class_     <<- "cell cell" <> tshow i,
@@ -109,7 +111,7 @@ createHexagonRing apo innerRadius className =
       XlinkHref_ <<- "#" <> useId,
       Class_     <<- "cell cell" <> tshow i,
       Transform_ <<- rotate (fromIntegral i * 360 / 6)]
-  in g_ [Class_ <<- className] $ (template <> foldMap createUsage [0..5])
+  in g_ [Class_ <<- className] (template <> foldMap createUsage [0..5])
 
 translateHelper :: (Integral a, RealFloat b)
                    => a -> b -> b -> Bool -> a -> T.Text
@@ -138,8 +140,8 @@ innerClockDial tileRadius useId =
       unit  <- ["subsecond", "second", "minute"]
       place <- ["units", "sixes"]
       return $ T.concat [unit, "-", place]
-    createFloret (i, name) = with (hexagonFloret name tileRadius useId) [
-      Transform_ <<- hexTranslateHelper tileRadius 8 False i]
+    createFloret (i, name) = hexagonFloret name tileRadius useId
+      `with` [Transform_ <<- hexTranslateHelper tileRadius 8 False i]
   in group $ foldMap createFloret (zip [0..] florets)
 
 outerClockDial :: RealFloat a => a -> Element
@@ -150,14 +152,14 @@ clockDialDecoration :: RealFloat a => a -> T.Text -> Element
 clockDialDecoration tileRadius useId =
   let
     group    = g_ [Class_ <<- "clock-decoration"]
-    isEven n = n `mod` 2 == 0
+    isEven n = even n
     angleAt  = hexagonAngle True
     withThickStroke = flip with [
       Stroke_       <<- "black",
       Stroke_width_ <<- tshow 6]
     centreCircle = withThickStroke $ circle_ [
         R_    <<- toText (4 * apothem 6 tileRadius),
-        Fill_ <<- "white"]
+        Fill_ <<- "#e6e6e6"]
     centreHexagon = withThickStroke $ hexagon (tileRadius * 4) True
     createSpoke i = fold [
       withThickStroke $ path_ [
@@ -181,7 +183,9 @@ clockDial tileRadius =
     mainGroup = g_
       [Id_ <<- T.tail useId, Class_ <<- "clock-dial"]
       (fold [
-        defs_ [] (with (hexagon tileRadius True) [Id_ <<- T.tail tileId]),
+        circle_ [Cx_ <<- "0", Cy_ <<- "0", R_ <<- toText (1 + tileRadius * 11),
+          Fill_ <<- "none", Stroke_width_ <<- "3", Stroke_ <<- "black"],
+        defs_ [] (hexagon tileRadius True `with` [Id_ <<- T.tail tileId]),
         clockDialDecoration tileRadius tileId,
         innerClockDial tileRadius tileId,
         outerClockDial tileRadius])
@@ -216,11 +220,11 @@ mythDial tileRadius =
     numberGlyphs = glyphRing "honey" "myth-number" 40 tileRadius 2.1 9.96
     roleGlyphs   = glyphRing "mythrole" "myth-role" 9 tileRadius 2.5 6.5
   in g_ [Class_ <<- "myth-dial"] $ fold [
-    circle_ [Cx_ <<- "0", Cy_ <<- "0", R_ <<- toText dialSize,
-      Fill_ <<- "none", Stroke_width_ <<- "5", Stroke_ <<- "black"],
-    createRing 9 middleDivide innerDivide "myth-role",
+    circle_ [Cx_ <<- "0", Cy_ <<- "0", R_ <<- toText (1 + dialSize),
+      Fill_ <<- "none", Stroke_width_ <<- "3", Stroke_ <<- "black"],
+    createRing 9 middleDivide (innerDivide + 5) "myth-role" False,
     with (polygon 9 (innerDivide + tileRadius/2) True)
-      [Fill_ <<- "white", Stroke_ <<- "black", Stroke_width_ <<- "2"],
+      [Fill_ <<- "none", Stroke_ <<- "black", Stroke_width_ <<- "2"],
     roleGlyphs,
     numberGlyphs,
     use_ [
@@ -260,10 +264,10 @@ dateDial tileRadius =
     monthGlyphs  = glyphRing "honey" "month" 12 tileRadius 1.9 6.85
     dayGlyphs    = glyphRing "letter" "day-of-month" 30 tileRadius 1.1 10.11
   in g_ [Class_ <<- "date-dial"] $ fold [
-    circle_ [Cx_ <<- "0", Cy_ <<- "0", R_ <<- toText dialSize,
-      Fill_ <<- "none", Stroke_width_ <<- "5", Stroke_ <<- "black"],
-    createRing 30 dialSize divide3 "day-of-month",
-    createRing 12 divide3 divide1 "month",
+    circle_ [Cx_ <<- "0", Cy_ <<- "0", R_ <<- toText (1 + dialSize),
+      Fill_ <<- "none", Stroke_width_ <<- "3", Stroke_ <<- "black"],
+    createRing 30 dialSize divide3 "day-of-month" True,
+    createRing 12 divide3 divide1 "month" True,
     createDotMarkers 72 (\x -> x `mod` 6 /= 0) divide2 2 "week",
     createHexagonRing divide1 divide0 "season",
     seasonGlyphs,
