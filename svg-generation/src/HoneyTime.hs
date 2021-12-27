@@ -85,7 +85,18 @@ createRing n outerRadius innerRadius className innerArcs =
       XlinkHref_ <<- "#" <> useId,
       Class_     <<- "cell cell" <> tshow i,
       Transform_ <<- rotate (fromIntegral i * 360 / fromIntegral n)]
-  in g_ [Class_ <<- className] $ (template <> foldMap createUsage [0..(n-1)])
+  in g_ [Class_ <<- className] (template <> foldMap createUsage [0..(n-1)])
+
+ringDotMarker :: (Integral a, RealFloat b) => a -> b -> a -> Element
+ringDotMarker n radius i =
+  foldMap (\n -> dot radius (start + fromIntegral n * spacing)) [0..i-1]
+  where
+    start = polygonAngle n False i - spacing * (fromIntegral i - 1) / 2.0
+    spacing = pi / 60
+    dot = polar $ \x y -> circle_ [
+        R_  <<- "1.25",
+        Cx_ <<- toText x,
+        Cy_ <<- toText y]
 
 hexagonSector :: RealFloat b => b -> b -> Element
 hexagonSector apo innerRadius =
@@ -155,7 +166,8 @@ innerClockDial tileRadius useId =
 
 outerClockDial :: RealFloat a => a -> Element
 outerClockDial tileRadius =
-  createRing 10 (tileRadius * 11) (tileRadius * 10) "hours-ring"
+  createRing 10 (tileRadius * 11) (tileRadius * 10) "hours-ring" True
+      <> foldMap (ringDotMarker 10 (tileRadius * 10.5)) [0..9]
 
 clockDialDecoration :: RealFloat a => a -> T.Text -> Element
 clockDialDecoration tileRadius useId =
