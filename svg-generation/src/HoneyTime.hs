@@ -75,8 +75,8 @@ annulusSector n outerRadius innerRadius innerArc =
       z]]                                    -- draw straight line back to start
 
 createRing :: (Integral a, Show a, RealFloat b)
-           => a -> b -> b -> T.Text -> Element
-createRing n outerRadius innerRadius className =
+           => a -> b -> b -> T.Text -> Bool -> Element
+createRing n outerRadius innerRadius className innerArcs =
   let
     useId = className <> "-template"
     template = defs_ [] $
@@ -122,15 +122,24 @@ translateHelper n r m vertexAtTop i =
 hexTranslateHelper :: (RealFloat a, Integral b) => a -> a -> Bool -> b -> T.Text
 hexTranslateHelper = translateHelper 6
 
+floretDotMarker :: Integral a => a -> Element
+floretDotMarker n = g_ [] $ foldMap (dot distance . angle) [0..n-1]
+  where
+    distance = 5 - 5 / fromIntegral n
+    angle = polygonAngle n True
+    dot = polar $ \x y -> circle_ [
+        R_  <<- "1.25",
+        Cx_ <<- toText x,
+        Cy_ <<- toText y]
+
 hexagonFloret :: RealFloat a => T.Text -> a -> T.Text -> Element
-hexagonFloret name tileRadius useId =
-  let
-    group = g_ [Class_ <<- name]
-    usage i = use_ [
-      XlinkHref_ <<- useId,
-      Class_     <<- "cell cell" <> tshow i,
-      Transform_ <<- hexTranslateHelper tileRadius 2 False i]
-  in group $ foldMap usage [0..5]
+hexagonFloret name tileRadius useId = g_ [Class_ <<- name] $ foldMap cell [0..5]
+  where
+    cell :: (Show i, Integral i) => i -> Element
+    cell i = g_ [Transform_ <<- hexTranslateHelper tileRadius 2 False i]
+      $ fold [
+        use_ [XlinkHref_ <<- useId, Class_ <<- "cell cell" <> tshow i],
+        floretDotMarker i]
 
 innerClockDial :: RealFloat a => a -> T.Text -> Element
 innerClockDial tileRadius useId =
