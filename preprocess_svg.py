@@ -117,8 +117,16 @@ def process_season_icons():
             line = stroke_width_matcher.sub('', line)
             write(line, end='')
 
+def process_sun_moon():
+    write = file_print('svg-generation/output/sun-moon.svg')
+    for line in open('svg-generation/assets/sun-moon.svg'):
+        if vectornator_matcher.match(line):
+            continue
+        write(line, end='')
+
 if __name__ == "__main__":
     process_numeral_icons()
     process_letter_icons()
     process_myth_role_icons()
     process_season_icons()
+    process_sun_moon()

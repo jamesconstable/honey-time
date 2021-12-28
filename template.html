@@ -11,59 +11,9 @@
       <!-- INCLUDE "svg-generation/output/honey-letters.svg" -->
       <!-- INCLUDE "svg-generation/output/myth-role-icons.svg" -->
       <!-- INCLUDE "svg-generation/output/season-icons.svg" -->
+      <!-- INCLUDE "svg-generation/output/sun-moon.svg" -->
       <svg xmlns="http://www.w3.org/2000/svg" version="1.11.1"
           xmlns:xlink="http://www.w3.org/1999/xlink" width="0" height="0">
-        <filter id="paper-filter" color-interpolation-filters="linearRGB">
-          <feTurbulence type="fractalNoise" baseFrequency="0.1" numOctaves="5"
-              stitchTiles="stitch" />
-          <feDiffuseLighting surfaceScale="0.5">
-            <feDistantLight azimuth="-90" elevation="70" />
-          </feDiffuseLighting>
-          <feComposite in2="SourceAlpha" operator="in" />
-          <feBlend mode="multiply" in2="SourceGraphic"/>
-        </filter>
-
-        <filter id="rough-paper-filter" color-interpolation-filters="linearRGB"
-            filterUnits="objectBoundingBox" primitiveUnits="objectBoundingBox">
-          <feTurbulence baseFrequency="0.02" numOctaves="5"
-              stitchTiles="stitch" />
-          <feDiffuseLighting surfaceScale="1.5">
-            <feDistantLight azimuth="-90" elevation="20" />
-          </feDiffuseLighting>
-          <feComposite in2="SourceAlpha" operator="in" />
-          <feComposite operator="arithmetic" in2="SourceGraphic"
-              k1="1" k2="0" k3="0" k4="0" result="light1" />
-          <feDiffuseLighting surfaceScale="3.5">
-            <fePointLight x="0.5" y="0.6" z="0.2" />
-          </feDiffuseLighting>
-          <feComposite in2="SourceAlpha" operator="in" />
-          <feComposite operator="arithmetic" in2="SourceGraphic"
-              k1="1" k2="0" k3="0" k4="0" result="light2" />
-          <feComposite operator="arithmetic" in="light1" in2="light2"
-              k1="0" k2="1" k3="1" k4="0" result="light2" />
-        </filter>
-
-        <!--filter id="deboss-filter" color-interpolation-filters="linearRGB"
-            filterUnits="objectBoundingBox" primitiveUnits="objectBoundingBox">
-          <feColorMatrix type="matrix" result="blocked"
-              values="0 0 0 0 0  0 0 0 0 0  0 0 0 0 0  -1 -1 -1 1 0" />
-          <feGaussianBlur stdDeviation="3 3" x="0%" y="0%" in="blocked"
-            width="100%" height="100%" result="depthMap">
-          <feDiffuseLighting surfaceScale="-0.5" diffuseConstant="05"
-              lighting-color="saddlebrown" in="depthMap" result="diffuse">
-            <feDistantLight azimuth="-90" elevation="20"/>
-          </feDiffuseLighting>
-          <feSpecularLighting surfaceScale="-0.5" specularConstant="0.5"
-              specularExponent="10" lighting-color="gold" in="depthMap"
-              result="specular">
-            <feDistantLight azimuth="-90" elevation="20"/>
-          </feSpecularLighting>
-          <feComposite in="diffuse" in2="specular" operator="arithmetic"
-              k1="0" k2="1" k3="1" k4="0" />
-          <feComposite in2="blocked" operator="in" />
-          <feComposite in2="SourceGraphic" operator="over" />
-        </filter-->
-
         <filter id="deboss-filter" x="-20%" y="-20%" width="140%" height="140%"
             filterUnits="objectBoundingBox" primitiveUnits="userSpaceOnUse"
             color-interpolation-filters="linearRGB">

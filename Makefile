@@ -9,7 +9,7 @@ purs_deps  = $(shell find purescript -not -path '*/output/*' -not -path '*/.spag
 hs_deps    = $(shell find svg-generation -not -path '*/.stack-work/*' -name '*.hs' -o -name '*.yaml' -o -name '*.cabal')
 svg_assets = $(shell find svg-generation/assets -name '*.svg')
 svg_dir    = svg-generation/output
-svg_glyphs = $(svg_dir)/honey-numerals.svg $(svg_dir)/myth-role-icons.svg $(svg_dir)/season-icons.svg $(svg_dir)/honey-letters.svg
+svg_glyphs = $(svg_dir)/honey-numerals.svg $(svg_dir)/myth-role-icons.svg $(svg_dir)/season-icons.svg $(svg_dir)/honey-letters.svg $(svg_dir)/sun-moon.svg
 svgs       = $(svg_dir)/clock-dial.svg $(svg_dir)/date-dial.svg $(svg_dir)/myth-dial.svg
 
 site : site/index.js site/index.html site/style.css

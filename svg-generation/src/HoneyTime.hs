@@ -91,8 +91,8 @@ ringDotMarker :: (Integral a, RealFloat b) => a -> b -> a -> Element
 ringDotMarker n radius i =
   foldMap (\n -> dot radius (start + fromIntegral n * spacing)) [0..i-1]
   where
-    start = polygonAngle n False i - spacing * (fromIntegral i - 1) / 2.0
     spacing = pi / 60
+    start = polygonAngle n False i - spacing * (fromIntegral i - 1) / 2.0
     dot = polar $ \x y -> circle_ [
         R_  <<- "1.25",
         Cx_ <<- toText x,
@@ -178,9 +178,16 @@ clockDialDecoration tileRadius useId =
     withThickStroke = flip with [
       Stroke_       <<- "black",
       Stroke_width_ <<- tshow 6]
-    centreCircle = withThickStroke $ circle_ [
-        R_    <<- toText (4 * apothem 6 tileRadius),
-        Fill_ <<- "#e6e6e6"]
+    sunMoon =
+      defs_ [] (
+        clipPath_ [Id_ <<- "sun-moon-clip"] (
+          circle_ [R_ <<- toText (4 * apothem 6 tileRadius)]))
+      <> g_ [Clip_path_ <<- "url(#sun-moon-clip)"] (
+        use_ [
+          Id_        <<- "sun-moon-dial",
+          XlinkHref_ <<- "#sun-moon-plate",
+          Height_    <<- "170px",
+          Width_     <<- "170px"])
     centreHexagon = withThickStroke $ hexagon (tileRadius * 4) True
     createSpoke i = fold [
       withThickStroke $ path_ [
@@ -194,7 +201,7 @@ clockDialDecoration tileRadius useId =
       withThickStroke $ use_ [
         XlinkHref_ <<- useId,
         Transform_ <<- hexTranslateHelper tileRadius 4 True i]]
-  in group (centreHexagon <> foldMap createSpoke [0..5] <> centreCircle)
+  in group (centreHexagon <> foldMap createSpoke [0..5] <> sunMoon)
 
 clockDial :: RealFloat a => a -> Element
 clockDial tileRadius =

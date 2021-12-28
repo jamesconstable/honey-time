@@ -126,3 +126,10 @@ body {
     fill: white;
   }
 }
+
+#sun-moon-dial {
+  x: -100px;
+  y: -41.5px;
+  transform: rotate(0deg);
+  transform-origin: 0px 58.6px;
+}
