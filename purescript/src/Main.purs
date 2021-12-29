@@ -6,11 +6,12 @@ import Data.Array ((..), (!!))
 import Data.ArrayView (fromArray, take)
 import Data.Filterable (filterMap)
 import Data.Foldable (fold, foldMap)
-import Data.Int (floor, radix, toNumber, toStringAs)
+import Data.Int (floor, radix, round, toNumber, toStringAs)
 import Data.JSDate (JSDate, getTime, jsdate, now)
 import Data.Maybe (fromJust)
 import Data.Monoid (power)
 import Data.Newtype (wrap)
+import Data.Ord (abs)
 import Data.String (length)
 import Data.String.CodeUnits (singleton)
 import Data.Traversable (traverse)
@@ -57,7 +58,8 @@ type HoneyComponents a = {
   dayOfYear :: a,
   dayOfMonth :: a,
   mythRole :: a,
-  mythNumber :: a
+  mythNumber :: a,
+  sunMoon :: a
   | HoneyBase a
   }
 
@@ -66,6 +68,7 @@ type HoneyDate = HoneyComponents Int
 data DisplayComponent =
   None
   | ImageComponent (Array Element) String
+  | RotateComponent (Array Element)
   | TextComponent (Array Element) (Int -> String)
   | LinearComponent (Array (Array Element))
   | SenaryComponent (Array (Array Element)) (Array (Array Element))
@@ -187,8 +190,10 @@ gregorianToHoney date =
     subsecond  = _.subsecond `_of` _.second
     mythRole   = dayOfYear   `mod` 9
     mythNumber = dayOfYear   `mod` 40
+    sunMoon    = round $ abs $
+      (toNumber (_.minute `_of` _.day) / 180.0 - 1.0) * 90.0
   in { year, season, month, dayOfYear, dayOfMonth, week, mythRole, mythNumber,
-       hour, minute, second, subsecond }
+       hour, minute, second, subsecond, sunMoon }
 
 getTextualDisplay :: Effect Display
 getTextualDisplay =
@@ -211,7 +216,8 @@ getTextualDisplay =
     second     <- textComponent "seconds"     (toSenary 2)
     subsecond  <- textComponent "subseconds"  (toSenary 2)
     in { year, season, month, dayOfMonth, mythRole, mythNumber,
-         hour, minute, second, subsecond, week: None, dayOfYear: None }
+         hour, minute, second, subsecond, sunMoon: None, week: None,
+         dayOfYear: None }
 
 getGraphicalDisplay :: Effect Display
 getGraphicalDisplay =
@@ -219,6 +225,8 @@ getGraphicalDisplay =
     imageComponent name useIdPrefix = ImageComponent
       <$> elementsBySelector (".myth-dial ." <> name)
       <@> useIdPrefix
+    rotateComponent name = RotateComponent
+      <$> elementsBySelector (".clock-dial ." <> name)
     linearComponent name n =
       let selectorFor i = fold [".", name, " .cell", show i]
       in LinearComponent <$> traverse elementsBySelector (selectorFor <$> 0..n)
@@ -239,13 +247,14 @@ getGraphicalDisplay =
     minute     <- senaryComponent "minute"
     second     <- senaryComponent "second"
     subsecond  <- senaryComponent "subsecond"
+    sunMoon    <- rotateComponent "sun-moon-dial"
     in { year, season, month, week, dayOfMonth, mythRole, mythNumber,
-         hour, minute, second, subsecond, dayOfYear: None }
+         hour, minute, second, subsecond, sunMoon, dayOfYear: None }
 
 setDisplay :: HoneyDate -> Display -> Effect Unit
 setDisplay date display =
   set _.year *> set _.season *> set _.month *> set _.week *> set _.dayOfYear *>
-  set _.dayOfMonth *> set _.mythRole *> set _.mythNumber *>
+  set _.dayOfMonth *> set _.mythRole *> set _.mythNumber *> set _.sunMoon *>
   set _.hour *> set _.minute *> set _.second *> set _.subsecond
   where
     set :: (forall a. HoneyComponents a -> a) -> Effect Unit
@@ -255,6 +264,7 @@ setDisplay date display =
     setComponent c n = case c of
       None                        -> mempty
       ImageComponent  es prefix   -> setImage es ("#" <> prefix <> show n)
+      RotateComponent es          -> setRotation es n
       TextComponent   es formatFn -> setText es (formatFn n)
       LinearComponent es          -> setElements es n
       SenaryComponent units sixes -> setElements units (mod n 6) *>
@@ -262,6 +272,13 @@ setDisplay date display =
 
     setImage :: Array Element -> String -> Effect Unit
     setImage es useId = foldMap (setAttribute "xlink:href" useId) es
+
+    setRotation :: Array Element -> Int -> Effect Unit
+    setRotation es v = foldMap
+      (setAttribute
+        "transform"
+        ("translate(-100 -41.5) rotate(" <> show v <> " 100 100)"))
+      es
 
     setText :: Array Element -> String -> Effect Unit
     setText es t = foldMap (setTextContent t <<< toNode) es
