@@ -169,6 +169,23 @@ outerClockDial tileRadius =
   createRing 10 (tileRadius * 11) (tileRadius * 10) "hours-ring" True
       <> foldMap (ringDotMarker 10 (tileRadius * 10.5)) [0..9]
 
+sunMoonDial :: RealFloat a => a -> Element
+sunMoonDial tileRadius =
+  defs_ [] (
+    clipPath_ [Id_ <<- "sun-moon-clip"] (
+      circle_ [R_ <<- toText (4 * apothem 6 tileRadius)])
+    <> radialGradient_ [Id_ <<- "cutaway-shadow", Cy_ <<- "52%"] (
+      stop_ [Offset_ <<- "0.88", Stop_color_ <<- "rgba(0, 0, 0, 0)"]
+      <> stop_ [Offset_ <<- "1", Stop_color_ <<- "rgba(0, 0, 0, 0.6)"]))
+  <> g_ [Clip_path_ <<- "url(#sun-moon-clip)"] (
+    use_ [
+      Class_     <<- "sun-moon-dial",
+      XlinkHref_ <<- "#sun-moon-plate",
+      Transform_ <<- translate (-42.5) (-42.5)]
+    <> circle_ [
+      R_ <<- "42.5",
+      Fill_ <<- "url(#cutaway-shadow)"])
+
 clockDialDecoration :: RealFloat a => a -> T.Text -> Element
 clockDialDecoration tileRadius useId =
   let
@@ -178,15 +195,6 @@ clockDialDecoration tileRadius useId =
     withThickStroke = flip with [
       Stroke_       <<- "black",
       Stroke_width_ <<- tshow 6]
-    sunMoon =
-      defs_ [] (
-        clipPath_ [Id_ <<- "sun-moon-clip"] (
-          circle_ [R_ <<- toText (4 * apothem 6 tileRadius)]))
-      <> g_ [Clip_path_ <<- "url(#sun-moon-clip)"] (
-        use_ [
-          Class_     <<- "sun-moon-dial",
-          XlinkHref_ <<- "#sun-moon-plate",
-          Transform_ <<- translate (-42.5) (-42.5)])
     centreHexagon = withThickStroke $ hexagon (tileRadius * 4) True
     createSpoke i = fold [
       withThickStroke $ path_ [
@@ -200,7 +208,7 @@ clockDialDecoration tileRadius useId =
       withThickStroke $ use_ [
         XlinkHref_ <<- useId,
         Transform_ <<- hexTranslateHelper tileRadius 4 True i]]
-  in group (centreHexagon <> foldMap createSpoke [0..5] <> sunMoon)
+  in group (centreHexagon <> foldMap createSpoke [0..5])
 
 clockDial :: RealFloat a => a -> Element
 clockDial tileRadius =
@@ -214,6 +222,7 @@ clockDial tileRadius =
           Fill_ <<- "none", Stroke_width_ <<- "3", Stroke_ <<- "black"],
         defs_ [] (hexagon tileRadius True `with` [Id_ <<- T.tail tileId]),
         clockDialDecoration tileRadius tileId,
+        sunMoonDial tileRadius,
         innerClockDial tileRadius tileId,
         outerClockDial tileRadius])
   in mainGroup <> use_ [XlinkHref_ <<- useId, Class_ <<- "solid-color-layer"]
