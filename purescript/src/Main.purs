@@ -190,8 +190,7 @@ gregorianToHoney date =
     subsecond  = _.subsecond `_of` _.second
     mythRole   = dayOfYear   `mod` 9
     mythNumber = dayOfYear   `mod` 40
-    sunMoon    = round $ abs $
-      (toNumber (_.minute `_of` _.day) / 180.0 - 1.0) * 90.0
+    sunMoon    = round $ toNumber (_.minute `_of` _.day) / 360.0 * -85.0 * 2.0
   in { year, season, month, dayOfYear, dayOfMonth, week, mythRole, mythNumber,
        hour, minute, second, subsecond, sunMoon }
 
@@ -275,9 +274,8 @@ setDisplay date display =
 
     setRotation :: Array Element -> Int -> Effect Unit
     setRotation es v = foldMap
-      (setAttribute
-        "transform"
-        ("translate(-100 -41.5) rotate(" <> show v <> " 100 100)"))
+      (setAttribute "transform"
+        ("translate(-42.5 -42.5) translate(" <> show v <> ")"))
       es
 
     setText :: Array Element -> String -> Effect Unit

@@ -185,7 +185,8 @@ clockDialDecoration tileRadius useId =
       <> g_ [Clip_path_ <<- "url(#sun-moon-clip)"] (
         use_ [
           Class_     <<- "sun-moon-dial",
-          XlinkHref_ <<- "#sun-moon-plate"])
+          XlinkHref_ <<- "#sun-moon-plate",
+          Transform_ <<- translate (-42.5) (-42.5)])
     centreHexagon = withThickStroke $ hexagon (tileRadius * 4) True
     createSpoke i = fold [
       withThickStroke $ path_ [
