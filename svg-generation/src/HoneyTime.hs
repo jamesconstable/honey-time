@@ -171,19 +171,22 @@ outerClockDial tileRadius =
 
 sunMoonDial :: RealFloat a => a -> Element
 sunMoonDial tileRadius =
-  defs_ [] (
+  let radius = 4.5 * apothem 6 tileRadius
+  in defs_ [] (
     clipPath_ [Id_ <<- "sun-moon-clip"] (
-      circle_ [R_ <<- toText (4 * apothem 6 tileRadius)])
+      circle_ [R_ <<- toText radius])
     <> radialGradient_ [Id_ <<- "cutaway-shadow", Cy_ <<- "52%"] (
       stop_ [Offset_ <<- "0.88", Stop_color_ <<- "rgba(0, 0, 0, 0)"]
       <> stop_ [Offset_ <<- "1", Stop_color_ <<- "rgba(0, 0, 0, 0.6)"]))
   <> g_ [Clip_path_ <<- "url(#sun-moon-clip)"] (
     use_ [
       Class_     <<- "sun-moon-dial",
+      Width_     <<- toText (radius * 2 * 3) <> "px",
+      Height_    <<- toText (radius * 2) <> "px",
       XlinkHref_ <<- "#sun-moon-plate",
-      Transform_ <<- translate (-42.5) (-42.5)]
+      Transform_ <<- translate (-radius) (-radius)]
     <> circle_ [
-      R_ <<- "42.5",
+      R_ <<- toText radius,
       Fill_ <<- "url(#cutaway-shadow)"])
 
 clockDialDecoration :: RealFloat a => a -> T.Text -> Element
@@ -193,22 +196,25 @@ clockDialDecoration tileRadius useId =
     isEven n = even n
     angleAt  = hexagonAngle True
     withThickStroke = flip with [
-      Stroke_       <<- "black",
-      Stroke_width_ <<- tshow 6]
-    centreHexagon = withThickStroke $ hexagon (tileRadius * 4) True
+      Stroke_          <<- "black",
+      Stroke_width_    <<- tshow 3.5,
+      Stroke_linecap_  <<- "round",
+      Stroke_linejoin_ <<- "round"]
     createSpoke i = fold [
       withThickStroke $ path_ [
-        D_ <<- fold [
-          polar mA (tileRadius * 4) (angleAt i),
-          polar lA (tileRadius * (if isEven i then 10 else 8)) (angleAt i),
-          z]],
-      use_ [
-        XlinkHref_ <<- useId,
-        Transform_ <<- hexTranslateHelper tileRadius 8 True i],
-      withThickStroke $ use_ [
-        XlinkHref_ <<- useId,
-        Transform_ <<- hexTranslateHelper tileRadius 4 True i]]
-  in group (centreHexagon <> foldMap createSpoke [0..5])
+        D_ <<- fold (
+          if even i
+          then [
+            polar mA (tileRadius * 5) (angleAt i - 0.055),
+            polar lA (tileRadius * 9) (angleAt i - 0.03),
+            polar mA (tileRadius * 5) (angleAt i + 0.055),
+            polar lA (tileRadius * 9) (angleAt i + 0.03),
+            z]
+          else [
+            polar mA (tileRadius * 5) (angleAt i),
+            polar lA (tileRadius * 9) (angleAt i),
+            z])]]
+  in group (foldMap createSpoke [0..5])
 
 clockDial :: RealFloat a => a -> Element
 clockDial tileRadius =

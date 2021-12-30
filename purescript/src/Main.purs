@@ -68,7 +68,7 @@ type HoneyDate = HoneyComponents Int
 data DisplayComponent =
   None
   | ImageComponent (Array Element) String
-  | RotateComponent (Array Element)
+  | SunMoonComponent (Array Element)
   | TextComponent (Array Element) (Int -> String)
   | LinearComponent (Array (Array Element))
   | SenaryComponent (Array (Array Element)) (Array (Array Element))
@@ -151,6 +151,11 @@ letterCycle = [
 seasons :: Array String
 seasons = ["Egg", "Larva", "Pupa", "Worker", "Drone", "Queen"]
 
+-- SVG translation doesn't accept percentage units, so unfortunately we need to
+-- hardcode the radius to be whatever it's measured to be in the browser :(
+sunMoonRadius :: Number
+sunMoonRadius = 46.7654
+
 padLeft :: Int -> Char -> String -> String
 padLeft width c s = power (singleton c) (width - length s) <> s
 
@@ -190,7 +195,8 @@ gregorianToHoney date =
     subsecond  = _.subsecond `_of` _.second
     mythRole   = dayOfYear   `mod` 9
     mythNumber = dayOfYear   `mod` 40
-    sunMoon    = round $ toNumber (_.minute `_of` _.day) / 360.0 * -85.0 * 2.0
+    sunMoon    = round $ toNumber (_.minute `_of` _.day) / 360.0
+                    * (sunMoonRadius * -2.0) * 2.0
   in { year, season, month, dayOfYear, dayOfMonth, week, mythRole, mythNumber,
        hour, minute, second, subsecond, sunMoon }
 
@@ -224,7 +230,7 @@ getGraphicalDisplay =
     imageComponent name useIdPrefix = ImageComponent
       <$> elementsBySelector (".myth-dial ." <> name)
       <@> useIdPrefix
-    rotateComponent name = RotateComponent
+    rotateComponent name = SunMoonComponent
       <$> elementsBySelector (".clock-dial ." <> name)
     linearComponent name n =
       let selectorFor i = fold [".", name, " .cell", show i]
@@ -263,7 +269,7 @@ setDisplay date display =
     setComponent c n = case c of
       None                        -> mempty
       ImageComponent  es prefix   -> setImage es ("#" <> prefix <> show n)
-      RotateComponent es          -> setRotation es n
+      SunMoonComponent es         -> setSunMoonDial es n
       TextComponent   es formatFn -> setText es (formatFn n)
       LinearComponent es          -> setElements es n
       SenaryComponent units sixes -> setElements units (mod n 6) *>
@@ -272,11 +278,14 @@ setDisplay date display =
     setImage :: Array Element -> String -> Effect Unit
     setImage es useId = foldMap (setAttribute "xlink:href" useId) es
 
-    setRotation :: Array Element -> Int -> Effect Unit
-    setRotation es v = foldMap
-      (setAttribute "transform"
-        ("translate(-42.5 -42.5) translate(" <> show v <> ")"))
-      es
+    setSunMoonDial :: Array Element -> Int -> Effect Unit
+    setSunMoonDial es v =
+      let
+        negRadius = "-" <> show sunMoonRadius
+        base = "translate(" <> negRadius <> " " <> negRadius <> ")"
+      in foldMap
+        (setAttribute "transform" (base <> " translate(" <> show v <> ")"))
+        es
 
     setText :: Array Element -> String -> Effect Unit
     setText es t = foldMap (setTextContent t <<< toNode) es
