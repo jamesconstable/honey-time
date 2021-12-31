@@ -38,6 +38,7 @@ site/style.css : style.scss
 	$(MKDIR) site
 	$(SASS) $< $@
 	cp paper.jpeg site/paper.jpeg
+	cp watercolour.jpeg site/watercolour.jpeg
 
 clean :
 	rm -rf site purescript/output svg-generation/output

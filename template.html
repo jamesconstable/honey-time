@@ -34,18 +34,18 @@
             <feFuncB type="identity"/>
             <feFuncA type="table" tableValues="0 0 1"/>
           </feComponentTransfer>
-          <feSpecularLighting surfaceScale="1" specularConstant="1"
+          <feSpecularLighting surfaceScale="4" specularConstant="2.5"
               specularExponent="40" lighting-color="#ffe7a3" x="0%" y="0%"
               width="100%" height="100%" in="componentTransfer1"
               result="specularLighting">
-            <feDistantLight azimuth="230" elevation="40"/>
+            <feDistantLight azimuth="240" elevation="40"/>
           </feSpecularLighting>
           <feFlood flood-color="#000000" flood-opacity="1" x="0%" y="0%"
               width="100%" height="100%" result="flood"/>
-          <feDiffuseLighting surfaceScale="1" diffuseConstant="0.75"
+          <feDiffuseLighting surfaceScale="3" diffuseConstant="0.4"
               lighting-color="#fad000" x="0%" y="0%" width="100%" height="100%"
               in="componentTransfer1" result="diffuseLighting">
-            <feDistantLight azimuth="45" elevation="40"/>
+            <feDistantLight azimuth="270" elevation="40"/>
           </feDiffuseLighting>
           <feComposite in="diffuseLighting" in2="flood" operator="atop"
               x="0%" y="0%" width="100%" height="100%" result="composite2"/>
@@ -59,6 +59,9 @@
           <feDropShadow stdDeviation="2" dx="0" dy="1" flood-opacity="0.8" />
         </filter>
       </svg>
+    </div>
+    <div class="background">
+      <!-- INCLUDE "svg-generation/output/background.svg" -->
     </div>
     <div id="sajem-tan-clock">
       <div class="graphical-display">

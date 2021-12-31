@@ -1,6 +1,6 @@
 {-# LANGUAGE OverloadedStrings #-}
 
-module HoneyTime (clockDial, dateDial, mythDial, svg) where
+module HoneyTime (clockDial, dateDial, mythDial, hexBackground, svg) where
 
 import Data.Foldable (fold, foldMap)
 import Data.Maybe (fromMaybe)
@@ -315,6 +315,65 @@ dateDial tileRadius =
     seasonGlyphs,
     monthGlyphs,
     dayGlyphs]
+
+hexGridTranslation :: (Integral a, RealFloat b) => a -> a -> b -> T.Text
+hexGridTranslation x y r = translate
+  (fromIntegral (x*2 + mod y 2) * apothem 6 r)
+  (fromIntegral y * r * 1.5 + r * 0.4)
+
+generateStyles :: (Integral a, Show a) => (a, a) -> Element
+generateStyles (x, y) = toElement $
+  ".tile-" <> tshow x <> "-" <> tshow y <> "{"
+    <> "transition: fill 5s ease " <> tshow (fromIntegral y / 5.0) <> "s;"
+    <> "} "
+  <> ".theme-3 .tile-" <> tshow x <> "-" <> tshow y <> "{"
+    <> "fill: orchid;"
+    <> "} "
+  <> ".theme-4 .tile-" <> tshow x <> "-" <> tshow y <> "{"
+    <> "fill: teal;"
+    <> "} "
+  <> ".theme-5 .tile-" <> tshow x <> "-" <> tshow y <> "{"
+    <> "fill: #8b6958;"
+    <> "} "
+  <> ".theme-6 .tile-" <> tshow x <> "-" <> tshow y <> "{"
+    <> "fill: gold;"
+    <> "} "
+  <> ".theme-7 .tile-" <> tshow x <> "-" <> tshow y <> "{"
+    <> "fill: brown;"
+    <> "} "
+
+hexBackground :: (Integral a, Show a) => a -> Element
+hexBackground widthHeight =
+  let
+    tileId = "#background-tile"
+    hexRadius = 20
+    viewBoxSize = 2 * apothem 6 hexRadius * fromIntegral widthHeight
+    defs = defs_ [] (hexagon hexRadius True `with` [Id_ <<- T.tail tileId])
+    coords = [(x, y) | x <- [0..widthHeight], y <- [0..widthHeight+1]]
+    makeTile (x, y) = use_ [
+        XlinkHref_    <<- tileId,
+        Class_        <<- "tile-" <> tshow x <> "-" <> tshow y,
+        Transform_    <<- hexGridTranslation x y hexRadius,
+        Fill_         <<-
+          if (x - (y `mod` 2)) `mod` 3 == 0
+             then "lightgrey"
+             else "white"]
+    makeOutline (x, y) = use_ [
+        XlinkHref_    <<- tileId,
+        Fill_         <<- "none",
+        Transform_    <<- hexGridTranslation x y hexRadius,
+        Stroke_       <<- "black"]
+  in doctype
+    <> (\x y -> with (svg11_ y) x) [
+        Version_ <<- "1.1",
+        Class_   <<- "hex-background",
+        Width_   <<- tshow viewBoxSize,
+        Height_  <<- tshow viewBoxSize,
+        ViewBox_ <<- dup point 0 <> dup point viewBoxSize]
+      (defs
+        <> style_ [] (foldMap generateStyles coords)
+        <> g_ [Class_ <<- "background-cells"] (foldMap makeTile coords)
+        <> g_ [Class_ <<- "background-mesh"] (foldMap makeOutline coords))
 
 svg :: T.Text -> Element -> Element
 svg className content =
