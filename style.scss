@@ -3,7 +3,7 @@ body {
 }
 
 #sajem-tan-clock {
-  background: center / 300px 300px url("paper.jpeg"), orange;
+  background: center / 300px 300px url("paper.jpeg"), #ffa714;
   background-blend-mode: multiply;
   box-shadow: 0px 1px 6px 0px black;
   left: 50%;
@@ -87,13 +87,125 @@ body {
   fill: none;
   stroke: black;
   stroke-width: 1;
+}
 
-  &.active {
-    fill: orange;
+.theme-0-controls {
+  .graphical-display .cell {
+    &.active {
+      fill: #e5b550;
+    }
+
+    &.filled {
+      fill: #efd294;
+    }
   }
+}
 
-  &.filled {
-    fill: gold;
+.theme-1-controls {
+  .graphical-display .cell {
+    &.active {
+      fill: #aa88bb;
+    }
+
+    &.filled {
+      fill: lightsteelblue;
+    }
+  }
+}
+
+.theme-2-controls {
+  .graphical-display .cell {
+    &.active {
+      fill: #7f8ab5;
+    }
+
+    &.filled {
+      fill: lightsteelblue;
+    }
+  }
+}
+
+.theme-3-controls {
+  .graphical-display .cell {
+    &.active {
+      fill: #cc7799;
+    }
+
+    &.filled {
+      fill: #ebb695;
+    }
+  }
+}
+
+.theme-4-controls {
+  .graphical-display .cell {
+    &.active {
+      fill: #6796d1;
+    }
+
+    &.filled {
+      fill: #a8cbdf;
+    }
+  }
+}
+
+.theme-5-controls {
+  .graphical-display .cell {
+    &.active {
+      fill: #b897ad;
+    }
+
+    &.filled {
+      fill: #cabecb;
+    }
+  }
+}
+
+.theme-6-controls {
+  .graphical-display .cell {
+    &.active {
+      fill: #bf7968;
+    }
+
+    &.filled {
+      fill: #ddb0a6;
+    }
+  }
+}
+
+.theme-7-controls {
+  .graphical-display .cell {
+    &.active {
+      fill: orange;
+    }
+
+    &.filled {
+      fill: #ffd333;
+    }
+  }
+}
+
+.theme-8-controls {
+  .graphical-display .cell {
+    &.active {
+      fill: #df9032;
+    }
+
+    &.filled {
+      fill: #f5bd65;
+    }
+  }
+}
+
+.theme-9-controls {
+  .graphical-display .cell {
+    &.active {
+      fill: #e56ccd;
+    }
+
+    &.filled {
+      fill: #fba4d9;
+    }
   }
 }
 
@@ -119,8 +231,11 @@ body {
 }
 
 .background {
+  align-items: center;
   background: center / 600px 600px url("watercolour.jpeg");
+  display: flex;
   height: 100%;
+  justify-content: center;
   left: 50%;
   overflow: hidden;
   position: absolute;
@@ -132,10 +247,11 @@ body {
 .hex-background {
   height: 100vmax;
   width: 100vmax;
+  position: absolute;
 }
 
 .background-cells {
-  mix-blend-mode: multiply;
+  mix-blend-mode: hard-light;
 }
 
 .background-mesh {

@@ -1,11 +1,25 @@
 {-# LANGUAGE OverloadedStrings #-}
+{-# LANGUAGE ViewPatterns #-}
 
 module HoneyTime (clockDial, dateDial, mythDial, hexBackground, svg) where
 
+import Data.Convertible (convert)
 import Data.Foldable (fold, foldMap)
 import Data.Maybe (fromMaybe)
+import Data.Prizm.Color (BlendableColor, ColorCoord(..), HexRGB, RGB, interpolate, mkRGB, unHexRGB)
+import Data.Prizm.Color.CIE as CIE
 import Graphics.Svg
 import qualified Data.Text as T
+
+instance BlendableColor CIE.LAB where
+  interpolate w (CIE.unLAB -> ColorCoord(al, aa, ab),
+      CIE.unLAB -> ColorCoord(bl, ba, bb)) =
+    let
+      pctClamp i = max (min i 100) (-100)
+      pct i = fromIntegral (pctClamp i) / 100
+      w' = pct w
+      ColorCoord(nl, na, nb) = (* w') <$> ColorCoord(bl - al, ba - aa, bb - ab)
+    in CIE.mkLAB (al + nl) (aa + na) (ab + nb)
 
 dup :: (a -> a -> b) -> a -> b
 dup f x = f x x
@@ -321,26 +335,54 @@ hexGridTranslation x y r = translate
   (fromIntegral (x*2 + mod y 2) * apothem 6 r)
   (fromIntegral y * r * 1.5 + r * 0.4)
 
-generateStyles :: (Integral a, Show a) => (a, a) -> Element
-generateStyles (x, y) = toElement $
-  ".tile-" <> tshow x <> "-" <> tshow y <> "{"
-    <> "transition: fill 5s ease " <> tshow (fromIntegral y / 5.0) <> "s;"
-    <> "} "
-  <> ".theme-3 .tile-" <> tshow x <> "-" <> tshow y <> "{"
-    <> "fill: orchid;"
-    <> "} "
-  <> ".theme-4 .tile-" <> tshow x <> "-" <> tshow y <> "{"
-    <> "fill: teal;"
-    <> "} "
-  <> ".theme-5 .tile-" <> tshow x <> "-" <> tshow y <> "{"
-    <> "fill: #8b6958;"
-    <> "} "
-  <> ".theme-6 .tile-" <> tshow x <> "-" <> tshow y <> "{"
-    <> "fill: gold;"
-    <> "} "
-  <> ".theme-7 .tile-" <> tshow x <> "-" <> tshow y <> "{"
-    <> "fill: brown;"
-    <> "} "
+toLAB :: RGB -> CIE.LAB
+toLAB = convert
+
+toHex :: CIE.LAB -> HexRGB
+toHex = convert
+
+darken :: CIE.LAB -> CIE.LAB
+darken lch =
+  let ColorCoord (l, c, h) = unLAB lch
+  in mkLAB (l-10) c h
+
+getCellColor :: Integral a => (CIE.LAB, CIE.LAB) -> (a, a) -> (a, a) -> T.Text
+getCellColor colorRange (maxX, maxY) (x, y) =
+  let
+    relativeX = fromIntegral x / fromIntegral maxX
+    relativeY = fromIntegral y / fromIntegral maxY
+    percent = round $ sqrt ((0.5 - relativeX)**2 + (0.9 - relativeY)**2) * 100
+    interpolation = interpolate percent colorRange
+    result = if (x - (y `mod` 2)) `mod` 3 == 0
+      then darken interpolation
+      else interpolation
+  in unHexRGB (toHex result)
+
+generateStyles :: (Integral a, Show a) => (a, a) -> (a, a) -> Element
+generateStyles (maxX, maxY) (x, y) =
+  let
+    percentY = round $ ((fromIntegral (x+y) / fromIntegral (maxX+maxY))::Float) * 100
+    tileClass = ".tile-" <> tshow x <> "-" <> tshow y
+    themeRanges = [
+      (toLAB $ mkRGB 200 200 200, toLAB $ mkRGB 200 200 200),  -- No theme
+      (toLAB $ mkRGB 130 165 200, toLAB $ mkRGB 129  92 140),  -- Thunder
+      (toLAB $ mkRGB 155 155 155, toLAB $ mkRGB 113 143 200),  -- Rain
+      (toLAB $ mkRGB 255 183   0, toLAB $ mkRGB 191 113 191),  -- Flower
+      (toLAB $ mkRGB  46  53 184, toLAB $ mkRGB  15 150 110),  -- River
+      (toLAB $ mkRGB 153 138 158, toLAB $ mkRGB 161 112 138),  -- Rock
+      (toLAB $ mkRGB 190   0   0, toLAB $ mkRGB  45  45  45),  -- Spider
+      (toLAB $ mkRGB 255 183   0, toLAB $ mkRGB 219 106   0),  -- Bee
+      (toLAB $ mkRGB 179  98  12, toLAB $ mkRGB  45  66  12),  -- Bear
+      (toLAB $ mkRGB 235  52 125, toLAB $ mkRGB  19  86 212)]  -- Bird
+  in toElement $
+    tileClass <> " {"
+      <> "transition: fill 5s ease " <> tshow (fromIntegral y / 5.0) <> "s;"
+      <> "} "
+    <> foldMap
+      (\(i, range) -> ".theme-" <> tshow i <> " " <> tileClass <> " {"
+        <> "fill: " <> getCellColor range (maxX, maxY) (x, y) <> ";"
+        <> "} ")
+      (zip [0..] themeRanges)
 
 hexBackground :: (Integral a, Show a) => a -> Element
 hexBackground widthHeight =
@@ -353,11 +395,7 @@ hexBackground widthHeight =
     makeTile (x, y) = use_ [
         XlinkHref_    <<- tileId,
         Class_        <<- "tile-" <> tshow x <> "-" <> tshow y,
-        Transform_    <<- hexGridTranslation x y hexRadius,
-        Fill_         <<-
-          if (x - (y `mod` 2)) `mod` 3 == 0
-             then "lightgrey"
-             else "white"]
+        Transform_    <<- hexGridTranslation x y hexRadius]
     makeOutline (x, y) = use_ [
         XlinkHref_    <<- tileId,
         Fill_         <<- "none",
@@ -371,7 +409,7 @@ hexBackground widthHeight =
         Height_  <<- tshow viewBoxSize,
         ViewBox_ <<- dup point 0 <> dup point viewBoxSize]
       (defs
-        <> style_ [] (foldMap generateStyles coords)
+        <> style_ [] (foldMap (generateStyles (widthHeight, widthHeight+1)) coords)
         <> g_ [Class_ <<- "background-cells"] (foldMap makeTile coords)
         <> g_ [Class_ <<- "background-mesh"] (foldMap makeOutline coords))
 
