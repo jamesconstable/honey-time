@@ -81,7 +81,7 @@ def process_myth_role_icons():
         end = close_group_matcher.match(line)
         if start:
             current_id = start.group('id')
-            write('<g id="' + current_id + '" stroke-width="5">')
+            write('<g id="' + current_id + '" stroke="none" stroke-width="5">')
             write('<defs><mask id="' + current_id + '-mask">')
         elif end:
             write('</mask></defs>')
@@ -104,7 +104,7 @@ def process_season_icons():
         end = close_group_matcher.match(line)
         if start:
             current_id = start.group('id')
-            write('<g id="' + current_id + '" stroke-width="10">')
+            write('<g id="' + current_id + '" stroke="none" stroke-width="10">')
             write('<defs><mask id="' + current_id + '-mask">')
         elif end:
             write('</mask></defs>')
