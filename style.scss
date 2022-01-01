@@ -1,17 +1,18 @@
 body {
   margin: 0;
+  overflow: hidden;
 }
 
 #sajem-tan-clock {
   background: center / 300px 300px url("paper.jpeg"), #ffa714;
   background-blend-mode: multiply;
-  box-shadow: 0px 1px 6px 0px black;
+  box-shadow: 0px 1px 10px 0px black;
   left: 50%;
-  padding: 3vmin 1vmin 3.5vmin 1vmin;
+  padding: 2.65vh 1vh 3.5vh 1vh;
   position: absolute;
   top: 50%;
   transform: translate(-50%, -50%);
-  width: 85vmin;
+  width: 100vh;
 
   &::before {
     background: center / 400px 400px url("paper.jpeg");
@@ -32,18 +33,18 @@ body {
   text-align: center;
 
   svg {
-    height: 28vmin;
+    height: 33vh;
     position: relative;
-    width: calc(33% - 2vmin / 3);
+    width: calc(33% - 2vh / 3);
 
     &.date-dial {
-      left: -1vmin;
-      top: 6vmin;
+      left: -1.2vh;
+      top: 9vh;
     }
 
     &.myth-dial {
-      left: 1vmin;
-      top: 6vmin;
+      left: 1.2vh;
+      top: 9vh;
     }
   }
 }
@@ -60,12 +61,12 @@ body {
   }
 
   .time {
-    font-size: 7vmin;
-    margin-bottom: -1vmin;
+    font-size: 7.5vh;
+    margin-bottom: -1vh;
   }
 
   .date, .season {
-    font-size: 3vmin;
+    font-size: 3.5vh;
   }
 
   .decimal-unit {
@@ -80,6 +81,41 @@ body {
 
   .subseconds {
     font-size: 0.5em;
+  }
+}
+
+@media (orientation: portrait) {
+  #sajem-tan-clock {
+    padding: 2.65vw 1vw 4vw 1vw;
+    width: 95vw;
+  }
+
+  .graphical-display {
+    svg {
+      height: 32vw;
+      width: calc(33% - 2vw / 3);
+
+      &.date-dial {
+        left: -1.2vw;
+        top: 9vw;
+      }
+
+      &.myth-dial {
+        left: 1.2vw;
+        top: 9vw;
+      }
+    }
+  }
+
+  .textual-display {
+    .time {
+      font-size: 7.5vw;
+      margin-bottom: -1vw;
+    }
+
+    .date, .season {
+      font-size: 3.4vw;
+    }
   }
 }
 
