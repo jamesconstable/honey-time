@@ -245,7 +245,7 @@ clockDial tileRadius =
         sunMoonDial tileRadius,
         innerClockDial tileRadius tileId,
         outerClockDial tileRadius])
-  in mainGroup <> use_ [XlinkHref_ <<- useId, Class_ <<- "solid-color-layer"]
+  in mainGroup
 
 glyphBaseTransform :: RealFloat a => a -> a -> T.Text
 glyphBaseTransform nativeSize displaySize =
