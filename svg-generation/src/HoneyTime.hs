@@ -1,7 +1,8 @@
 {-# LANGUAGE OverloadedStrings #-}
 {-# LANGUAGE ViewPatterns #-}
 
-module HoneyTime (clockDial, dateDial, mythDial, hexBackground, svg) where
+module HoneyTime (
+  clockDial, dateDial, mythDial, hexBackground, hexBackgroundMesh, svg) where
 
 import Data.Convertible (convert)
 import Data.Foldable (fold, foldMap)
@@ -387,7 +388,7 @@ generateStyles (maxX, maxY) (x, y) =
 hexBackground :: (Integral a, Show a) => a -> Element
 hexBackground widthHeight =
   let
-    tileId = "#background-tile"
+    tileId = "#bg-tile"
     hexRadius = 20
     viewBoxSize = 2 * apothem 6 hexRadius * fromIntegral widthHeight
     defs = defs_ [] (hexagon hexRadius True `with` [Id_ <<- T.tail tileId])
@@ -396,22 +397,39 @@ hexBackground widthHeight =
         XlinkHref_    <<- tileId,
         Class_        <<- "tile-" <> tshow x <> "-" <> tshow y,
         Transform_    <<- hexGridTranslation x y hexRadius]
-    makeOutline (x, y) = use_ [
-        XlinkHref_    <<- tileId,
-        Fill_         <<- "none",
-        Transform_    <<- hexGridTranslation x y hexRadius,
-        Stroke_       <<- "black"]
   in doctype
     <> (\x y -> with (svg11_ y) x) [
         Version_ <<- "1.1",
-        Class_   <<- "hex-background",
+        Class_   <<- "hex-background-cells",
         Width_   <<- tshow viewBoxSize,
         Height_  <<- tshow viewBoxSize,
         ViewBox_ <<- dup point 0 <> dup point viewBoxSize]
       (defs
         <> style_ [] (foldMap (generateStyles (widthHeight, widthHeight+1)) coords)
-        <> g_ [Class_ <<- "background-cells"] (foldMap makeTile coords)
-        <> g_ [Class_ <<- "background-mesh"] (foldMap makeOutline coords))
+        <> foldMap makeTile coords)
+
+hexBackgroundMesh :: (Integral a, Show a) => a -> Element
+hexBackgroundMesh widthHeight =
+  let
+    tileId = "#bg-mesh-tile"
+    hexRadius = 20
+    viewBoxSize = 2 * apothem 6 hexRadius * fromIntegral widthHeight
+    defs = defs_ [] (hexagon hexRadius True `with` [Id_ <<- T.tail tileId])
+    coords = [(x, y) | x <- [0..widthHeight], y <- [0..widthHeight+1]]
+    makeOutline (x, y) = use_ [
+        XlinkHref_    <<- tileId,
+        Fill_         <<- "none",
+        Transform_    <<- hexGridTranslation x y hexRadius,
+        Stroke_       <<- "rgba(255, 255, 255, 0.01)"]
+  in doctype
+    <> (\x y -> with (svg11_ y) x) [
+        Version_ <<- "1.1",
+        Class_   <<- "hex-background-mesh",
+        Width_   <<- tshow viewBoxSize,
+        Height_  <<- tshow viewBoxSize,
+        ViewBox_ <<- dup point 0 <> dup point viewBoxSize]
+      (defs
+        <> g_ [Class_ <<- "hex-background-mesh-layer"] (foldMap makeOutline coords))
 
 svg :: T.Text -> Element -> Element
 svg className content =
