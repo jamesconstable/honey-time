@@ -1,8 +1,56 @@
+body {
+  margin: 0;
+  overflow: hidden;
+}
+
+#sajem-tan-clock {
+  background: center / 300px 300px url("paper.jpeg"), #ffa714;
+  background-blend-mode: multiply;
+  box-shadow: 0px 1px 10px 0px black;
+  left: 50%;
+  padding: 2.65vh 1vh 3.5vh 1vh;
+  position: absolute;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  width: 100vh;
+
+  &::before {
+    background: center / 400px 400px url("paper.jpeg");
+    box-shadow: 0px 1px 4px 0px rgba(0, 0, 0, 0.5);
+    box-sizing: border-box;
+    content: "";
+    display: block;
+    height: calc(100% - 20px);
+    left: 10px;
+    position: absolute;
+    top: 10px;
+    width: calc(100% - 20px);
+  }
+}
+
 .graphical-display {
+  position: relative;
   text-align: center;
+
+  svg {
+    height: 33vh;
+    position: relative;
+    width: calc(33% - 2vh / 3);
+
+    &.date-dial {
+      left: -1.2vh;
+      top: 9vh;
+    }
+
+    &.myth-dial {
+      left: 1.2vh;
+      top: 9vh;
+    }
+  }
 }
 
 .textual-display {
+  position: relative;
   font-family: "Helvetica Neue", sans-serif;
   text-align: center;
 
@@ -13,11 +61,12 @@
   }
 
   .time {
-    font-size: 80px;
+    font-size: 7.5vh;
+    margin-bottom: -1vh;
   }
 
   .date, .season {
-    font-size: 40px;
+    font-size: 3.5vh;
   }
 
   .decimal-unit {
@@ -35,18 +84,172 @@
   }
 }
 
+@media (orientation: portrait) {
+  #sajem-tan-clock {
+    padding: 2.65vw 1vw 4vw 1vw;
+    width: 95vw;
+  }
+
+  .graphical-display {
+    svg {
+      height: 32vw;
+      width: calc(33% - 2vw / 3);
+
+      &.date-dial {
+        left: -1.2vw;
+        top: 9vw;
+      }
+
+      &.myth-dial {
+        left: 1.2vw;
+        top: 9vw;
+      }
+    }
+  }
+
+  .textual-display {
+    .time {
+      font-size: 7.5vw;
+      margin-bottom: -1vw;
+    }
+
+    .date, .season {
+      font-size: 3.4vw;
+    }
+  }
+}
+
 .graphical-display .cell {
-  fill: white;
+  fill: none;
   stroke: black;
-  stroke-width: 2;
+  stroke-width: 1;
+}
 
-  &.active {
-    fill: orange;
-  }
+.theme-0-controls {
+  .graphical-display .cell {
+    &.active {
+      fill: #e5b550;
+    }
 
-  &.filled {
-    fill: gold;
+    &.filled {
+      fill: #efd294;
+    }
   }
+}
+
+.theme-1-controls {
+  .graphical-display .cell {
+    &.active {
+      fill: #aa88bb;
+    }
+
+    &.filled {
+      fill: lightsteelblue;
+    }
+  }
+}
+
+.theme-2-controls {
+  .graphical-display .cell {
+    &.active {
+      fill: #7f8ab5;
+    }
+
+    &.filled {
+      fill: lightsteelblue;
+    }
+  }
+}
+
+.theme-3-controls {
+  .graphical-display .cell {
+    &.active {
+      fill: #cc7799;
+    }
+
+    &.filled {
+      fill: #ebb695;
+    }
+  }
+}
+
+.theme-4-controls {
+  .graphical-display .cell {
+    &.active {
+      fill: #6796d1;
+    }
+
+    &.filled {
+      fill: #a8cbdf;
+    }
+  }
+}
+
+.theme-5-controls {
+  .graphical-display .cell {
+    &.active {
+      fill: #b897ad;
+    }
+
+    &.filled {
+      fill: #cabecb;
+    }
+  }
+}
+
+.theme-6-controls {
+  .graphical-display .cell {
+    &.active {
+      fill: #bf7968;
+    }
+
+    &.filled {
+      fill: #ddb0a6;
+    }
+  }
+}
+
+.theme-7-controls {
+  .graphical-display .cell {
+    &.active {
+      fill: orange;
+    }
+
+    &.filled {
+      fill: #ffd333;
+    }
+  }
+}
+
+.theme-8-controls {
+  .graphical-display .cell {
+    &.active {
+      fill: #df9032;
+    }
+
+    &.filled {
+      fill: #f5bd65;
+    }
+  }
+}
+
+.theme-9-controls {
+  .graphical-display .cell {
+    &.active {
+      fill: #e56ccd;
+    }
+
+    &.filled {
+      fill: #fba4d9;
+    }
+  }
+}
+
+.season .cell {
+  // These cells need to have a solid colour even when inactive to hide the
+  // curved inner edges of the month cells. This is a close visual match for the
+  // overall grey of the paper texture.
+  fill: #e6e6e6;
 }
 
 .graphical-display .week .cell {
@@ -61,4 +264,33 @@
   &.active {
     fill: white;
   }
+}
+
+.background {
+  align-items: center;
+  background: center / 600px 600px url("watercolour.jpeg");
+  display: flex;
+  height: 100%;
+  justify-content: center;
+  left: 50%;
+  overflow: hidden;
+  position: absolute;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  width: 100%;
+}
+
+.hex-background-cells, .hex-background-mesh {
+  height: 100vmax;
+  width: 100vmax;
+  position: absolute;
+}
+
+.hex-background-cells {
+  mix-blend-mode: hard-light;
+}
+
+.hex-background-mesh-layer {
+  filter: url("#deboss-filter") drop-shadow(0px 1px 0.5px rgba(0, 0, 0, 0.4));
+  stroke-width: 1.5px;
 }

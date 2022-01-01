@@ -18,6 +18,9 @@ bug-reports:         https://github.com/jamesconstable/honey-time/issues
 
 dependencies:
 - base >= 4.7 && < 5
+- convertible >= 1.1
+- prizm >= 3.0
+- random >= 1.2
 - svg-builder
 - text
 

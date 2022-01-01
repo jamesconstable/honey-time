@@ -5,22 +5,73 @@
     <link rel="stylesheet" type="text/css" href="style.css">
     <script type="text/javascript" src="index.js"></script>
   </head>
-  <body>
-    <div class="graphical-display">
-      <!-- INCLUDE "svg-generation/output/date-dial.svg" -->
-      <!-- INCLUDE "svg-generation/output/clock-dial.svg" -->
-      <!-- INCLUDE "svg-generation/output/myth-dial.svg" -->
+  <body class="theme-0 theme-0-controls">
+    <div style="position: absolute; width: 0; height: 0; overflow: hidden;">
+      <!-- INCLUDE "svg-generation/output/honey-numerals.svg" -->
+      <!-- INCLUDE "svg-generation/output/honey-letters.svg" -->
+      <!-- INCLUDE "svg-generation/output/myth-role-icons.svg" -->
+      <!-- INCLUDE "svg-generation/output/season-icons.svg" -->
+      <!-- INCLUDE "svg-generation/output/sun-moon.svg" -->
+      <svg xmlns="http://www.w3.org/2000/svg" version="1.11.1"
+          xmlns:xlink="http://www.w3.org/1999/xlink" width="0" height="0">
+        <filter id="deboss-filter" x="-20%" y="-20%" width="140%" height="140%"
+            filterUnits="objectBoundingBox" primitiveUnits="userSpaceOnUse"
+            color-interpolation-filters="linearRGB">
+          <feColorMatrix type="matrix"
+              values="0 0 0 0 0   0 0 0 0 0   0 0 0 0 0   1 1 1 1 0"
+              x="0%" y="0%" width="100%" height="100%" in="SourceGraphic"
+              result="alphaMask"/>
+          <feGaussianBlur stdDeviation="1 1" x="0%" y="0%"
+              width="100%" height="100%" in="alphaMask" edgeMode="none"
+              result="blur"/>
+          <feComponentTransfer x="0%" y="0%" width="100%" height="100%"
+              in="blur" result="componentTransfer1">
+            <feFuncR type="identity"/>
+            <feFuncG type="identity"/>
+            <feFuncB type="identity"/>
+            <feFuncA type="table" tableValues="0 0 1"/>
+          </feComponentTransfer>
+          <feSpecularLighting surfaceScale="4" specularConstant="2.5"
+              specularExponent="40" lighting-color="#ffe7a3" x="0%" y="0%"
+              width="100%" height="100%" in="componentTransfer1"
+              result="specularLighting">
+            <feDistantLight azimuth="240" elevation="40"/>
+          </feSpecularLighting>
+          <feFlood flood-color="#000000" flood-opacity="1" x="0%" y="0%"
+              width="100%" height="100%" result="flood"/>
+          <feDiffuseLighting surfaceScale="3" diffuseConstant="0.4"
+              lighting-color="#fad000" x="0%" y="0%" width="100%" height="100%"
+              in="componentTransfer1" result="diffuseLighting">
+            <feDistantLight azimuth="270" elevation="40"/>
+          </feDiffuseLighting>
+          <feComposite in="diffuseLighting" in2="flood" operator="atop"
+              x="0%" y="0%" width="100%" height="100%" result="composite2"/>
+          <feComposite in="specularLighting" in2="composite2" operator="atop"
+              x="0%" y="0%" width="100%" height="100%" result="composite"/>
+          <feComposite in="composite" in2="alphaMask" operator="in"
+              x="0%" y="0%" width="100%" height="100%" result="composite1"/>
+        </filter>
+      </svg>
     </div>
-    <div class="textual-display">
-      <p class="time"><span id="textual-hours" class="hours decimal-unit"></span>:<span id="textual-minutes" class="minutes senary-unit"></span>:<span id="textual-seconds" class="seconds senary-unit"></span><span id="textual-subseconds" class="subseconds senary-unit"></span></p>
-      <p class="date">
-        <span id="textual-year"></span>
-        <span id="textual-myth-role"></span>
-        <span id="textual-myth-number"></span>,
-        <span id="textual-month"></span>
-        <span id="textual-day"></span>
-      </p>
-      <p id="textual-season" class="season"></p>
+    <div class="background">
+      <!-- INCLUDE "svg-generation/output/background.svg" -->
+      <!-- INCLUDE "svg-generation/output/background-mesh.svg" -->
+    </div>
+    <div id="sajem-tan-clock">
+      <div class="graphical-display">
+        <!-- INCLUDE "svg-generation/output/myth-dial.svg" -->
+        <!-- INCLUDE "svg-generation/output/clock-dial.svg" -->
+        <!-- INCLUDE "svg-generation/output/date-dial.svg" -->
+      </div>
+      <div class="textual-display">
+        <p class="time"><span class="hours decimal-unit"></span>:<span class="minutes senary-unit"></span>:<span class="seconds senary-unit"></span><span class="subseconds senary-unit"></span></p>
+        <p class="date">
+          <span class="year"></span> <span class="myth-role"></span>
+          <span class="myth-number"></span>,
+          <span class="month"></span> <span class="day"></span>
+        </p>
+        <p class="season"></p>
+      </div>
     </div>
     <script>
       (function() { PS.Main.setup(); })();

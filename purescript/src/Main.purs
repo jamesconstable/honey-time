@@ -2,30 +2,41 @@ module Main where
 
 import Prelude
 
+import Data.Array as A
 import Data.Array ((..), (!!))
 import Data.ArrayView (fromArray, take)
 import Data.Filterable (filterMap)
 import Data.Foldable (fold, foldMap)
-import Data.Int (floor, radix, toStringAs)
+import Data.Int (floor, radix, rem, round, toNumber, toStringAs)
 import Data.JSDate (JSDate, getTime, jsdate, now)
-import Data.Maybe (Maybe(..), fromJust)
+import Data.Maybe (fromJust)
+import Data.Monoid (power)
+import Data.Newtype (wrap)
+import Data.Ord (abs)
 import Data.String (length)
 import Data.String.CodeUnits (singleton)
 import Data.Traversable (traverse)
+import Control.Monad.Maybe.Trans (lift, runMaybeT)
 import Effect (Effect)
 import Effect.Timer (setInterval)
 import Math ((%))
 import Partial.Unsafe (unsafePartial)
 import Web.DOM.Document (toParentNode)
 import Web.DOM.DOMTokenList as TL
-import Web.DOM.Element (classList, fromNode, toNode)
+import Web.DOM.Element (classList, fromNode, setAttribute, toEventTarget, toNode)
 import Web.DOM.NodeList (toArray)
 import Web.DOM.Internal.Types (Element)
 import Web.DOM.Node (setTextContent)
 import Web.DOM.ParentNode (QuerySelector(..), querySelectorAll)
+import Web.Event.Event (Event, EventType(..), currentTarget)
+import Web.Event.EventTarget (addEventListener, eventListener)
 import Web.HTML (window)
 import Web.HTML.HTMLDocument (toDocument)
+import Web.HTML.HTMLElement (fromEventTarget, getBoundingClientRect)
 import Web.HTML.Window (document)
+import Web.UIEvent.MouseEvent (clientX, clientY, fromEvent)
+
+import Effect.Console (log)
 
 type TranslatedName = ( sajemTan :: String, english :: String )
 
@@ -48,20 +59,24 @@ type HoneyComponents a = {
   dayOfYear :: a,
   dayOfMonth :: a,
   mythRole :: a,
-  mythNumber :: a
+  mythNumber :: a,
+  sunMoon :: a,
+  theme :: a
   | HoneyBase a
   }
 
 type HoneyDate = HoneyComponents Int
 
-type TextualDisplay = HoneyComponents (Maybe Element)
-
 data DisplayComponent =
   None
+  | ImageComponent (Array Element) String
+  | SunMoonComponent (Array Element)
+  | TextComponent (Array Element) (Int -> String)
   | LinearComponent (Array (Array Element))
   | SenaryComponent (Array (Array Element)) (Array (Array Element))
+  | ThemeComponent (Array Element)
 
-type GraphicalDisplay = HoneyComponents DisplayComponent
+type Display = HoneyComponents DisplayComponent
 
 creation :: JSDate
 creation = jsdate {
@@ -139,10 +154,13 @@ letterCycle = [
 seasons :: Array String
 seasons = ["Egg", "Larva", "Pupa", "Worker", "Drone", "Queen"]
 
+-- SVG translation doesn't accept percentage units, so unfortunately we need to
+-- hardcode the radius to be whatever it's measured to be in the browser :(
+sunMoonRadius :: Number
+sunMoonRadius = 46.7654
+
 padLeft :: Int -> Char -> String -> String
-padLeft width c s
-  | length s >= width = s
-  | otherwise         = padLeft width c (singleton c <> s)
+padLeft width c s = power (singleton c) (width - length s) <> s
 
 toSenary :: Int -> Int -> String
 toSenary width value =
@@ -153,11 +171,11 @@ elementsBySelector :: String -> Effect (Array Element)
 elementsBySelector selector = do
   w <- window
   d <- document w
+  log(selector)
   r <- querySelectorAll (QuerySelector selector) (toParentNode $ toDocument d)
+  l <- (show <<< A.length) <$> toArray r
+  log l
   filterMap fromNode <$> toArray r
-
-elementById :: String -> Effect (Maybe Element)
-elementById = map (_ !! 0) <<< elementsBySelector <<< ("#" <> _)
 
 addClass :: String -> Element -> Effect Unit
 addClass c e = classList e >>= flip TL.add c
@@ -183,109 +201,155 @@ gregorianToHoney date =
     subsecond  = _.subsecond `_of` _.second
     mythRole   = dayOfYear   `mod` 9
     mythNumber = dayOfYear   `mod` 40
+    sunMoon    = round $ toNumber (_.minute `_of` _.day) / 360.0
+                    * (sunMoonRadius * -2.0) * 2.0
   in { year, season, month, dayOfYear, dayOfMonth, week, mythRole, mythNumber,
-       hour, minute, second, subsecond }
+       hour, minute, second, subsecond, sunMoon, theme: 0 }
 
-getTextualDisplay :: Effect TextualDisplay
+getTextualDisplay :: Effect Display
 getTextualDisplay =
   let
-    get n = elementById ("textual-" <> n)
+    getClass = (<>) ".textual-display ."
+    textComponent n formatFn =
+      TextComponent <$> elementsBySelector (getClass n) <@> formatFn
+    formatSeason i = fold (seasons !! i) <> " Season"
+    formatDay i = (fold (letterCycle !! i)).sajemTan
+    formatMythRole i = (fold (mythCycle !! i)).sajemTan
   in ado
-    year       <- get "year"
-    season     <- get "season"
-    month      <- get "month"
-    dayOfMonth <- get "day"
-    mythRole   <- get "myth-role"
-    mythNumber <- get "myth-number"
-    hour       <- get "hours"
-    minute     <- get "minutes"
-    second     <- get "seconds"
-    subsecond  <- get "subseconds"
+    year       <- textComponent "year"        show
+    season     <- textComponent "season"      formatSeason
+    month      <- textComponent "month"       show
+    dayOfMonth <- textComponent "day"         formatDay
+    mythRole   <- textComponent "myth-role"   formatMythRole
+    mythNumber <- textComponent "myth-number" show
+    hour       <- textComponent "hours"       show
+    minute     <- textComponent "minutes"     (toSenary 2)
+    second     <- textComponent "seconds"     (toSenary 2)
+    subsecond  <- textComponent "subseconds"  (toSenary 2)
     in { year, season, month, dayOfMonth, mythRole, mythNumber,
-         hour, minute, second, subsecond,
-         week: Nothing, dayOfYear: Nothing }
+         hour, minute, second, subsecond, sunMoon: None, week: None,
+         dayOfYear: None, theme: None }
 
-setTextualDisplay :: HoneyDate -> TextualDisplay -> Effect Unit
-setTextualDisplay date display =
-  let
-    setElementText e s = setTextContent s (toNode $ unsafePartial fromJust e)
-    with :: (forall a. HoneyComponents a -> a) -> (Int -> String) -> Effect Unit
-    with getFrom fn = setElementText (getFrom display) (fn (getFrom date))
-  in ado
-    _.year       `with` show
-    _.season     `with` \s -> (fold (seasons !! s)) <> " Season"
-    _.month      `with` show
-    _.dayOfMonth `with` \d -> (fold (letterCycle !! d)).sajemTan
-    _.mythRole   `with` \m -> (fold (mythCycle !! m)).sajemTan
-    _.mythNumber `with` show
-    _.hour       `with` show
-    _.minute     `with` toSenary 2
-    _.second     `with` toSenary 2
-    _.subsecond  `with` toSenary 2
-    in unit
-
-getGraphicalDisplay :: Effect GraphicalDisplay
+getGraphicalDisplay :: Effect Display
 getGraphicalDisplay =
   let
-    getLinearDisplay name n =
+    imageComponent name useIdPrefix = ImageComponent
+      <$> elementsBySelector (".myth-dial ." <> name)
+      <@> useIdPrefix
+    rotateComponent name = SunMoonComponent
+      <$> elementsBySelector (".clock-dial ." <> name)
+    linearComponent name n =
       let selectorFor i = fold [".", name, " .cell", show i]
       in LinearComponent <$> traverse elementsBySelector (selectorFor <$> 0..n)
-    getSenaryDisplay name =
+    senaryComponent name =
       let selectorFor p i = fold [".", name, "-", p, " .cell", show i]
       in SenaryComponent
         <$> traverse elementsBySelector (selectorFor "units" <$> 0..5)
         <*> traverse elementsBySelector (selectorFor "sixes" <$> 0..5)
+    themeComponent = ThemeComponent <$> elementsBySelector "body"
   in ado
-    season     <- getLinearDisplay "season"       6
-    month      <- getLinearDisplay "month"        12
-    week       <- getLinearDisplay "week"         60
-    dayOfMonth <- getLinearDisplay "day-of-month" 30
-    mythRole   <- getLinearDisplay "myth-role"    9
-    mythNumber <- getLinearDisplay "myth-number"  40
-    hour       <- getLinearDisplay "hours-ring"   10
-    minute     <- getSenaryDisplay "minute"
-    second     <- getSenaryDisplay "second"
-    subsecond  <- getSenaryDisplay "subsecond"
-    in { season, month, week, dayOfMonth, mythRole, mythNumber,
-         hour, minute, second, subsecond, year: None, dayOfYear: None }
+    year       <- imageComponent  "year"         "honey"
+    season     <- linearComponent "season"       6
+    month      <- linearComponent "month"        12
+    week       <- linearComponent "week"         60
+    dayOfMonth <- linearComponent "day-of-month" 30
+    mythRole   <- linearComponent "myth-role"    9
+    mythNumber <- linearComponent "myth-number"  40
+    hour       <- linearComponent "hours-ring"   10
+    minute     <- senaryComponent "minute"
+    second     <- senaryComponent "second"
+    subsecond  <- senaryComponent "subsecond"
+    sunMoon    <- rotateComponent "sun-moon-dial"
+    theme      <- themeComponent
+    in { year, season, month, week, dayOfMonth, mythRole, mythNumber,
+         hour, minute, second, subsecond, sunMoon, theme, dayOfYear: None }
 
-setGraphicalDisplay :: HoneyDate -> GraphicalDisplay -> Effect Unit
-setGraphicalDisplay date display =
-  set _.year *> set _.season *> set _.month *> set _.week *> set _.dayOfYear *>
-  set _.dayOfMonth *> set _.mythRole *> set _.mythNumber *>
-  set _.hour *> set _.minute *> set _.second *> set _.subsecond
+setDisplay :: HoneyDate -> Display -> Effect Unit
+setDisplay date display =
+  set _.year *> set _.season *> set _.month *> set _.week *> set _.dayOfYear
+    *> set _.dayOfMonth *> set _.mythRole *> set _.mythNumber *> set _.sunMoon
+    *> set _.hour *> set _.minute *> set _.second *> set _.subsecond
+    *> unsafePartial (setTheme display.theme date.mythRole)
   where
     set :: (forall a. HoneyComponents a -> a) -> Effect Unit
     set getFrom = setComponent (getFrom display) (getFrom date)
 
     setComponent :: DisplayComponent -> Int -> Effect Unit
-    setComponent None _ = mempty
-    setComponent (LinearComponent c) n = setElements c n
-    setComponent (SenaryComponent units sixes) n =
-      setElements units (mod n 6) *> setElements sixes (n/6)
+    setComponent c n = case c of
+      None                         -> mempty
+      ImageComponent   es prefix   -> setImage es ("#" <> prefix <> show n)
+      TextComponent    es formatFn -> setText es (formatFn n)
+      LinearComponent  es          -> setElements es n
+      SenaryComponent  units sixes -> setElements units (mod n 6) *>
+                                        setElements sixes (n/6)
+      SunMoonComponent es          -> setSunMoonDial es n
+      ThemeComponent _             -> mempty
+
+    setImage :: Array Element -> String -> Effect Unit
+    setImage es useId = foldMap (setAttribute "xlink:href" useId) es
+
+    setText :: Array Element -> String -> Effect Unit
+    setText es t = foldMap (setTextContent t <<< toNode) es
 
     setElements :: Array (Array Element) -> Int -> Effect Unit
-    setElements elements digit = do
-      foldMap (foldMap $ removeClass "active") elements
-      foldMap (foldMap $ removeClass "filled") elements
-      foldMap (addClass "active") (fold $ elements !! digit)
-      foldMap (foldMap $ addClass "filled") (take digit $ fromArray elements)
+    setElements es digit = do
+      foldMap (foldMap $ removeClass "active") es
+      foldMap (foldMap $ removeClass "filled") es
+      foldMap (addClass "active") (fold $ es !! digit)
+      foldMap (foldMap $ addClass "filled") (take digit $ fromArray es)
 
-displayDate :: JSDate -> TextualDisplay -> GraphicalDisplay -> Effect Unit
-displayDate date t g =
-  let honeyDate = gregorianToHoney date
-  in setTextualDisplay honeyDate t *> setGraphicalDisplay honeyDate g
+    setSunMoonDial :: Array Element -> Int -> Effect Unit
+    setSunMoonDial es v =
+      let
+        negRadius = "-" <> show sunMoonRadius
+        base = "translate(" <> negRadius <> " " <> negRadius <> ")"
+      in foldMap
+        (setAttribute "transform" (base <> " translate(" <> show v <> ")"))
+        es
 
-displayNow :: TextualDisplay -> GraphicalDisplay -> Effect Unit
-displayNow t g = do
+    setTheme :: Partial => DisplayComponent -> Int -> Effect Unit
+    setTheme None _ = mempty
+    setTheme (ThemeComponent es) mythRole =
+      let lastMythRole = if mythRole == 0 then 9 else mythRole
+      in foldMap
+      (\e -> removeClass "theme-0" e
+          *> removeClass ("theme-" <> show lastMythRole) e
+          *> removeClass "theme-0-controls" e
+          *> removeClass ("theme-" <> show lastMythRole <> "-controls") e
+          *> addClass ("theme-" <> show (mythRole + 1)) e
+          *> addClass ("theme-" <> show (mythRole + 1) <> "-controls") e)
+      es
+
+displayDate :: JSDate -> Display -> Effect Unit
+displayDate = setDisplay <<< gregorianToHoney
+
+displayNow :: Array Display -> Effect Unit
+displayNow ds = do
   n <- now
-  displayDate n t g
+  foldMap (displayDate n) ds
+
+handleMouseMove :: Event -> Effect Unit
+handleMouseMove e = void $ runMaybeT do
+  mevent <- wrap $ pure $ fromEvent e
+  pointLights <- lift $ elementsBySelector "fePointLight"
+  t <- wrap $ pure $ currentTarget e >>= fromEventTarget
+  { left, right, top, bottom } <- lift $ getBoundingClientRect t
+  let percentX = (toNumber (clientX mevent) - left) / (right - left)
+  let percentY = (toNumber (clientY mevent) - top) / (bottom - top)
+  lift $ foldMap (setAttribute "x" (show percentX)) pointLights
+  lift $ foldMap (setAttribute "y" (show percentY)) pointLights
+
+attachPointLightHandler :: Effect Unit
+attachPointLightHandler = do
+  listener <- eventListener handleMouseMove
+  body <- map toEventTarget <$> elementsBySelector "body"
+  foldMap (addEventListener (EventType "mousemove") listener false) body
 
 setup :: Effect Unit
 setup = void do
   t <- getTextualDisplay
   g <- getGraphicalDisplay
-  setInterval (floor honeyDurations.subsecond) (displayNow t g)
+  setInterval (floor honeyDurations.subsecond) (displayNow [t, g])
 
 main :: Effect Unit
 main = mempty

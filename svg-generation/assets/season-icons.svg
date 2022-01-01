@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?> <!-- Created with Vectornator for iOS (http://vectornator.io/) --><!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+<svg height="100%" style="fill-rule:evenodd;clip-rule:evenodd;stroke-linecap:round;stroke-linejoin:round;" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns="http://www.w3.org/2000/svg" xml:space="preserve" width="100%" xmlns:vectornator="http://vectornator.io" version="1.1" viewBox="0 0 100 100">
+<metadata>
+<vectornator:setting key="DimensionsVisible" value="1"/>
+<vectornator:setting key="SnapToGrid" value="1"/>
+<vectornator:setting key="IsolateActiveLayer" value="1"/>
+<vectornator:setting key="SnapToPoints" value="0"/>
+<vectornator:setting key="GuidesVisible" value="1"/>
+<vectornator:setting key="RulersVisible" value="1"/>
+<vectornator:setting key="CMYKEnabledKey" value="0"/>
+<vectornator:setting key="SnapToEdges" value="0"/>
+<vectornator:setting key="DisplayWhiteBackground" value="1"/>
+<vectornator:setting key="idAngle" value="45"/>
+<vectornator:setting key="SnapToGuides" value="1"/>
+<vectornator:setting key="GridSpacing" value="5"/>
+<vectornator:setting key="Units" value="Pixels"/>
+<vectornator:setting key="DynamicGuides" value="0"/>
+<vectornator:setting key="New" value="1"/>
+</metadata>
+<defs/>
+<g id="season5" vectornator:layerName="season5">
+<path d="M80+95L20+95L0+16.25L32.5+44.375L50+5L67.5+44.375L100+16.25L80+95Z" opacity="1" fill="#000000"/>
+<path d="M94.4213+49.4609" opacity="1" fill="#000000"/>
+<path stroke="#ffffff" stroke-width="1" d="M15+80L85+80" fill="none" stroke-linecap="round" opacity="1" stroke-linejoin="round"/>
+<path d="M42.5+57.5C42.5+53.3579+45.8579+50+50+50C54.1421+50+57.5+53.3579+57.5+57.5C57.5+61.6421+54.1421+65+50+65C45.8579+65+42.5+61.6421+42.5+57.5Z" opacity="1" fill="#ffffff"/>
+</g>
+<g id="season4" vectornator:layerName="season4">
+<path d="M44.7402+22.5L54.7402+22.5L54.7402+95L44.7402+95L44.7402+22.5Z" opacity="1" fill="#000000"/>
+<path d="M49.7402+5L37.2402+25L62.2402+25L49.7402+5Z" opacity="1" fill="#000000"/>
+<path d="M122.5+85L127.5+90" opacity="1" fill="#000000"/>
+<path d="M42.2402+95C42.3696+54.9133+34.7402+47.5+12.2402+32.5C10.8505+31.5735+5.91514+38.8642+7.24024+40C24.7402+55+32.4203+55.0001+32.2402+95" opacity="1" fill="#000000"/>
+<path d="M0+28.5152L7.52965+50.8659L23.39+31.5411L0+28.5152Z" opacity="1" fill="#000000"/>
+<path d="M57.5+95C57.3707+54.9133+65+47.5+87.5+32.5C88.8897+31.5735+93.8251+38.8642+92.5+40C75+55+67.32+55.0001+67.5+95" opacity="1" fill="#000000"/>
+<path d="M99.7402+28.5152L92.2106+50.8659L76.3502+31.5411L99.7402+28.5152Z" opacity="1" fill="#000000"/>
+</g>
+<g id="season3" vectornator:layerName="season3">
+<path d="M10.8163+27.0079C25.1383+3.50298+44.5151+41.0771+44.5151+41.0771C44.5151+41.0771+21.4313+5.14928+49.663+5.16849C78.2139+5.18792+55.9727+41.2456+55.9727+41.2456C55.9727+41.2456+77.0714+5.35652+90.3455+28.5243C103.909+52.1978+60.1008+50.4286+60.1008+50.4286C60.1008+50.4286+101.499+49.8606+90.0928+71.2376C76.6975+96.3432+56.394+59.0218+56.394+59.0218C56.394+59.0218+77.8769+94.911+49.663+95.1685C21.6852+95.4238+44.0939+59.3587+44.0939+59.3587C44.0939+59.3587+22.7794+95.585+9.97385+71.4903C-3.13178+46.831+38.8706+50.2601+38.8706+50.2601C38.8706+50.2601-3.21646+50.0382+10.8163+27.0079Z" opacity="1" fill="#000000"/>
+<path d="M40+50C40+44.4772+44.4772+40+50+40C55.5228+40+60+44.4772+60+50C60+55.5228+55.5228+60+50+60C44.4772+60+40+55.5228+40+50Z" opacity="1" fill="#ffffff"/>
+</g>
+<g id="season2" vectornator:layerName="season2">
+<path d="M26.4295+35.4101C26.4295+21.3269+37.0005+9.91011+50.0406+9.91011C63.0806+9.91011+73.6517+21.3269+73.6517+35.4101C73.6517+49.4934+63.0806+60.9101+50.0406+60.9101C37.0005+60.9101+26.4295+49.4934+26.4295+35.4101Z" opacity="1" fill="#000000"/>
+<path d="M34.2998+77.9101C34.2998+68.5213+41.3472+60.9101+50.0406+60.9101C58.7339+60.9101+65.7813+68.5213+65.7813+77.9101C65.7813+87.299+58.7339+94.9101+50.0406+94.9101C41.3472+94.9101+34.2998+87.299+34.2998+77.9101Z" opacity="1" fill="#000000"/>
+<path d="M26.906+40.3155L73.1786+40.3517L65.5909+80.6538L34.5145+80.5202L26.906+40.3155Z" opacity="1" fill="#000000"/>
+<path stroke="#ffffff" stroke-width="1" d="M26.4295+37.5351L73.6517+37.5351" fill="none" stroke-linecap="round" opacity="1" stroke-linejoin="round"/>
+</g>
+<g id="season1" vectornator:layerName="season1">
+<path d="M62.5+48.7914C62.5+41.2203+68.1636+35.0828+75.1499+35.0828C82.1363+35.0828+87.7999+41.2203+87.7999+48.7914C87.7999+56.3624+82.1363+62.5+75.1499+62.5C68.1636+62.5+62.5+56.3624+62.5+48.7914Z" opacity="1" fill="#000000"/>
+<path d="M12.5+48.7693C12.5+41.189+18.1636+35.0439+25.1499+35.0439C32.1363+35.0439+37.7999+41.189+37.7999+48.7693C37.7999+56.3497+32.1363+62.4947+25.1499+62.4947C18.1636+62.4947+12.5+56.3497+12.5+48.7693Z" opacity="1" fill="#000000"/>
+<path d="M25+35.0439L75+35.0439L75+62.5L25+62.5L25+35.0439Z" opacity="1" fill="#000000"/>
+<path d="M107.5+50L110+50L110+52.5L107.5+52.5L107.5+50Z" opacity="1" fill="#000000"/>
+</g>
+<g id="season0" vectornator:layerName="season0">
+<path d="M32.8858+49.8572C32.8858+40.3264+40.612+32.6002+50.1428+32.6002C59.6736+32.6002+67.3998+40.3264+67.3998+49.8572C67.3998+59.388+59.6736+67.1142+50.1428+67.1142C40.612+67.1142+32.8858+59.388+32.8858+49.8572Z" opacity="1" fill="#000000"/>
+</g>
+</svg>
