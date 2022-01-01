@@ -2,11 +2,12 @@ module Main where
 
 import Prelude
 
+import Data.Array as A
 import Data.Array ((..), (!!))
 import Data.ArrayView (fromArray, take)
 import Data.Filterable (filterMap)
 import Data.Foldable (fold, foldMap)
-import Data.Int (floor, radix, round, toNumber, toStringAs)
+import Data.Int (floor, radix, rem, round, toNumber, toStringAs)
 import Data.JSDate (JSDate, getTime, jsdate, now)
 import Data.Maybe (fromJust)
 import Data.Monoid (power)
@@ -59,7 +60,8 @@ type HoneyComponents a = {
   dayOfMonth :: a,
   mythRole :: a,
   mythNumber :: a,
-  sunMoon :: a
+  sunMoon :: a,
+  theme :: a
   | HoneyBase a
   }
 
@@ -72,6 +74,7 @@ data DisplayComponent =
   | TextComponent (Array Element) (Int -> String)
   | LinearComponent (Array (Array Element))
   | SenaryComponent (Array (Array Element)) (Array (Array Element))
+  | ThemeComponent (Array Element)
 
 type Display = HoneyComponents DisplayComponent
 
@@ -168,7 +171,10 @@ elementsBySelector :: String -> Effect (Array Element)
 elementsBySelector selector = do
   w <- window
   d <- document w
+  log(selector)
   r <- querySelectorAll (QuerySelector selector) (toParentNode $ toDocument d)
+  l <- (show <<< A.length) <$> toArray r
+  log l
   filterMap fromNode <$> toArray r
 
 addClass :: String -> Element -> Effect Unit
@@ -198,7 +204,7 @@ gregorianToHoney date =
     sunMoon    = round $ toNumber (_.minute `_of` _.day) / 360.0
                     * (sunMoonRadius * -2.0) * 2.0
   in { year, season, month, dayOfYear, dayOfMonth, week, mythRole, mythNumber,
-       hour, minute, second, subsecond, sunMoon }
+       hour, minute, second, subsecond, sunMoon, theme: 0 }
 
 getTextualDisplay :: Effect Display
 getTextualDisplay =
@@ -222,7 +228,7 @@ getTextualDisplay =
     subsecond  <- textComponent "subseconds"  (toSenary 2)
     in { year, season, month, dayOfMonth, mythRole, mythNumber,
          hour, minute, second, subsecond, sunMoon: None, week: None,
-         dayOfYear: None }
+         dayOfYear: None, theme: None }
 
 getGraphicalDisplay :: Effect Display
 getGraphicalDisplay =
@@ -240,6 +246,7 @@ getGraphicalDisplay =
       in SenaryComponent
         <$> traverse elementsBySelector (selectorFor "units" <$> 0..5)
         <*> traverse elementsBySelector (selectorFor "sixes" <$> 0..5)
+    themeComponent = ThemeComponent <$> elementsBySelector "body"
   in ado
     year       <- imageComponent  "year"         "honey"
     season     <- linearComponent "season"       6
@@ -253,39 +260,33 @@ getGraphicalDisplay =
     second     <- senaryComponent "second"
     subsecond  <- senaryComponent "subsecond"
     sunMoon    <- rotateComponent "sun-moon-dial"
+    theme      <- themeComponent
     in { year, season, month, week, dayOfMonth, mythRole, mythNumber,
-         hour, minute, second, subsecond, sunMoon, dayOfYear: None }
+         hour, minute, second, subsecond, sunMoon, theme, dayOfYear: None }
 
 setDisplay :: HoneyDate -> Display -> Effect Unit
 setDisplay date display =
-  set _.year *> set _.season *> set _.month *> set _.week *> set _.dayOfYear *>
-  set _.dayOfMonth *> set _.mythRole *> set _.mythNumber *> set _.sunMoon *>
-  set _.hour *> set _.minute *> set _.second *> set _.subsecond
+  set _.year *> set _.season *> set _.month *> set _.week *> set _.dayOfYear
+    *> set _.dayOfMonth *> set _.mythRole *> set _.mythNumber *> set _.sunMoon
+    *> set _.hour *> set _.minute *> set _.second *> set _.subsecond
+    *> unsafePartial (setTheme display.theme date.mythRole)
   where
     set :: (forall a. HoneyComponents a -> a) -> Effect Unit
     set getFrom = setComponent (getFrom display) (getFrom date)
 
     setComponent :: DisplayComponent -> Int -> Effect Unit
     setComponent c n = case c of
-      None                        -> mempty
-      ImageComponent  es prefix   -> setImage es ("#" <> prefix <> show n)
-      SunMoonComponent es         -> setSunMoonDial es n
-      TextComponent   es formatFn -> setText es (formatFn n)
-      LinearComponent es          -> setElements es n
-      SenaryComponent units sixes -> setElements units (mod n 6) *>
-                                     setElements sixes (n/6)
+      None                         -> mempty
+      ImageComponent   es prefix   -> setImage es ("#" <> prefix <> show n)
+      TextComponent    es formatFn -> setText es (formatFn n)
+      LinearComponent  es          -> setElements es n
+      SenaryComponent  units sixes -> setElements units (mod n 6) *>
+                                        setElements sixes (n/6)
+      SunMoonComponent es          -> setSunMoonDial es n
+      ThemeComponent _             -> mempty
 
     setImage :: Array Element -> String -> Effect Unit
     setImage es useId = foldMap (setAttribute "xlink:href" useId) es
-
-    setSunMoonDial :: Array Element -> Int -> Effect Unit
-    setSunMoonDial es v =
-      let
-        negRadius = "-" <> show sunMoonRadius
-        base = "translate(" <> negRadius <> " " <> negRadius <> ")"
-      in foldMap
-        (setAttribute "transform" (base <> " translate(" <> show v <> ")"))
-        es
 
     setText :: Array Element -> String -> Effect Unit
     setText es t = foldMap (setTextContent t <<< toNode) es
@@ -296,6 +297,28 @@ setDisplay date display =
       foldMap (foldMap $ removeClass "filled") es
       foldMap (addClass "active") (fold $ es !! digit)
       foldMap (foldMap $ addClass "filled") (take digit $ fromArray es)
+
+    setSunMoonDial :: Array Element -> Int -> Effect Unit
+    setSunMoonDial es v =
+      let
+        negRadius = "-" <> show sunMoonRadius
+        base = "translate(" <> negRadius <> " " <> negRadius <> ")"
+      in foldMap
+        (setAttribute "transform" (base <> " translate(" <> show v <> ")"))
+        es
+
+    setTheme :: Partial => DisplayComponent -> Int -> Effect Unit
+    setTheme None _ = mempty
+    setTheme (ThemeComponent es) mythRole =
+      let lastMythRole = if mythRole == 0 then 9 else mythRole
+      in foldMap
+      (\e -> removeClass "theme-0" e
+          *> removeClass ("theme-" <> show lastMythRole) e
+          *> removeClass "theme-0-controls" e
+          *> removeClass ("theme-" <> show lastMythRole <> "-controls") e
+          *> addClass ("theme-" <> show (mythRole + 1)) e
+          *> addClass ("theme-" <> show (mythRole + 1) <> "-controls") e)
+      es
 
 displayDate :: JSDate -> Display -> Effect Unit
 displayDate = setDisplay <<< gregorianToHoney
