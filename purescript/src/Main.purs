@@ -7,12 +7,11 @@ import Data.Array ((..), (!!))
 import Data.ArrayView (fromArray, take)
 import Data.Filterable (filterMap)
 import Data.Foldable (fold, foldMap)
-import Data.Int (floor, radix, rem, round, toNumber, toStringAs)
+import Data.Int (floor, radix, round, toNumber, toStringAs)
 import Data.JSDate (JSDate, getTime, jsdate, now)
 import Data.Maybe (fromJust)
 import Data.Monoid (power)
 import Data.Newtype (wrap)
-import Data.Ord (abs)
 import Data.String (length)
 import Data.String.CodeUnits (singleton)
 import Data.Traversable (traverse)
@@ -36,7 +35,8 @@ import Web.HTML.HTMLElement (fromEventTarget, getBoundingClientRect)
 import Web.HTML.Window (document)
 import Web.UIEvent.MouseEvent (clientX, clientY, fromEvent)
 
-import Effect.Console (log)
+--import Effect.Console (log)
+import Confetti
 
 type TranslatedName = ( sajemTan :: String, english :: String )
 
@@ -171,10 +171,8 @@ elementsBySelector :: String -> Effect (Array Element)
 elementsBySelector selector = do
   w <- window
   d <- document w
-  log(selector)
   r <- querySelectorAll (QuerySelector selector) (toParentNode $ toDocument d)
   l <- (show <<< A.length) <$> toArray r
-  log l
   filterMap fromNode <$> toArray r
 
 addClass :: String -> Element -> Effect Unit
@@ -270,6 +268,10 @@ setDisplay date display =
     *> set _.dayOfMonth *> set _.mythRole *> set _.mythNumber *> set _.sunMoon
     *> set _.hour *> set _.minute *> set _.second *> set _.subsecond
     *> unsafePartial (setTheme display.theme date.mythRole)
+    *> if date.subsecond == 0
+      then (confetti (scalar := 2.0 <> spread := 90.0 <> angle := 135.0)
+        *> confetti (scalar := 2.0 <> spread := 90.0 <> angle := 45.0))
+      else mempty
   where
     set :: (forall a. HoneyComponents a -> a) -> Effect Unit
     set getFrom = setComponent (getFrom display) (getFrom date)

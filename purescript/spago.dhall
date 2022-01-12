@@ -7,6 +7,7 @@
   , "filterable"
   , "js-timers"
   , "lists"
+  , "options"
   , "psci-support"
   , "web-dom"
   , "web-html"
