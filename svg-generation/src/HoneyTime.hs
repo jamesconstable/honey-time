@@ -7,7 +7,8 @@ module HoneyTime (
 import Data.Convertible (convert)
 import Data.Foldable (fold, foldMap)
 import Data.Maybe (fromMaybe)
-import Data.Prizm.Color (BlendableColor, ColorCoord(..), HexRGB, RGB, interpolate, mkRGB, unHexRGB)
+import Data.Prizm.Color (BlendableColor, ColorCoord(..), HexRGB, RGB,
+  interpolate, mkRGB, unHexRGB)
 import Data.Prizm.Color.CIE as CIE
 import Graphics.Svg
 import qualified Data.Text as T
@@ -347,8 +348,8 @@ darken lch =
   let ColorCoord (l, c, h) = unLAB lch
   in mkLAB (l-10) c h
 
-getCellColor :: Integral a => (CIE.LAB, CIE.LAB) -> (a, a) -> (a, a) -> T.Text
-getCellColor colorRange (maxX, maxY) (x, y) =
+cellColor :: Integral a => (CIE.LAB, CIE.LAB) -> (a, a) -> (a, a) -> T.Text
+cellColor colorRange (maxX, maxY) (x, y) =
   let
     relativeX = fromIntegral x / fromIntegral maxX
     relativeY = fromIntegral y / fromIntegral maxY
@@ -359,8 +360,24 @@ getCellColor colorRange (maxX, maxY) (x, y) =
       else interpolation
   in unHexRGB (toHex result)
 
+rainbowCellColor :: Integral a => (a, a) -> (a, a) -> T.Text
+rainbowCellColor (maxX, maxY) (x, y) = unHexRGB $ toHex $ mkLAB 60
+  (fromIntegral x / fromIntegral maxX * 200 - 100)
+  (fromIntegral y / fromIntegral maxY * 200 - 100)
+
+distance :: RealFloat a => (a, a) -> (a, a) -> a
+distance (aX, aY) (bX, bY) = sqrt ((aX - bX)**2 + (aY - bY)**2)
+
+radialCellDelay :: (Integral a, RealFloat b, Show b)
+                => (a, a) -> (a, a) -> b -> T.Text
+radialCellDelay (maxX, maxY) (x, y) maxDelay =
+  tshow (distance a b / (sqrt (aX**2 + aY**2) / maxDelay)) <> "s"
+  where
+    a@(aX, aY) = (fromIntegral maxX / 2, fromIntegral maxY / 2)
+    b = (fromIntegral x, fromIntegral y)
+
 generateStyles :: (Integral a, Show a) => (a, a) -> (a, a) -> Element
-generateStyles (maxX, maxY) (x, y) =
+generateStyles m@(maxX, maxY) p@(x, y) =
   let
     percentY = round $ ((fromIntegral (x+y) / fromIntegral (maxX+maxY))::Float) * 100
     tileClass = ".tile-" <> tshow x <> "-" <> tshow y
@@ -377,13 +394,17 @@ generateStyles (maxX, maxY) (x, y) =
       (toLAB $ mkRGB 235  52 125, toLAB $ mkRGB  19  86 212)]  -- Bird
   in toElement $
     tileClass <> " {"
-      <> "transition: fill 5s ease " <> tshow (fromIntegral y / 5.0) <> "s;"
+      <> "transition: fill 1s ease " <> tshow (fromIntegral y / 5.0) <> "s;"
       <> "} "
     <> foldMap
       (\(i, range) -> ".theme-" <> tshow i <> " " <> tileClass <> " {"
-        <> "fill: " <> getCellColor range (maxX, maxY) (x, y) <> ";"
+        <> "fill: " <> cellColor range m p <> ";"
         <> "} ")
       (zip [0..] themeRanges)
+    <> ".theme-new-year " <> tileClass <> " {"
+      <> "transition: fill 0.5s ease " <> radialCellDelay m p 0.5 <> ";"
+      <> "fill: " <> rainbowCellColor m p <> ";"
+      <> "} "
 
 hexBackground :: (Integral a, Show a) => a -> Element
 hexBackground widthHeight =

@@ -89,11 +89,6 @@ body {
   }
 }
 
-.date-message-scroller {
-  height: 10.5vh;
-  overflow: hidden;
-}
-
 @media (orientation: portrait) {
   #sajem-tan-clock {
     padding: 2.65vw 1vw 4vw 1vw;
@@ -255,11 +250,16 @@ body {
   }
 }
 
-.date-message-scroller > * {
-  transition: transform 2s;
+.date-message-scroller {
+  height: 10.5vh;
+  overflow: hidden;
 
-  .theme-new-year & {
-    transform: translateY(-10.5vh);
+  & > * {
+    transition: transform 2s;
+
+    .theme-new-year & {
+      transform: translateY(-10.5vh);
+    }
   }
 }
 
