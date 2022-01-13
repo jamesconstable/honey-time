@@ -1,3 +1,7 @@
 "use strict";
 
-exports.confettiImpl = confetti;
+exports.confettiImpl = function(opts) {
+  return function() {
+    confetti(opts);
+  }
+}

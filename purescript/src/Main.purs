@@ -1,5 +1,6 @@
 module Main where
 
+import Effect.Console (log)
 import Prelude
 
 import Data.Array as A
@@ -271,8 +272,8 @@ setDisplay date display =
     *> set _.hour *> set _.minute *> set _.second *> set _.subsecond
     *> unsafePartial (setTheme display.theme date.mythRole date.subsecond)
     *> (if date.subsecond == 0
-      then (confetti (scalar := 2.0 <> spread := 90.0 <> angle := 135.0)
-        *> confetti (scalar := 2.0 <> spread := 90.0 <> angle := 45.0))
+      then confetti (scalar := 2.0 <> spread := 90.0 <> angle := 135.0)
+        *> confetti (scalar := 2.0 <> spread := 90.0 <> angle := 45.0)
       else mempty)
     *> (case display.message of
       TextComponent es _ -> setText es
