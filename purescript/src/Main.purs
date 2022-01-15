@@ -327,7 +327,7 @@ newYearEffect =
     message <- elementsBySelector ".textual-display .message"
     foldMap (setTextContent "Happy Sajem Tan\nNew Year!" <<< toNode) message
     body <- elementsBySelector "body"
-    foldMap (\e -> addClass theme e *> delay 5000 (removeClass theme e)) body
+    foldMap (\e -> addClass theme e *> delay 4000 (removeClass theme e)) body
     confettiEffect
   where theme = "theme-new-year"
 

@@ -12,7 +12,7 @@ svg_dir    = svg-generation/output
 svg_glyphs = $(svg_dir)/honey-numerals.svg $(svg_dir)/myth-role-icons.svg $(svg_dir)/season-icons.svg $(svg_dir)/honey-letters.svg $(svg_dir)/sun-moon.svg
 svgs       = $(svg_dir)/clock-dial.svg $(svg_dir)/date-dial.svg $(svg_dir)/myth-dial.svg $(svg_dir)/background.svg $(svg_dir)/background-mesh.svg
 
-site : site/index.js site/index.html site/style.css
+site : site/index.js site/index.html site/style-v2.1.css
 
 run : site
 	$(PYTHON) -m http.server -d site
@@ -34,7 +34,7 @@ $(svgs) : $(hs_deps)
 $(svg_glyphs) : preprocess_svg.py $(svg_assets)
 	$(PYTHON) $<
 
-site/style.css : style.scss paper.jpeg watercolour.jpeg
+site/style-v2.1.css : style.scss paper.jpeg watercolour.jpeg
 	$(MKDIR) site
 	$(SASS) $< $@
 	cp paper.jpeg site/paper.jpeg
