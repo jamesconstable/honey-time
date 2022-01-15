@@ -320,12 +320,12 @@ delay millis action = map (const unit) (setTimeout millis action)
 
 newYearEffect :: Effect Unit
 newYearEffect = do
-  let theme = "theme-new-year"
   message <- elementsBySelector ".textual-display .message"
   foldMap (setTextContent "Happy Sajem Tan\nNew Year!" <<< toNode) message
+  let theme = "theme-new-year"
   body <- elementsBySelector "body"
   foldMap (\e -> addClass theme e *> delay 4000 (removeClass theme e)) body
-  confetti (scalar := 2.0 <> spread := 180.0 <> particleCount := 200)
+  confetti (scalar := 2.0 <> spread := 180.0 <> particleCount := 150)
 
 displayNow :: Array Display -> Ref.Ref Boolean -> Effect Unit
 displayNow ds firstNewYearRef = do
@@ -333,16 +333,20 @@ displayNow ds firstNewYearRef = do
   let honeyDate = gregorianToHoney n
   foldMap (setDisplay honeyDate) ds
   partyPoppers <- elementsBySelector ".party-poppers"
+  sunMoonDecorations <- elementsBySelector "#new-year-decorations"
   if honeyDate.dayOfYear == 359
     then do
       foldMap (removeClass "hidden") partyPoppers
+      foldMap (removeClass "hidden") sunMoonDecorations
       isFirstTime <- Ref.read firstNewYearRef
-      if (honeyDate.second == 0 && honeyDate.subsecond == 0) || isFirstTime
+      if isFirstTime
         then do
            newYearEffect
            Ref.write false firstNewYearRef
         else mempty
-    else foldMap (addClass "hidden") partyPoppers
+    else do
+      foldMap (addClass "hidden") partyPoppers
+      foldMap (addClass "hidden") sunMoonDecorations
 
 attachPartyPopperHandler :: Effect Unit
 attachPartyPopperHandler = do

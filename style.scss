@@ -96,6 +96,7 @@ body {
 
 .hidden {
   display: none;
+  visibility: hidden;
 }
 
 .party-poppers {
@@ -162,21 +163,23 @@ body {
   }
 }
 
-.theme-new-year .party-poppers {
-  .throb {
-    animation: vibrate 0.25s infinite;
-  }
+.theme-new-year {
+  .party-poppers {
+    .throb {
+      animation: vibrate 0.25s infinite;
+    }
 
-  .left .interact-wrapper {
-    transform: rotate(90deg);
-  }
+    .left .interact-wrapper {
+      transform: rotate(90deg);
+    }
 
-  .right .interact-wrapper {
-    transform: rotate(-90deg);
-  }
+    .right .interact-wrapper {
+      transform: rotate(-90deg);
+    }
 
-  .left:hover .throb, .right:hover .throb {
-    animation: vibrate 0.25s infinite;
+    .left:hover .throb, .right:hover .throb {
+      animation: vibrate 0.25s infinite;
+    }
   }
 }
 
