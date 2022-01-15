@@ -334,7 +334,7 @@ displayNow ds firstNewYearRef = do
   foldMap (setDisplay honeyDate) ds
   partyPoppers <- elementsBySelector ".party-poppers"
   sunMoonDecorations <- elementsBySelector "#new-year-decorations"
-  if honeyDate.dayOfYear == 359
+  if honeyDate.dayOfYear == 0
     then do
       foldMap (removeClass "hidden") partyPoppers
       foldMap (removeClass "hidden") sunMoonDecorations
