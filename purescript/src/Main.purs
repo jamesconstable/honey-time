@@ -15,6 +15,7 @@ import Data.String (length)
 import Data.String.CodeUnits (singleton)
 import Data.Traversable (traverse)
 import Effect (Effect)
+import Effect.Ref as Ref
 import Effect.Timer (setInterval, setTimeout)
 import Math ((%))
 import Partial.Unsafe (unsafePartial)
@@ -31,7 +32,7 @@ import Web.HTML (window)
 import Web.HTML.HTMLDocument (toDocument)
 import Web.HTML.Window (document)
 
-import Confetti ((:=), angle, confetti, scalar, spread)
+import Confetti ((:=), confetti, particleCount, scalar, spread)
 
 type TranslatedName = ( sajemTan :: String, english :: String )
 
@@ -305,40 +306,43 @@ setDisplay date display =
     setTheme (ThemeComponent es) mythRole subsecond =
       let lastMythRole = if mythRole == 0 then 9 else mythRole
       in foldMap
-        (\e -> removeClass "theme-0" e
-            *> removeClass ("theme-" <> show lastMythRole) e
-            *> removeClass "theme-0-controls" e
-            *> removeClass ("theme-" <> show lastMythRole <> "-controls") e
-            *> addClass ("theme-" <> show (mythRole + 1)) e
-            *> addClass ("theme-" <> show (mythRole + 1) <> "-controls") e)
+        (\e -> do
+          removeClass "theme-0" e
+          removeClass ("theme-" <> show lastMythRole) e
+          removeClass "theme-0-controls" e
+          removeClass ("theme-" <> show lastMythRole <> "-controls") e
+          addClass ("theme-" <> show (mythRole + 1)) e
+          addClass ("theme-" <> show (mythRole + 1) <> "-controls") e)
         es
 
 delay :: Int -> Effect Unit -> Effect Unit
 delay millis action = map (const unit) (setTimeout millis action)
 
-confettiEffect :: Effect Unit
-confettiEffect =
-  let opts = scalar := 2.0 <> spread := 90.0
-  in confetti (opts <> angle := 135.0) *> confetti (opts <> angle := 45.0)
-
 newYearEffect :: Effect Unit
-newYearEffect =
-  do
-    message <- elementsBySelector ".textual-display .message"
-    foldMap (setTextContent "Happy Sajem Tan\nNew Year!" <<< toNode) message
-    body <- elementsBySelector "body"
-    foldMap (\e -> addClass theme e *> delay 4000 (removeClass theme e)) body
-    confettiEffect
-  where theme = "theme-new-year"
+newYearEffect = do
+  let theme = "theme-new-year"
+  message <- elementsBySelector ".textual-display .message"
+  foldMap (setTextContent "Happy Sajem Tan\nNew Year!" <<< toNode) message
+  body <- elementsBySelector "body"
+  foldMap (\e -> addClass theme e *> delay 4000 (removeClass theme e)) body
+  confetti (scalar := 2.0 <> spread := 180.0 <> particleCount := 200)
 
-displayNow :: Array Display -> Effect Unit
-displayNow ds = do
+displayNow :: Array Display -> Ref.Ref Boolean -> Effect Unit
+displayNow ds firstNewYearRef = do
   n <- now
   let honeyDate = gregorianToHoney n
   foldMap (setDisplay honeyDate) ds
-  if honeyDate.dayOfYear == 359 && honeyDate.second == 0 && honeyDate.subsecond == 0
-    then newYearEffect
-    else mempty
+  partyPoppers <- elementsBySelector ".party-poppers"
+  if honeyDate.dayOfYear == 359
+    then do
+      foldMap (removeClass "hidden") partyPoppers
+      isFirstTime <- Ref.read firstNewYearRef
+      if (honeyDate.second == 0 && honeyDate.subsecond == 0) || isFirstTime
+        then do
+           newYearEffect
+           Ref.write false firstNewYearRef
+        else mempty
+    else foldMap (addClass "hidden") partyPoppers
 
 attachPartyPopperHandler :: Effect Unit
 attachPartyPopperHandler = do
@@ -348,10 +352,12 @@ attachPartyPopperHandler = do
 
 setup :: Effect Unit
 setup = void do
-  t <- getTextualDisplay
-  g <- getGraphicalDisplay
+  textual <- getTextualDisplay
+  graphical <- getGraphicalDisplay
+  newYearRef <- Ref.new true
   attachPartyPopperHandler
-  setInterval (floor honeyDurations.subsecond) (displayNow [t, g])
+  setInterval (floor honeyDurations.subsecond)
+    (displayNow [textual, graphical] newYearRef)
 
 main :: Effect Unit
 main = mempty

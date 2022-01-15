@@ -94,8 +94,15 @@ body {
   transition: transform 0.1s;
 }
 
+.hidden {
+  display: none;
+}
+
 .party-poppers {
-  margin: -8.2vh auto auto auto;
+  left: 0;
+  margin: -9vh auto auto auto;
+  position: absolute;
+  right: 0;
   width: 55%;
 
   .left, .right {
