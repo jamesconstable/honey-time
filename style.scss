@@ -1,4 +1,5 @@
 body {
+  height: 100%;
   margin: 0;
   overflow: hidden;
 }
@@ -65,8 +66,12 @@ body {
     margin-bottom: -1vh;
   }
 
-  .date, .season {
+  .date, .season, .message {
     font-size: 3.5vh;
+  }
+
+  .message {
+    white-space: pre-line;
   }
 
   .decimal-unit {
@@ -84,39 +89,115 @@ body {
   }
 }
 
-@media (orientation: portrait) {
-  #sajem-tan-clock {
-    padding: 2.65vw 1vw 4vw 1vw;
-    width: 95vw;
-  }
+.interact-wrapper {
+  display: inline-block;
+  transition: transform 0.1s;
+}
 
-  .graphical-display {
-    svg {
-      height: 32vw;
-      width: calc(33% - 2vw / 3);
+.hidden {
+  display: none;
+  visibility: hidden;
+}
 
-      &.date-dial {
-        left: -1.2vw;
-        top: 9vw;
-      }
+.party-poppers {
+  left: 0;
+  margin: -9vh auto auto auto;
+  position: absolute;
+  right: 0;
+  width: 55%;
 
-      &.myth-dial {
-        left: 1.2vw;
-        top: 9vw;
-      }
+  .left, .right {
+    background: none;
+    border: none;
+    height: 8.2vh;
+    font-size: 5vh;
+    padding: 0;
+    width: 8.2vh;
+
+    &:hover {
+      background: radial-gradient(circle, rgba(0,212,255,1) 0%, rgba(0,212,255,0) 60%);
+    }
+
+    .throb {
+      display: inline-block;
+      animation: throb 2.5s infinite;
+    }
+
+    &:hover .throb {
+      animation: none;
+    }
+
+    &:hover:active .interact-wrapper {
+      filter: brightness(80%);
+      transform: scale(0.8);
     }
   }
 
-  .textual-display {
-    .time {
-      font-size: 7.5vw;
-      margin-bottom: -1vw;
+  .left {
+    float: left;
+
+    .flip {
+      display: inline-block;
+      transform: scaleX(-1);
     }
 
-    .date, .season {
-      font-size: 3.4vw;
+    &:hover .interact-wrapper {
+      transform: rotate(45deg);
+    }
+
+    &:hover:active .interact-wrapper {
+      transform: rotate(45deg) scale(0.8);
     }
   }
+
+  .right {
+    float: right;
+
+    &:hover .interact-wrapper {
+      transform: rotate(-45deg);
+    }
+
+    &:hover:active .interact-wrapper {
+      transform: rotate(-45deg) scale(0.8);
+    }
+  }
+}
+
+.theme-new-year {
+  .party-poppers {
+    .throb {
+      animation: vibrate 0.25s infinite;
+    }
+
+    .left .interact-wrapper {
+      transform: rotate(90deg);
+    }
+
+    .right .interact-wrapper {
+      transform: rotate(-90deg);
+    }
+
+    .left:hover .throb, .right:hover .throb {
+      animation: vibrate 0.25s infinite;
+    }
+  }
+}
+
+@keyframes throb {
+  0%   { transform: scale(1   ); }
+  8%   { transform: scale(1.2 ); }
+  16%  { transform: scale(1.05); }
+  24%  { transform: scale(1.1 ); }
+  32%  { transform: scale(1   ); }
+  100% { transform: scale(1   ); }
+}
+
+@keyframes vibrate {
+  0%   { transform: rotate( 0deg); }
+  25%  { transform: rotate(-5deg); }
+  50%  { transform: rotate( 0deg); }
+  75%  { transform: rotate( 5deg); }
+  100% { transform: rotate( 0deg); }
 }
 
 .graphical-display .cell {
@@ -245,6 +326,19 @@ body {
   }
 }
 
+.date-message-scroller {
+  height: 10.5vh;
+  overflow: hidden;
+
+  & > * {
+    transition: transform 1.5s;
+
+    .theme-new-year & {
+      transform: translateY(-10.5vh);
+    }
+  }
+}
+
 .season .cell {
   // These cells need to have a solid colour even when inactive to hide the
   // curved inner edges of the month cells. This is a close visual match for the
@@ -293,4 +387,59 @@ body {
 .hex-background-mesh-layer {
   filter: url("#deboss-filter") drop-shadow(0px 1px 0.5px rgba(0, 0, 0, 0.4));
   stroke-width: 1.5px;
+}
+
+@media (orientation: portrait) {
+  #sajem-tan-clock {
+    padding: 2.65vw 1vw 4vw 1vw;
+    width: 95vw;
+  }
+
+  .graphical-display {
+    svg {
+      height: 32vw;
+      width: calc(33% - 2vw / 3);
+
+      &.date-dial {
+        left: -1.2vw;
+        top: 9vw;
+      }
+
+      &.myth-dial {
+        left: 1.2vw;
+        top: 9vw;
+      }
+    }
+  }
+
+  .textual-display {
+    .time {
+      font-size: 7.5vw;
+      margin-bottom: -1vw;
+    }
+
+    .date, .season, .message {
+      font-size: 3.4vw;
+    }
+  }
+
+  .party-poppers {
+    margin: -9vw auto auto auto;
+
+    .left, .right {
+      height: 8.2vw;
+      font-size: 5vw;
+      width: 8.2vw;
+    }
+  }
+
+  .date-message-scroller {
+    height: 10.5vw;
+
+    & > * {
+      .theme-new-year & {
+        transform: translateY(-10.5vw);
+      }
+    }
+  }
 }

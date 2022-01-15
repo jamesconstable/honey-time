@@ -9,8 +9,8 @@ This script will look for its input files in svg-generation/assets/ and output
 the results to svg-generation/output/ with the same file names. It is not
 intended to be robust to variations in the input format, as it merely performs a
 file-specific surface-level correction of some of the problems that cannot be
-fixed within Vectornator itself, like multi-path masking, obligatory stroke
-styles, and missing parameters in radial gradients.
+fixed within Vectornator itself, like multi-path masking and obligatory stroke
+styles.
 '''
 
 import re
@@ -22,8 +22,6 @@ stroke_width_matcher = re.compile(r' stroke-width="[^"]*"')
 stroke_linecap_matcher = re.compile(r' stroke-linecap="[^"]*"')
 stroke_linejoin_matcher = re.compile(r' stroke-linejoin="[^"]*"')
 stroke_matcher = re.compile(r' stroke-color="[^"]*"')
-gradient_matcher = re.compile(r'<radialGradient(?P<pre>.*) r="0"(?P<post>.*)>')
-id_matcher = re.compile(r'.* id="([^"]*)".*')
 
 def file_print(filename):
     f = open(filename, 'w')
@@ -120,27 +118,9 @@ def process_season_icons():
             write(line, end='')
 
 def process_sun_moon():
-    radius_lookup = {
-        'RadialGradient':   18,
-        'RadialGradient_2':  9,
-        'RadialGradient_3': 15,
-        'RadialGradient_4':  1,
-        'RadialGradient_5':  1,
-        'RadialGradient_6': 15,
-        'RadialGradient_7':  1,
-        'RadialGradient_8':  1,
-    }
     write = file_print('svg-generation/output/sun-moon.svg')
     for line in open('svg-generation/assets/sun-moon.svg'):
-        match = gradient_matcher.match(line)
-        if match :
-            # Vectornator 4.5.1 exports all radial gradients with a radius of 0
-            # (seems to be bug), so we need to manually hack in the correct
-            # values.
-            write(''.join(['<radialGradient', match.group('pre'),
-                ' r="', str(radius_lookup[id_matcher.match(line).group(1)]),
-                '"', match.group('post'), '>']), end='')
-        elif vectornator_matcher.match(line):
+        if vectornator_matcher.match(line):
             continue
         else:
             write(line, end='')

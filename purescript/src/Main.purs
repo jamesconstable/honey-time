@@ -7,18 +7,16 @@ import Data.Array ((..), (!!))
 import Data.ArrayView (fromArray, take)
 import Data.Filterable (filterMap)
 import Data.Foldable (fold, foldMap)
-import Data.Int (floor, radix, rem, round, toNumber, toStringAs)
+import Data.Int (floor, radix, round, toNumber, toStringAs)
 import Data.JSDate (JSDate, getTime, jsdate, now)
 import Data.Maybe (fromJust)
 import Data.Monoid (power)
-import Data.Newtype (wrap)
-import Data.Ord (abs)
 import Data.String (length)
 import Data.String.CodeUnits (singleton)
 import Data.Traversable (traverse)
-import Control.Monad.Maybe.Trans (lift, runMaybeT)
 import Effect (Effect)
-import Effect.Timer (setInterval)
+import Effect.Ref as Ref
+import Effect.Timer (setInterval, setTimeout)
 import Math ((%))
 import Partial.Unsafe (unsafePartial)
 import Web.DOM.Document (toParentNode)
@@ -28,15 +26,13 @@ import Web.DOM.NodeList (toArray)
 import Web.DOM.Internal.Types (Element)
 import Web.DOM.Node (setTextContent)
 import Web.DOM.ParentNode (QuerySelector(..), querySelectorAll)
-import Web.Event.Event (Event, EventType(..), currentTarget)
+import Web.Event.Event (EventType(..))
 import Web.Event.EventTarget (addEventListener, eventListener)
 import Web.HTML (window)
 import Web.HTML.HTMLDocument (toDocument)
-import Web.HTML.HTMLElement (fromEventTarget, getBoundingClientRect)
 import Web.HTML.Window (document)
-import Web.UIEvent.MouseEvent (clientX, clientY, fromEvent)
 
-import Effect.Console (log)
+import Confetti ((:=), confetti, particleCount, scalar, spread)
 
 type TranslatedName = ( sajemTan :: String, english :: String )
 
@@ -171,10 +167,8 @@ elementsBySelector :: String -> Effect (Array Element)
 elementsBySelector selector = do
   w <- window
   d <- document w
-  log(selector)
   r <- querySelectorAll (QuerySelector selector) (toParentNode $ toDocument d)
   l <- (show <<< A.length) <$> toArray r
-  log l
   filterMap fromNode <$> toArray r
 
 addClass :: String -> Element -> Effect Unit
@@ -227,8 +221,8 @@ getTextualDisplay =
     second     <- textComponent "seconds"     (toSenary 2)
     subsecond  <- textComponent "subseconds"  (toSenary 2)
     in { year, season, month, dayOfMonth, mythRole, mythNumber,
-         hour, minute, second, subsecond, sunMoon: None, week: None,
-         dayOfYear: None, theme: None }
+         hour, minute, second, subsecond,
+         sunMoon: None, week: None, dayOfYear: None, theme: None }
 
 getGraphicalDisplay :: Effect Display
 getGraphicalDisplay =
@@ -269,7 +263,7 @@ setDisplay date display =
   set _.year *> set _.season *> set _.month *> set _.week *> set _.dayOfYear
     *> set _.dayOfMonth *> set _.mythRole *> set _.mythNumber *> set _.sunMoon
     *> set _.hour *> set _.minute *> set _.second *> set _.subsecond
-    *> unsafePartial (setTheme display.theme date.mythRole)
+    *> unsafePartial (setTheme display.theme date.mythRole date.subsecond)
   where
     set :: (forall a. HoneyComponents a -> a) -> Effect Unit
     set getFrom = setComponent (getFrom display) (getFrom date)
@@ -307,49 +301,67 @@ setDisplay date display =
         (setAttribute "transform" (base <> " translate(" <> show v <> ")"))
         es
 
-    setTheme :: Partial => DisplayComponent -> Int -> Effect Unit
-    setTheme None _ = mempty
-    setTheme (ThemeComponent es) mythRole =
+    setTheme :: Partial => DisplayComponent -> Int -> Int -> Effect Unit
+    setTheme None _ _ = mempty
+    setTheme (ThemeComponent es) mythRole subsecond =
       let lastMythRole = if mythRole == 0 then 9 else mythRole
       in foldMap
-      (\e -> removeClass "theme-0" e
-          *> removeClass ("theme-" <> show lastMythRole) e
-          *> removeClass "theme-0-controls" e
-          *> removeClass ("theme-" <> show lastMythRole <> "-controls") e
-          *> addClass ("theme-" <> show (mythRole + 1)) e
-          *> addClass ("theme-" <> show (mythRole + 1) <> "-controls") e)
-      es
+        (\e -> do
+          removeClass "theme-0" e
+          removeClass ("theme-" <> show lastMythRole) e
+          removeClass "theme-0-controls" e
+          removeClass ("theme-" <> show lastMythRole <> "-controls") e
+          addClass ("theme-" <> show (mythRole + 1)) e
+          addClass ("theme-" <> show (mythRole + 1) <> "-controls") e)
+        es
 
-displayDate :: JSDate -> Display -> Effect Unit
-displayDate = setDisplay <<< gregorianToHoney
+delay :: Int -> Effect Unit -> Effect Unit
+delay millis action = map (const unit) (setTimeout millis action)
 
-displayNow :: Array Display -> Effect Unit
-displayNow ds = do
+newYearEffect :: Effect Unit
+newYearEffect = do
+  message <- elementsBySelector ".textual-display .message"
+  foldMap (setTextContent "Happy Sajem Tan\nNew Year!" <<< toNode) message
+  let theme = "theme-new-year"
+  body <- elementsBySelector "body"
+  foldMap (\e -> addClass theme e *> delay 4000 (removeClass theme e)) body
+  confetti (scalar := 2.0 <> spread := 180.0 <> particleCount := 150)
+
+displayNow :: Array Display -> Ref.Ref Boolean -> Effect Unit
+displayNow ds firstNewYearRef = do
   n <- now
-  foldMap (displayDate n) ds
+  let honeyDate = gregorianToHoney n
+  foldMap (setDisplay honeyDate) ds
+  partyPoppers <- elementsBySelector ".party-poppers"
+  sunMoonDecorations <- elementsBySelector "#new-year-decorations"
+  if honeyDate.dayOfYear == 0
+    then do
+      foldMap (removeClass "hidden") partyPoppers
+      foldMap (removeClass "hidden") sunMoonDecorations
+      isFirstTime <- Ref.read firstNewYearRef
+      if isFirstTime
+        then do
+           newYearEffect
+           Ref.write false firstNewYearRef
+        else mempty
+    else do
+      foldMap (addClass "hidden") partyPoppers
+      foldMap (addClass "hidden") sunMoonDecorations
 
-handleMouseMove :: Event -> Effect Unit
-handleMouseMove e = void $ runMaybeT do
-  mevent <- wrap $ pure $ fromEvent e
-  pointLights <- lift $ elementsBySelector "fePointLight"
-  t <- wrap $ pure $ currentTarget e >>= fromEventTarget
-  { left, right, top, bottom } <- lift $ getBoundingClientRect t
-  let percentX = (toNumber (clientX mevent) - left) / (right - left)
-  let percentY = (toNumber (clientY mevent) - top) / (bottom - top)
-  lift $ foldMap (setAttribute "x" (show percentX)) pointLights
-  lift $ foldMap (setAttribute "y" (show percentY)) pointLights
-
-attachPointLightHandler :: Effect Unit
-attachPointLightHandler = do
-  listener <- eventListener handleMouseMove
-  body <- map toEventTarget <$> elementsBySelector "body"
-  foldMap (addEventListener (EventType "mousemove") listener false) body
+attachPartyPopperHandler :: Effect Unit
+attachPartyPopperHandler = do
+  listener <- eventListener (\_ -> newYearEffect)
+  buttons <- map toEventTarget <$> elementsBySelector ".party-poppers button"
+  foldMap (addEventListener (EventType "click") listener false) buttons
 
 setup :: Effect Unit
 setup = void do
-  t <- getTextualDisplay
-  g <- getGraphicalDisplay
-  setInterval (floor honeyDurations.subsecond) (displayNow [t, g])
+  textual <- getTextualDisplay
+  graphical <- getGraphicalDisplay
+  newYearRef <- Ref.new true
+  attachPartyPopperHandler
+  setInterval (floor honeyDurations.subsecond)
+    (displayNow [textual, graphical] newYearRef)
 
 main :: Effect Unit
 main = mempty
