@@ -1,4 +1,5 @@
 body {
+  height: 100%;
   margin: 0;
   overflow: hidden;
 }
@@ -59,8 +60,11 @@ body {
   font-size: 7.5vh;
   margin-bottom: -1vh;
 }
-.textual-display .date, .textual-display .season {
+.textual-display .date, .textual-display .season, .textual-display .message {
   font-size: 3.5vh;
+}
+.textual-display .message {
+  white-space: pre-line;
 }
 .textual-display .decimal-unit {
   display: inline-block;
@@ -74,31 +78,116 @@ body {
   font-size: 0.5em;
 }
 
-@media (orientation: portrait) {
-  #sajem-tan-clock {
-    padding: 2.65vw 1vw 4vw 1vw;
-    width: 95vw;
-  }
+.interact-wrapper {
+  display: inline-block;
+  transition: transform 0.1s;
+}
 
-  .graphical-display svg {
-    height: 32vw;
-    width: calc(33% - 0.6666666667vw);
-  }
-  .graphical-display svg.date-dial {
-    left: -1.2vw;
-    top: 9vw;
-  }
-  .graphical-display svg.myth-dial {
-    left: 1.2vw;
-    top: 9vw;
-  }
+.hidden {
+  display: none;
+  visibility: hidden;
+}
 
-  .textual-display .time {
-    font-size: 7.5vw;
-    margin-bottom: -1vw;
+.party-poppers {
+  left: 0;
+  margin: -9vh auto auto auto;
+  position: absolute;
+  right: 0;
+  width: 55%;
+}
+.party-poppers .left, .party-poppers .right {
+  background: none;
+  border: none;
+  height: 8.2vh;
+  font-size: 5vh;
+  padding: 0;
+  width: 8.2vh;
+}
+.party-poppers .left:hover, .party-poppers .right:hover {
+  background: radial-gradient(circle, #00d4ff 0%, rgba(0, 212, 255, 0) 60%);
+}
+.party-poppers .left .throb, .party-poppers .right .throb {
+  display: inline-block;
+  animation: throb 2.5s infinite;
+}
+.party-poppers .left:hover .throb, .party-poppers .right:hover .throb {
+  animation: none;
+}
+.party-poppers .left:hover:active .interact-wrapper, .party-poppers .right:hover:active .interact-wrapper {
+  filter: brightness(80%);
+  transform: scale(0.8);
+}
+.party-poppers .left {
+  float: left;
+}
+.party-poppers .left .flip {
+  display: inline-block;
+  transform: scaleX(-1);
+}
+.party-poppers .left:hover .interact-wrapper {
+  transform: rotate(45deg);
+}
+.party-poppers .left:hover:active .interact-wrapper {
+  transform: rotate(45deg) scale(0.8);
+}
+.party-poppers .right {
+  float: right;
+}
+.party-poppers .right:hover .interact-wrapper {
+  transform: rotate(-45deg);
+}
+.party-poppers .right:hover:active .interact-wrapper {
+  transform: rotate(-45deg) scale(0.8);
+}
+
+.theme-new-year .party-poppers .throb {
+  animation: vibrate 0.25s infinite;
+}
+.theme-new-year .party-poppers .left .interact-wrapper {
+  transform: rotate(90deg);
+}
+.theme-new-year .party-poppers .right .interact-wrapper {
+  transform: rotate(-90deg);
+}
+.theme-new-year .party-poppers .left:hover .throb, .theme-new-year .party-poppers .right:hover .throb {
+  animation: vibrate 0.25s infinite;
+}
+
+@keyframes throb {
+  0% {
+    transform: scale(1);
   }
-  .textual-display .date, .textual-display .season {
-    font-size: 3.4vw;
+  8% {
+    transform: scale(1.2);
+  }
+  16% {
+    transform: scale(1.05);
+  }
+  24% {
+    transform: scale(1.1);
+  }
+  32% {
+    transform: scale(1);
+  }
+  100% {
+    transform: scale(1);
+  }
+}
+@keyframes vibrate {
+  0% {
+    transform: rotate(0deg);
+  }
+  25% {
+    transform: rotate(-5deg);
+  }
+  50% {
+    transform: rotate(0deg);
+  }
+  75% {
+    transform: rotate(5deg);
+  }
+  100% {
+    transform: rotate(0deg);
   }
 }
 .graphical-display .cell {
@@ -177,6 +266,17 @@ body {
   fill: #fba4d9;
 }
 
+.date-message-scroller {
+  height: 10.5vh;
+  overflow: hidden;
+}
+.date-message-scroller > * {
+  transition: transform 1.5s;
+}
+.theme-new-year .date-message-scroller > * {
+  transform: translateY(-10.5vh);
+}
+
 .season .cell {
   fill: #e6e6e6;
 }
@@ -222,4 +322,48 @@ body {
   stroke-width: 1.5px;
 }
 
-/*# sourceMappingURL=style.css.map */
+@media (orientation: portrait) {
+  #sajem-tan-clock {
+    padding: 2.65vw 1vw 4vw 1vw;
+    width: 95vw;
+  }
+
+  .graphical-display svg {
+    height: 32vw;
+    width: calc(33% - 0.6666666667vw);
+  }
+  .graphical-display svg.date-dial {
+    left: -1.2vw;
+    top: 9vw;
+  }
+  .graphical-display svg.myth-dial {
+    left: 1.2vw;
+    top: 9vw;
+  }
+
+  .textual-display .time {
+    font-size: 7.5vw;
+    margin-bottom: -1vw;
+  }
+  .textual-display .date, .textual-display .season, .textual-display .message {
+    font-size: 3.4vw;
+  }
+
+  .party-poppers {
+    margin: -9vw auto auto auto;
+  }
+  .party-poppers .left, .party-poppers .right {
+    height: 8.2vw;
+    font-size: 5vw;
+    width: 8.2vw;
+  }
+
+  .date-message-scroller {
+    height: 10.5vw;
+  }
+  .theme-new-year .date-message-scroller > * {
+    transform: translateY(-10.5vw);
+  }
+}
+
+/*# sourceMappingURL=style-v2.1.css.map */

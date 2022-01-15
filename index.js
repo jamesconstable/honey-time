@@ -3482,9 +3482,11 @@ var PS = {};
               var honeyDate = gregorianToHoney(n);
               Data_Foldable.foldMap(Data_Foldable.foldableArray)(Effect.monoidEffect(Data_Monoid.monoidUnit))(setDisplay(honeyDate))(ds)();
               var partyPoppers = elementsBySelector(".party-poppers")();
+              var sunMoonDecorations = elementsBySelector("#new-year-decorations")();
               var $109 = honeyDate.dayOfYear === 0;
               if ($109) {
                   Data_Foldable.foldMap(Data_Foldable.foldableArray)(Effect.monoidEffect(Data_Monoid.monoidUnit))(removeClass("hidden"))(partyPoppers)();
+                  Data_Foldable.foldMap(Data_Foldable.foldableArray)(Effect.monoidEffect(Data_Monoid.monoidUnit))(removeClass("hidden"))(sunMoonDecorations)();
                   var isFirstTime = Effect_Ref.read(firstNewYearRef)();
                   if (isFirstTime) {
                       newYearEffect();
@@ -3492,7 +3494,8 @@ var PS = {};
                   };
                   return Data_Monoid.mempty(Effect.monoidEffect(Data_Monoid.monoidUnit))();
               };
-              return Data_Foldable.foldMap(Data_Foldable.foldableArray)(Effect.monoidEffect(Data_Monoid.monoidUnit))(addClass("hidden"))(partyPoppers)();
+              Data_Foldable.foldMap(Data_Foldable.foldableArray)(Effect.monoidEffect(Data_Monoid.monoidUnit))(addClass("hidden"))(partyPoppers)();
+              return Data_Foldable.foldMap(Data_Foldable.foldableArray)(Effect.monoidEffect(Data_Monoid.monoidUnit))(addClass("hidden"))(sunMoonDecorations)();
           };
       };
   };
