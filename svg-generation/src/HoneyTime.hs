@@ -371,10 +371,13 @@ distance (aX, aY) (bX, bY) = sqrt ((aX - bX)**2 + (aY - bY)**2)
 radialCellDelay :: (Integral a, RealFloat b, Show b)
                 => (a, a) -> (a, a) -> b -> T.Text
 radialCellDelay (maxX, maxY) (x, y) maxDelay =
-  tshow (distance a b / (sqrt (aX**2 + aY**2) / maxDelay)) <> "s"
+  if percentDistance < 0.5
+  then "0s"
+  else tshow ((percentDistance - 0.5) * 2 * maxDelay) <> "s"
   where
     a@(aX, aY) = (fromIntegral maxX / 2, fromIntegral maxY / 2)
     b = (fromIntegral x, fromIntegral y)
+    percentDistance = distance a b / sqrt (aX**2 + aY**2)
 
 generateStyles :: (Integral a, Show a) => (a, a) -> (a, a) -> Element
 generateStyles m@(maxX, maxY) p@(x, y) =
@@ -394,7 +397,7 @@ generateStyles m@(maxX, maxY) p@(x, y) =
       (toLAB $ mkRGB 235  52 125, toLAB $ mkRGB  19  86 212)]  -- Bird
   in toElement $
     tileClass <> " {"
-      <> "transition: fill 1s ease " <> tshow (fromIntegral y / 5.0) <> "s;"
+      <> "transition: fill 5s ease " <> tshow (fromIntegral y / 5.0) <> "s;"
       <> "} "
     <> foldMap
       (\(i, range) -> ".theme-" <> tshow i <> " " <> tileClass <> " {"
@@ -402,7 +405,7 @@ generateStyles m@(maxX, maxY) p@(x, y) =
         <> "} ")
       (zip [0..] themeRanges)
     <> ".theme-new-year " <> tileClass <> " {"
-      <> "transition: fill 0.5s ease " <> radialCellDelay m p 0.5 <> ";"
+      <> "transition: fill 0.5s ease " <> radialCellDelay m p 0.25 <> ";"
       <> "fill: " <> rainbowCellColor m p <> ";"
       <> "} "
 

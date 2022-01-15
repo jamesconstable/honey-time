@@ -1,6 +1,5 @@
 module Main where
 
-import Effect.Console (log)
 import Prelude
 
 import Data.Array as A
@@ -12,13 +11,11 @@ import Data.Int (floor, radix, round, toNumber, toStringAs)
 import Data.JSDate (JSDate, getTime, jsdate, now)
 import Data.Maybe (fromJust)
 import Data.Monoid (power)
-import Data.Newtype (wrap)
 import Data.String (length)
 import Data.String.CodeUnits (singleton)
 import Data.Traversable (traverse)
-import Control.Monad.Maybe.Trans (lift, runMaybeT)
 import Effect (Effect)
-import Effect.Timer (setInterval)
+import Effect.Timer (setInterval, setTimeout)
 import Math ((%))
 import Partial.Unsafe (unsafePartial)
 import Web.DOM.Document (toParentNode)
@@ -28,13 +25,11 @@ import Web.DOM.NodeList (toArray)
 import Web.DOM.Internal.Types (Element)
 import Web.DOM.Node (setTextContent)
 import Web.DOM.ParentNode (QuerySelector(..), querySelectorAll)
-import Web.Event.Event (Event, EventType(..), currentTarget)
+import Web.Event.Event (EventType(..))
 import Web.Event.EventTarget (addEventListener, eventListener)
 import Web.HTML (window)
 import Web.HTML.HTMLDocument (toDocument)
-import Web.HTML.HTMLElement (fromEventTarget, getBoundingClientRect)
 import Web.HTML.Window (document)
-import Web.UIEvent.MouseEvent (clientX, clientY, fromEvent)
 
 import Confetti ((:=), angle, confetti, scalar, spread)
 
@@ -61,7 +56,6 @@ type HoneyComponents a = {
   mythRole :: a,
   mythNumber :: a,
   sunMoon :: a,
-  message :: a,
   theme :: a
   | HoneyBase a
   }
@@ -203,7 +197,7 @@ gregorianToHoney date =
     sunMoon    = round $ toNumber (_.minute `_of` _.day) / 360.0
                     * (sunMoonRadius * -2.0) * 2.0
   in { year, season, month, dayOfYear, dayOfMonth, week, mythRole, mythNumber,
-       hour, minute, second, subsecond, sunMoon, theme: 0, message: 0 }
+       hour, minute, second, subsecond, sunMoon, theme: 0 }
 
 getTextualDisplay :: Effect Display
 getTextualDisplay =
@@ -225,9 +219,8 @@ getTextualDisplay =
     minute     <- textComponent "minutes"     (toSenary 2)
     second     <- textComponent "seconds"     (toSenary 2)
     subsecond  <- textComponent "subseconds"  (toSenary 2)
-    message    <- textComponent "message"     show
     in { year, season, month, dayOfMonth, mythRole, mythNumber,
-         hour, minute, second, subsecond, message,
+         hour, minute, second, subsecond,
          sunMoon: None, week: None, dayOfYear: None, theme: None }
 
 getGraphicalDisplay :: Effect Display
@@ -262,8 +255,7 @@ getGraphicalDisplay =
     sunMoon    <- rotateComponent "sun-moon-dial"
     theme      <- themeComponent
     in { year, season, month, week, dayOfMonth, mythRole, mythNumber,
-         hour, minute, second, subsecond, sunMoon, theme, message: None,
-         dayOfYear: None }
+         hour, minute, second, subsecond, sunMoon, theme, dayOfYear: None }
 
 setDisplay :: HoneyDate -> Display -> Effect Unit
 setDisplay date display =
@@ -271,14 +263,6 @@ setDisplay date display =
     *> set _.dayOfMonth *> set _.mythRole *> set _.mythNumber *> set _.sunMoon
     *> set _.hour *> set _.minute *> set _.second *> set _.subsecond
     *> unsafePartial (setTheme display.theme date.mythRole date.subsecond)
-    *> (if date.subsecond == 0
-      then confetti (scalar := 2.0 <> spread := 90.0 <> angle := 135.0)
-        *> confetti (scalar := 2.0 <> spread := 90.0 <> angle := 45.0)
-      else mempty)
-    *> (case display.message of
-      TextComponent es _ -> setText es
-        (if date.mythRole <= 5 then "Happy Sajem Tan\nNew Year!" else "")
-      _ -> mempty)
   where
     set :: (forall a. HoneyComponents a -> a) -> Effect Unit
     set getFrom = setComponent (getFrom display) (getFrom date)
@@ -326,41 +310,47 @@ setDisplay date display =
             *> removeClass "theme-0-controls" e
             *> removeClass ("theme-" <> show lastMythRole <> "-controls") e
             *> addClass ("theme-" <> show (mythRole + 1)) e
-            *> addClass ("theme-" <> show (mythRole + 1) <> "-controls") e
-            *> if subsecond <= 18
-              then addClass "theme-new-year" e
-              else removeClass "theme-new-year" e)
+            *> addClass ("theme-" <> show (mythRole + 1) <> "-controls") e)
         es
 
-displayDate :: JSDate -> Display -> Effect Unit
-displayDate = setDisplay <<< gregorianToHoney
+delay :: Int -> Effect Unit -> Effect Unit
+delay millis action = map (const unit) (setTimeout millis action)
+
+confettiEffect :: Effect Unit
+confettiEffect =
+  let opts = scalar := 2.0 <> spread := 90.0
+  in confetti (opts <> angle := 135.0) *> confetti (opts <> angle := 45.0)
+
+newYearEffect :: Effect Unit
+newYearEffect =
+  do
+    message <- elementsBySelector ".textual-display .message"
+    foldMap (setTextContent "Happy Sajem Tan\nNew Year!" <<< toNode) message
+    body <- elementsBySelector "body"
+    foldMap (\e -> addClass theme e *> delay 5000 (removeClass theme e)) body
+    confettiEffect
+  where theme = "theme-new-year"
 
 displayNow :: Array Display -> Effect Unit
 displayNow ds = do
   n <- now
-  foldMap (displayDate n) ds
+  let honeyDate = gregorianToHoney n
+  foldMap (setDisplay honeyDate) ds
+  if honeyDate.dayOfYear == 359 && honeyDate.second == 0 && honeyDate.subsecond == 0
+    then newYearEffect
+    else mempty
 
-handleMouseMove :: Event -> Effect Unit
-handleMouseMove e = void $ runMaybeT do
-  mevent <- wrap $ pure $ fromEvent e
-  pointLights <- lift $ elementsBySelector "fePointLight"
-  t <- wrap $ pure $ currentTarget e >>= fromEventTarget
-  { left, right, top, bottom } <- lift $ getBoundingClientRect t
-  let percentX = (toNumber (clientX mevent) - left) / (right - left)
-  let percentY = (toNumber (clientY mevent) - top) / (bottom - top)
-  lift $ foldMap (setAttribute "x" (show percentX)) pointLights
-  lift $ foldMap (setAttribute "y" (show percentY)) pointLights
-
-attachPointLightHandler :: Effect Unit
-attachPointLightHandler = do
-  listener <- eventListener handleMouseMove
-  body <- map toEventTarget <$> elementsBySelector "body"
-  foldMap (addEventListener (EventType "mousemove") listener false) body
+attachPartyPopperHandler :: Effect Unit
+attachPartyPopperHandler = do
+  listener <- eventListener (\_ -> newYearEffect)
+  buttons <- map toEventTarget <$> elementsBySelector ".party-poppers button"
+  foldMap (addEventListener (EventType "click") listener false) buttons
 
 setup :: Effect Unit
 setup = void do
   t <- getTextualDisplay
   g <- getGraphicalDisplay
+  attachPartyPopperHandler
   setInterval (floor honeyDurations.subsecond) (displayNow [t, g])
 
 main :: Effect Unit
